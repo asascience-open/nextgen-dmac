@@ -1,3 +1,10 @@
+---
+layout: default
+title: Prototype Plan
+nav_order: 1
+has_children: true
+---
+
 # Next-Gen DMAC Project
 
 ## Prototype Plan
