@@ -1,3 +1,10 @@
+---
+layout: default
+title: Data Ingest
+parent: Prototype Plan
+nav_order: 1
+---
+
 # Data Ingest
 
 Data Ingest starts the process of preparing data for transformation and notifying the rest of the system of its presence. There is little that an end-user needs to be aware of here, but from an engineering perspective this shapes how data will be available for later steps.
