@@ -1,10 +1,3 @@
----
-layout: default
-title: Prototype Plan
-nav_order: 1
-has_children: true
----
-
 # Next-Gen DMAC
 ### Next-Generation Data Management and Cyberinfrastructure
 #### A collaboration between [RPS Group Ocean Science](https://www.rpsgroup.com/services/oceans-and-coastal/) the NOAA Integrated Ocean Observing System ([IOOS](https://ioos.noaa.gov/))
@@ -18,6 +11,6 @@ View the full documentation at our [GitHub Pages site.](https://asascience-open.
 
 The planned prototypes seek to demonstrate a modern, interconnected system. Visit the links below to learn more about each prototype design and considerations.
 
-1. [Data Ingest](/docs/ingest.md)
+1. [Data Ingest](ingest.md)
 
 ![Prototype diagram](/docs/assets/prototype-diagram.png)
