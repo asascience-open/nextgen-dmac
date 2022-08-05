@@ -1,1 +1,6 @@
 remote_theme: just-the-docs/just-the-docs
+aux_links:
+  "GitHub":
+    - "//github.com/asascience-open/nextgen-dmac"
+  "Discussions":
+    - "//github.com/asascience-open/nextgen-dmac/discussions"

@@ -1,8 +1,8 @@
 ---
 layout: default
 title: Data Ingest
-parent: Prototype Plan
 nav_order: 1
+has_children: true
 ---
 
 # Data Ingest
