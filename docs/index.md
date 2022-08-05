@@ -23,20 +23,25 @@ The planned prototypes seek to demonstrate a modern, interconnected system. Visi
 
 **Data Storage and Discovery**
 
-4. Zarr data store
-5. STAC Catalog
-6. Catalog Queries
+<ol start="4">
+<li>Zarr data store</li>
+<li>STAC Catalog</li>
+<li>Catalog Queries</li>
+</ol>
 
 **Data Processing**
 
-7. Real-Time Analytics
-8. Dask Processing
+<ol start="7">
+<li>Real-Time Analytics</li>
+<li>Dask Processing</li>
+</ol>
 
 **Data Analysis and Presentation**
 
-9. Jupyter Notebooks
-10. Restful Grids: App Data Access
-11. Client-side Rendering
-
+<ol start="9">
+<li>Jupyter Notebooks</li>
+<li>Restful Grids: App Data Access</li>
+<li>Client-side Rendering</li>
+</ol>
 
 ![Prototype diagram](/assets/prototype-diagram.png)

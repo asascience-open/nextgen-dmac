@@ -11,11 +11,11 @@ This repository is intended to be a collaborative working area for open discussi
 
 The planned prototypes seek to demonstrate a modern, interconnected system. Visit the links below to learn more about each prototype design and considerations.
 
-**[Data Ingest](https://asascience-open.github.io/nextgen-dmac/ingest/ingest.md)**
+**[Data Ingest](https://asascience-open.github.io/nextgen-dmac/ingest/ingest.html)**
 
-1. [Job Orchestration](https://asascience-open.github.io/nextgen-dmac/ingest/orchestration.md)
-2. [Distributed Data Ingest](https://asascience-open.github.io/nextgen-dmac/ingest/distributed.md)
-3. [Event Messaging](https://asascience-open.github.io/nextgen-dmac/ingest/events.md)
+1. [Job Orchestration](https://asascience-open.github.io/nextgen-dmac/ingest/orchestration.html)
+2. [Distributed Data Ingest](https://asascience-open.github.io/nextgen-dmac/ingest/distributed.html)
+3. [Event Messaging](https://asascience-open.github.io/nextgen-dmac/ingest/events.html)
 
 **Data Storage and Discovery**
 
