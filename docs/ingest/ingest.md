@@ -21,4 +21,4 @@ This stage of ingest does not intend to define all possible data transformations
 
 The diagram below illustrates how raw data might be ingested into the system to be available for consumption.
 
-<embed src="https://asascience-open.github.io/nextgen-dmac/assets/data-ingest.pdf" type="application/pdf" width="100%" height="700px"/>
+<embed src="https://asascience-open.github.io/nextgen-dmac/assets/data-ingest.pdf" type="application/pdf" width="100%" height="600px"/>

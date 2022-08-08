@@ -19,9 +19,9 @@ The planned prototypes seek to demonstrate a modern, interconnected system. Visi
 
 **Data Storage and Discovery**
 
-4. Zarr data store
-5. STAC Catalog
-6. Catalog Queries
+4.  [Raw data store](https://asascience-open.github.io/nextgen-dmac/metadata/data-formats.html)
+5.  [Metadata Catalog](https://asascience-open.github.io/nextgen-dmac/metadata/catalog.html)
+6.  [Catalog Queries](https://asascience-open.github.io/nextgen-dmac/metadata/queries.html)
 
 **Data Processing**
 
