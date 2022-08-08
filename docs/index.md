@@ -21,7 +21,7 @@ The planned prototypes seek to demonstrate a modern, interconnected system. Visi
 2.  [Distributed Data Ingest](ingest/distributed.md)
 3.  [Event Messaging](ingest/events.md)
 
-**Data Storage and Discovery**
+**[Data Storage and Discovery](metadata/storage-and-discovery.md)**
 
 4.  [Raw data store](metadata/data-formats.md)
 5.  [Metadata Catalog](metadata/catalog.md)

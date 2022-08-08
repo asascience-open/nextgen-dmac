@@ -17,7 +17,7 @@ The planned prototypes seek to demonstrate a modern, interconnected system. Visi
 2. [Distributed Data Ingest](https://asascience-open.github.io/nextgen-dmac/ingest/distributed.html)
 3. [Event Messaging](https://asascience-open.github.io/nextgen-dmac/ingest/events.html)
 
-**Data Storage and Discovery**
+**[Data Storage and Discovery](https://asascience-open.github.io/nextgen-dmac/metadata/storage-and-discovery.html)**
 
 4.  [Raw data store](https://asascience-open.github.io/nextgen-dmac/metadata/data-formats.html)
 5.  [Metadata Catalog](https://asascience-open.github.io/nextgen-dmac/metadata/catalog.html)
