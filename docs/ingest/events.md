@@ -6,11 +6,11 @@ nav_order: 3
 
 # Event Messaging
 
-Event messaging allows the system to respond and operate based on events. For example, as new data arrives, consumers of that data can update their views as needed. This can reduce overhead lag, providing faster data availability.
+Event messaging allows the system to respond and operate based on events. For example, as new data arrives, consumers of that data can update their views as needed. This can reduce overhead lag and provide faster data availability to downstream services.
 
 The primary reason for architecting an event-driven system is the extensibility and scalability that it provides. Rather than having to track all possible uses of the data, each data consumer can subscribe to the event stream as its data source. Since many services can react to messages in their own way, using their own computing resources, this inherently supports system scalability as well. All of these services are then loosely-coupled and can operate and be maintained independently of one another.
 
-The concept of using an event-driven data delivery system is not new. NOAA currently uses [Unidata's LDM service](https://www.unidata.ucar.edu/software/ldm/ldm-current/factsheet.html) to share data across the world using a stream of data events. The primary difference in this design (other than the benefits of a modern tech stack) is that the data itself doesn't need to be distributed because the data is centrally located in the cloud platform. 
+The concept of using an event-driven data delivery system is not new. NOAA currently uses [Unidata's LDM service](https://www.unidata.ucar.edu/software/ldm/ldm-current/factsheet.html) to share data across the world using a stream of data events. The difference in this design, aside from the benefits of using a modern tech stack, is that the data itself doesn't need to be physically distributed because the data is centrally located on the cloud platform. 
 
 ## RabbitMq
 
