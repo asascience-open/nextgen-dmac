@@ -23,7 +23,7 @@ The planned prototypes seek to demonstrate a modern, interconnected system. Visi
 
 **[Data Storage and Discovery](metadata/storage-and-discovery.md)**
 
-4.  [Raw data store](metadata/data-formats.md)
+4.  [Scientific data store](metadata/data-formats.md)
 5.  [Metadata Catalog](metadata/catalog.md)
 6.  [Catalog Queries](metadata/queries.md)
 

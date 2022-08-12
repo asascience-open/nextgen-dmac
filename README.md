@@ -19,7 +19,7 @@ The planned prototypes seek to demonstrate a modern, interconnected system. Visi
 
 **[Data Storage and Discovery](https://asascience-open.github.io/nextgen-dmac/metadata/storage-and-discovery.html)**
 
-4.  [Raw data store](https://asascience-open.github.io/nextgen-dmac/metadata/data-formats.html)
+4.  [Scientific data store](https://asascience-open.github.io/nextgen-dmac/metadata/data-formats.html)
 5.  [Metadata Catalog](https://asascience-open.github.io/nextgen-dmac/metadata/catalog.html)
 6.  [Catalog Queries](https://asascience-open.github.io/nextgen-dmac/metadata/queries.html)
 
