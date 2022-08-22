@@ -5,6 +5,8 @@ This public repository will describe the prototyping efforts and direction of th
 
 This repository is intended to be a collaborative working area for open discussion about cloud-based services for ocean science. Please feel welcome to start a [Discussion](https://github.com/asascience-open/nextgen-dmac/discussions), contribute your ideas, and even contribute to our prototyping efforts!
 
+For a great resource explaining the background information for the Next-Gen DMAC project, check out [This Slideshow.](https://github.com/asascience-open/nextgen-dmac/blob/main/docs/DMAC%20NextGen%20Background%20Info.pdf)
+
 ### View the full documentation at our [GitHub Pages site.](https://asascience-open.github.io/nextgen-dmac/)
 
 ## Prototype Plan
