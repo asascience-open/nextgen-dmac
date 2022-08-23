@@ -7,6 +7,8 @@ This repository is intended to be a collaborative working area for open discussi
 
 For a great resource explaining the background information for the Next-Gen DMAC project, check out [This Slideshow.](https://github.com/asascience-open/nextgen-dmac/blob/main/docs/DMAC%20NextGen%20Background%20Info.pdf)
 
+If you are new to the GitHub community, check out these links [here](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request) and [here](https://www.youtube.com/watch?v=gvvvdearAPE) to get started.
+
 ### View the full documentation at our [GitHub Pages site.](https://asascience-open.github.io/nextgen-dmac/)
 
 ## Prototype Plan
