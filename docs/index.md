@@ -15,6 +15,8 @@ This repository is intended to be a collaborative working area for open discussi
 
 The planned prototypes seek to demonstrate a modern, interconnected system. Visit the links below to learn more about each prototype design and considerations.
 
+**[Overall System Architecture](architecture/architecture.md)**
+
 **[Data Ingest](ingest/ingest.md)**
 
 1.  [Job Orchestration](ingest/orchestration.md)

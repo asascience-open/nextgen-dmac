@@ -22,3 +22,7 @@ This stage of ingest does not intend to define all possible data transformations
 The diagram below illustrates how raw data might be ingested into the system to be available for consumption.
 
 <embed src="https://asascience-open.github.io/nextgen-dmac/assets/data-ingest.pdf" type="application/pdf" width="100%" height="600px"/>
+
+## Integration with NOAA Big Data (NODD?)
+
+The data doesn't need to be copied if it's already in a cloud format. The data needs to be indexed and the metadata extracted, but the data doesn't need to be recopied. 

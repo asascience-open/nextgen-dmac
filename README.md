@@ -11,6 +11,8 @@ This repository is intended to be a collaborative working area for open discussi
 
 The planned prototypes seek to demonstrate a modern, interconnected system. Visit the links below to learn more about each prototype design and considerations.
 
+**[Overall System Architecture](https://asascience-open.github.io/nextgen-dmac/architecture/architecture.html)**
+
 **[Data Ingest](https://asascience-open.github.io/nextgen-dmac/ingest/ingest.html)**
 
 1. [Job Orchestration](https://asascience-open.github.io/nextgen-dmac/ingest/orchestration.html)
