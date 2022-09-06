@@ -51,7 +51,7 @@ The domain registry is a stateful component that tracks each of the domains in t
 
 ## Message Broker
 
-The message broker is the controller for sending and receiving events throughout the system, as described in the [Event Messaging](ingest/events.md) section. The broker can host many exchanges (channels where messages are sent and received). 
+The message broker is the controller for sending and receiving events throughout the system, as described in the [Event Messaging](../ingest/events.md) section. The broker can host many exchanges (channels where messages are sent and received). 
 
 - Ingest: Describes new data files available to be ingested into the appropriate domain
 - Domain: Each domain creates a new exchange for sending and receiving of its own messages.
