@@ -1,6 +1,11 @@
+---
+layout: default
+nav_order: 2
+---
+
 # System Architecture
 
-The goal of this system architecture is to decompose domains into a common interoperable framework. This allows each domain to own its implementation while tying together the overall system. For example, a forecast model would be its own domain while buoy observations would be another. The forecast model might be stored in a NetCDF archive while the observations are in a time-series database. All domains are responsible for reporting their available data to the system, but otherwise their functions for data retrieval, ingest, and archiving are completely independent for maximum flexibility.
+The goal of this system architecture is to decompose domains and make important information accessible through a common interoperable framework. This allows each domain to own its implementation while tying together the overall system. For example, a forecast model would be its own domain while buoy observations would be another. The forecast model might be stored in a NetCDF archive while the observations are in a time-series database. All domains are responsible for reporting their available data to the system, but otherwise their functions for data retrieval, ingest, and archiving are completely independent for maximum flexibility.
 
 ![Domain Service](domain-services.png)
 
@@ -16,13 +21,13 @@ The ingest is the method in which the domains become aware of new data. Each dom
 
 Metadata will need to be served in a standard JSON format from each domain. The system does not enforce standards or compliance; it simply returns what each domain is providing. It is the domain's responsibility to provide compliant metadata.
 
-Metadata can be queried globally across all domains or limited to specified domains. 
+Metadata may be queried globally across all domains or limited to specified domains. 
 
 Domains must track which metadata is associated with what data products.
 
 ### Resources
 
-Resources describes the data endpoints that are available for consumers to use. Because of the varied nature of the raw data, resources simply describe where to retrieve data. How to retrieve that data is up to the consumer because each resource's API may be different. Resources for an observation dataset may simply be a connection URL to a time series database. Resources for a forecast model may be a URL to a set of data files and/or an OpenDAP endpoint.
+Resources describe the data endpoints that are available for consumers to use. Because of the varied nature of the raw data, resources simply describe where to retrieve data. How to retrieve that data is up to the consumer because each resource's API may be different. Resources for an observation dataset may simply be a connection URL to a time series database. Resources for a forecast model may be a URL to a set of data files and/or an OpenDAP endpoint.
 
 One challenge of this approach will be ensuring that resources are accessible to consumers. Just because a URL is returned doesn't ensure that the endpoint is reachable.
 
@@ -42,7 +47,7 @@ Templates can be developed to make setting up a new domain relatively simple. Te
 
 ## Domain Registry
 
-The domain registry is a stateful component that tracks each of the domains in the system. Domains are responsible for registering, and in return the domain registry monitors the health of domains and reports any problems.
+The domain registry is a stateful component that tracks each of the domains in the system. Domains are responsible for their own registration, and in return the domain registry monitors the health of domains and reports any problems. Once registered, domain functions are available to consumers.
 
 ## Message Broker
 
