@@ -1,13 +1,12 @@
 #!/usr/bin/env python
+import os
 import pika
 import sys
 
-#username = sys.argv[0]
-#pw = sys.argv[1]
-
+rabbitconnect = os.getenv('RABBIT_CONNECTION', 'localhost')
 credentials = pika.PlainCredentials('app', 'app')
 connection = pika.BlockingConnection(
-    pika.ConnectionParameters('localhost', 5672, '/', credentials))
+    pika.ConnectionParameters(rabbitconnect, 5672, '/', credentials))
 channel = connection.channel()
 
 channel.queue_declare(queue='resource_queue', durable=True)
