@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: messaging
+  labels:
+    app: messaging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: messaging
+
+  template:
+    metadata:
+      labels:
+        app: messaging
+    spec:
+      containers:
+      - name: messaging
+        image: public.ecr.aws/m2c5k9c1/nextgen-dmac/messaging:latest
+        env:
+        - name: RABBIT_CONNECTION
+          value: "rabbitmq"

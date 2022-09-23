@@ -1,0 +1,5 @@
+name: messaging
+channels:
+  - conda-forge
+dependencies:
+  - pika
