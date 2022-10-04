@@ -16,6 +16,7 @@ If you are new to contributing to GitHub, check out these links [here](https://d
 The planned prototypes seek to demonstrate a modern, interconnected system. Visit the links below to learn more about each prototype design and considerations.
 
 **[Overall System Architecture](https://asascience-open.github.io/nextgen-dmac/architecture/architecture.html)**
+- [Kubernetes](https://asascience-open.github.io/nextgen-dmac/architecture/kubernetes.html)
 
 **[Data Ingest](https://asascience-open.github.io/nextgen-dmac/ingest/ingest.html)**
 

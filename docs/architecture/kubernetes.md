@@ -6,7 +6,7 @@ parent: System Architecture
 
 # Kubernetes
 
-Kubernetes is an infrastructure and container orchestration tool that enables organizations to effectively run and manage cloud-native services. It solves a number of challenges that organizations run into as they embark on their cloud-native journey. Like any technology solution, it must also be properly governed and managed to obtain the most benefit and avoid pitfalls.
+[Kubernetes](https://kubernetes.io/) is an infrastructure and container orchestration tool that enables organizations to effectively run and manage cloud-native services. It solves a number of challenges that organizations run into as they embark on their cloud-native journey. Like any technology solution, it must also be properly governed and managed to obtain the most benefit and avoid pitfalls.
 
 These are some of the problems that Kubernetes solves:
 
