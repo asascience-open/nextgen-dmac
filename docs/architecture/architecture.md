@@ -7,7 +7,21 @@ title: System Architecture
 
 # System Architecture
 
+The system architecture is the high-level view of how all of the capabilities enabled by the prototypes tie together to produce a working system of interdependent components.
+
+The problems this design addresses are:
+
+- How will the system be flexible enough to handle many different kinds of data? [(Domain Services)](#domain-services)
+- How do we get new data into the system? [(Data Ingest)](#ingest)
+- How can we get an aggregate view of all available data across many different domains? [(Metadata)](#metadata)
+- How do we tie together different data formats and conventions into one common view? [(Resources)](#resources)
+- What are some tools and services we can produce to make it simple to set up a new domain? [(Implementation)](#domain-implementation)
+
+## Methodology
+
 The goal of this system architecture is to decompose domains and make important information accessible through a common interoperable framework. This allows each domain to own its implementation while tying together the overall system. For example, a forecast model would be its own domain while buoy observations would be another. The forecast model might be stored in a NetCDF archive while the observations are in a time-series database. All domains are responsible for reporting their available data to the system, but otherwise their functions for data retrieval, ingest, and archiving are completely independent for maximum flexibility.
+
+## Architecture Diagram
 
 ![Domain Service](domain-services.png)
 
