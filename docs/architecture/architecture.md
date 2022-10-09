@@ -41,6 +41,10 @@ Metadata may be queried globally across all domains or limited to specified doma
 
 Domains must track which metadata is associated with what data products.
 
+#### Metadata Aggregation
+
+In order to view the available data across the system, an aggregation service will report the entire system's metadata from all domains. It will keep the aggregations up-to-date by subscribing to the domain exchange's metadata events.
+
 ### Resources
 
 Resources describe the data endpoints that are available for consumers to use. Because of the varied nature of the raw data, resources simply describe where to retrieve data. How to retrieve that data is up to the consumer because each resource's API may be different. Resources for an observation dataset may simply be a connection URL to a time series database. Resources for a forecast model may be a URL to a set of data files and/or an OpenDAP endpoint.
@@ -85,7 +89,3 @@ The following events are required to be implemented:
 - Log events
 
 These events will be listened to by additional services such as a metadata aggregation service.
-
-## Metadata Aggregation
-
-In order to view the available data across the system, an aggregation service will report the entire system's metadata from all domains. It will keep the aggregations up-to-date by subscribing to the domain exchange's metadata events.
