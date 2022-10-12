@@ -17,6 +17,8 @@ The problems this design addresses are:
 - How do we tie together different data formats and conventions into one common view? [(Resources)](#resources)
 - What are some tools and services we can produce to make it simple to set up a new domain? [(Implementation)](#domain-implementation)
 
+> [Conway's Law](https://en.wikipedia.org/wiki/Conway%27s_law): Any organization that designs a system (defined broadly) will produce a design whose structure is a copy of the organization's communication structure.
+
 ## Methodology
 
 The goal of this system architecture is to decompose domains and make important information accessible through a common interoperable framework. This allows each domain to own its implementation while tying together the overall system. For example, a forecast model would be its own domain while buoy observations would be another. The forecast model might be stored in a NetCDF archive while the observations are in a time-series database. All domains are responsible for reporting their available data to the system, but otherwise their functions for data retrieval, ingest, and archiving are completely independent for maximum flexibility.

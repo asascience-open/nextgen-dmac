@@ -13,6 +13,7 @@ parent: System Architecture
 We believe Kubernetes is a good technology for hosting next-generation infrastructure and services due to these features:
 
 - Open source
+- Heavily adopted across industries
 - True cloud-agnostic platform: Kubernetes can be run on AWS, Azure, and GCP
   - Services running on K8s can be deployed to any cloud platform running K8s as-is
 - Helps optimize cloud costs

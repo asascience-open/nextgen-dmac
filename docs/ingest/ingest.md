@@ -26,11 +26,11 @@ After indexing, data can be referred to in the rest of the system through its un
 
 This stage of ingest does not intend to define all possible data transformations and dependencies. Rather, an event-based subscription service allows downstream data operations to kick off as new data becomes available. For example, a "best forecast" aggregation might listen for new model forecasts, and update its contents as new forecasts arrive. As another example, if a zarr-formatted dataset is preferred for an application, that conversion process can be defined as a listener to the source data.
 
-## Flow Diagram
+## Data Flow Diagram
 
 The diagram below illustrates how raw data might be ingested into the system to be available for consumption.
 
-<embed src="https://asascience-open.github.io/nextgen-dmac/assets/data-ingest.pdf" type="application/pdf" width="100%" height="600px"/>
+![Data Ingest](data-ingest.png)
 
 ## Integration with NOAA Open Data Dissemination (NODD)
 
