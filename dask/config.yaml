@@ -1,0 +1,304 @@
+## Provide a name to partially substitute for the full names of resources (will maintain the release name)
+##
+nameOverride: ""
+
+## Provide a name to substitute for the full names of resources
+##
+fullnameOverride: ""
+
+# gateway nested config relates to the api Pod and the dask-gateway-server
+# running within it, the k8s Service exposing it, as well as the schedulers
+# (gateway.backend.scheduler) and workers gateway.backend.worker) created by the
+# controller when a DaskCluster k8s resource is registered.
+gateway:
+  # Number of instances of the gateway-server to run
+  replicas: 1
+
+  # Annotations to apply to the gateway-server pods.
+  annotations: {}
+
+  # Resource requests/limits for the gateway-server pod.
+  resources: {}
+
+  # Path prefix to serve dask-gateway api requests under
+  # This prefix will be added to all routes the gateway manages
+  # in the traefik proxy.
+  prefix: /
+
+  # The gateway server log level
+  loglevel: INFO
+
+  # The image to use for the dask-gateway-server pod (api pod)
+  image:
+    name: ghcr.io/dask/dask-gateway-server
+    tag: "set-by-chartpress"
+    pullPolicy: IfNotPresent
+
+  # Image pull secrets for gateway-server pod
+  imagePullSecrets: []
+
+  # Configuration for the gateway-server service
+  service:
+    annotations: {}
+
+  auth:
+    # The auth type to use. One of {simple, kerberos, jupyterhub, custom}.
+    type: simple
+
+    simple:
+      # A shared password to use for all users.
+      password:
+
+    kerberos:
+      # Path to the HTTP keytab for this node.
+      keytab:
+
+    jupyterhub:
+      # A JupyterHub api token for dask-gateway to use. See
+      # https://gateway.dask.org/install-kube.html#authenticating-with-jupyterhub.
+      apiToken:
+
+      # The JupyterHub Helm chart will automatically generate a token for a
+      # registered service. If you don't specify an apiToken explicitly as
+      # required in dask-gateway version <=2022.6.1, the dask-gateway Helm chart
+      # will try to look for a token from a k8s Secret created by the JupyterHub
+      # Helm chart in the same namespace. A failure to find this k8s Secret and
+      # key will cause a MountFailure for when the api-dask-gateway pod is
+      # starting.
+      apiTokenFromSecretName: hub
+      apiTokenFromSecretKey: hub.services.dask-gateway.apiToken
+
+      # JupyterHub's api url. Inferred from JupyterHub's service name if running
+      # in the same namespace.
+      apiUrl:
+
+    custom:
+      # The full authenticator class name.
+      class:
+
+      # Configuration fields to set on the authenticator class.
+      config: {}
+
+  livenessProbe:
+    # Enables the livenessProbe.
+    enabled: true
+    # Configures the livenessProbe.
+    initialDelaySeconds: 5
+    timeoutSeconds: 2
+    periodSeconds: 10
+    failureThreshold: 6
+  readinessProbe:
+    # Enables the readinessProbe.
+    enabled: true
+    # Configures the readinessProbe.
+    initialDelaySeconds: 5
+    timeoutSeconds: 2
+    periodSeconds: 10
+    failureThreshold: 3
+
+  # nodeSelector, affinity, and tolerations the for the `api` pod running dask-gateway-server
+  nodeSelector: {}
+  affinity: {}
+  tolerations: []
+
+  # Any extra configuration code to append to the generated `dask_gateway_config.py`
+  # file. Can be either a single code-block, or a map of key -> code-block
+  # (code-blocks are run in alphabetical order by key, the key value itself is
+  # meaningless). The map version is useful as it supports merging multiple
+  # `values.yaml` files, but is unnecessary in other cases.
+  extraConfig: {}
+
+  # backend nested configuration relates to the scheduler and worker resources
+  # created for DaskCluster k8s resources by the controller.
+  backend:
+    # The image to use for both schedulers and workers.
+    image:
+      name: ghcr.io/dask/dask-gateway
+      tag: "set-by-chartpress"
+      pullPolicy: IfNotPresent
+
+    # Image pull secrets for a dask cluster's scheduler and worker pods
+    imagePullSecrets: []
+
+    # The namespace to launch dask clusters in. If not specified, defaults to
+    # the same namespace the gateway is running in.
+    namespace:
+
+    # A mapping of environment variables to set for both schedulers and workers.
+    environment: {}
+
+    scheduler:
+      # Any extra configuration for the scheduler pod. Sets
+      # `c.KubeClusterConfig.scheduler_extra_pod_config`.
+      extraPodConfig: {}
+
+      # Any extra configuration for the scheduler container.
+      # Sets `c.KubeClusterConfig.scheduler_extra_container_config`.
+      extraContainerConfig: {}
+
+      # Cores request/limit for the scheduler.
+      cores:
+        request:
+        limit:
+
+      # Memory request/limit for the scheduler.
+      memory:
+        request:
+        limit:
+
+    worker:
+      # Any extra configuration for the worker pod. Sets
+      # `c.KubeClusterConfig.worker_extra_pod_config`.
+      extraPodConfig: {}
+
+      # Any extra configuration for the worker container. Sets
+      # `c.KubeClusterConfig.worker_extra_container_config`.
+      extraContainerConfig: {}
+
+      # Cores request/limit for each worker.
+      cores:
+        request:
+        limit:
+
+      # Memory request/limit for each worker.
+      memory:
+        request:
+        limit:
+
+      # Number of threads available for a worker. Sets
+      # `c.KubeClusterConfig.worker_threads`
+      threads:
+
+
+# controller nested config relates to the controller Pod and the
+# dask-gateway-server running within it that makes things happen when changes to
+# DaskCluster k8s resources are observed.
+controller:
+  # Whether the controller should be deployed. Disabling the controller allows
+  # running it locally for development/debugging purposes.
+  enabled: true
+
+  # Any annotations to add to the controller pod
+  annotations: {}
+
+  # Resource requests/limits for the controller pod
+  resources: {}
+
+  # Image pull secrets for controller pod
+  imagePullSecrets: []
+
+  # The controller log level
+  loglevel: INFO
+
+  # Max time (in seconds) to keep around records of completed clusters.
+  # Default is 24 hours.
+  completedClusterMaxAge: 86400
+
+  # Time (in seconds) between cleanup tasks removing records of completed
+  # clusters. Default is 5 minutes.
+  completedClusterCleanupPeriod: 600
+
+  # Base delay (in seconds) for backoff when retrying after failures.
+  backoffBaseDelay: 0.1
+
+  # Max delay (in seconds) for backoff when retrying after failures.
+  backoffMaxDelay: 300
+
+  # Limit on the average number of k8s api calls per second.
+  k8sApiRateLimit: 50
+
+  # Limit on the maximum number of k8s api calls per second.
+  k8sApiRateLimitBurst: 100
+
+  # The image to use for the controller pod.
+  image:
+    name: ghcr.io/dask/dask-gateway-server
+    tag: "set-by-chartpress"
+    pullPolicy: IfNotPresent
+
+  # Settings for nodeSelector, affinity, and tolerations for the controller pods
+  nodeSelector: {}
+  affinity: {}
+  tolerations: []
+
+
+
+# traefik nested config relates to the traefik Pod and Traefik running within it
+# that is acting as a proxy for traffic towards the gateway or user created
+# DaskCluster resources.
+traefik:
+  # Number of instances of the proxy to run
+  replicas: 1
+
+  # Any annotations to add to the proxy pods
+  annotations: {}
+
+  # Resource requests/limits for the proxy pods
+  resources: {}
+
+  # The image to use for the proxy pod
+  image:
+    name: traefik
+    tag: "2.9.1"
+    pullPolicy: IfNotPresent
+  imagePullSecrets: []
+
+  # Any additional arguments to forward to traefik
+  additionalArguments: []
+
+  # The proxy log level
+  loglevel: WARN
+
+  # Whether to expose the dashboard on port 9000 (enable for debugging only!)
+  dashboard: false
+
+  # Additional configuration for the traefik service
+  service:
+    type: LoadBalancer
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: "nlb-ip"
+      service.beta.kubernetes.io/aws-load-balancer-subnets: subnet-201b3944, subnet-ad6f1e82
+    spec: {}
+    ports:
+      web:
+        # The port HTTP(s) requests will be served on
+        port: 80
+        nodePort:
+      tcp:
+        # The port TCP requests will be served on. Set to `web` to share the
+        # web service port
+        port: web
+        nodePort:
+
+  # Settings for nodeSelector, affinity, and tolerations for the traefik pods
+  nodeSelector: {}
+  affinity: {}
+  tolerations: []
+
+
+
+# rbac nested configuration relates to the choice of creating or replacing
+# resources like (Cluster)Role, (Cluster)RoleBinding, and ServiceAccount.
+rbac:
+  # Whether to enable RBAC.
+  enabled: true
+
+  # Existing names to use if ClusterRoles, ClusterRoleBindings, and
+  # ServiceAccounts have already been created by other means (leave set to
+  # `null` to create all required roles at install time)
+  controller:
+    serviceAccountName:
+
+  gateway:
+    serviceAccountName:
+
+  traefik:
+    serviceAccountName:
+
+
+
+# global nested configuration is accessible by all Helm charts that may depend
+# on each other, but not used by this Helm chart. An entry is created here to
+# validate its use and catch YAML typos via this configurations associated JSON
+# schema.
+global: {}
