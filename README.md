@@ -38,7 +38,7 @@ The planned prototypes seek to demonstrate a modern, interconnected system. Visi
 **Data Analysis and Presentation**
 
 9. Jupyter Notebooks
-10. Restful Grids: App Data Access
+10. [Restful Grids: App Data Access](https://asascience-open.github.io/nextgen-dmac/analysis/data-access.html)
 11. Client-side Rendering
 
 ![Prototype diagram](/docs/assets/prototype-diagram.png)
