@@ -45,7 +45,7 @@ The planned prototypes seek to demonstrate a modern, interconnected system. Visi
 7.  Real-Time Analytics
 8.  Dask Processing
 
-**Data Analysis and Presentation**
+**[Data Analysis and Presentation](analysis/analysis.md)**
 
 9.  Jupyter Notebooks
 10. [Restful Grids: App Data Access](analysis/data-access.md)

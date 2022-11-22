@@ -36,7 +36,7 @@ The planned prototypes seek to demonstrate a modern, interconnected system. Visi
 7. Real-Time Analytics
 8. Dask Processing
 
-**Data Analysis and Presentation**
+**[Data Analysis and Presentation](https://asascience-open.github.io/nextgen-dmac/analysis/analysis.html)**
 
 9. Jupyter Notebooks
 10. [Restful Grids: App Data Access](https://asascience-open.github.io/nextgen-dmac/analysis/data-access.html)
