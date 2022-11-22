@@ -20,13 +20,13 @@ These are open-source repositories that demonstrate work toward cloud-native dat
 RESTful Grids is a project started at the 2021 IOOS Code Sprint with the idea of exploring data access through modern data APIs. This project focused on implementing the Environment Data Retrieval (EDR) API for gridded data, and also explored retrieving tiled dataset typically used by map displays. 
 
 
-
 ## Prototype Plan
 
 The planned prototypes seek to demonstrate a modern, interconnected system. Visit the links below to learn more about each prototype design and considerations.
 
 **[Overall System Architecture](architecture/architecture.md)**
 - [Kubernetes](architecture/kubernetes.md)
+- [Nebari (Data Science Platform)](architecture/nebari.md)
 
 **[Data Ingest](ingest/ingest.md)**
 

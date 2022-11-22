@@ -17,6 +17,7 @@ The planned prototypes seek to demonstrate a modern, interconnected system. Visi
 
 **[Overall System Architecture](https://asascience-open.github.io/nextgen-dmac/architecture/architecture.html)**
 - [Kubernetes](https://asascience-open.github.io/nextgen-dmac/architecture/kubernetes.html)
+- [Nebari (Data Science Platform)](https://asascience-open.github.io/nextgen-dmac/architecture/nebari.html)
 
 **[Data Ingest](https://asascience-open.github.io/nextgen-dmac/ingest/ingest.html)**
 

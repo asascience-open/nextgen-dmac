@@ -1,5 +1,8 @@
-name: pangeo
+name: dask 
 channels:
   - conda-forge
 dependencies:
+  - python=3.10.8
   - dask-gateway
+  - dask=2022.10.2
+  - distributed=2022.10.2  
