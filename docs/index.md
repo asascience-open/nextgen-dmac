@@ -47,6 +47,6 @@ The planned prototypes seek to demonstrate a modern, interconnected system. Visi
 
 ## Prototype Relationships
 
-The prototype system we are initially exploring is a combination of several open-source projects that we have set up in AWS. This diagram illustrates the planned relationships between the components as well as the expected interactions by various user groups.
+The prototype system we are initially exploring is a combination of several open-source components that we are configuring to run in AWS. This diagram illustrates the planned relationships between the components as well as the expected interactions by various user groups.
 
 ![Prototype diagram](/assets/prototype-relationships.png)
