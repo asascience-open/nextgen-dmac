@@ -18,3 +18,9 @@ Our initial work on this topic started at the 2022 IOOS Code sprint with RESTful
 - [XPublish OpenDAP](https://github.com/gulfofmaine/xpublish-opendap): OpenDAP implementation
 - [XPublish EDR](https://github.com/gulfofmaine/xpublish-edr): Environmental Data Retrieval API
 - [XPublish WMS](https://github.com/asascience-open/xpublish-wms): Web Mapping Service API
+
+## Demonstration
+
+These APIs, backed with an Analysis-Ready Cloud-Optimized (ARCO) dataset in the cloud, provide users with access to the dataset information and the ability to select tiles directly from the data. This image is demonstrating a view of the GFS with its variables, plus a rendering of the selected one. We are able to dynamically load these views using a simple Python backend and a React frontend.
+
+![EDS Viewer](eds-viewer.png)
