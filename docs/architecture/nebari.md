@@ -7,3 +7,5 @@ parent: System Architecture
 # Nebari Data Science Platform
 
 [Nebari](https://www.nebari.dev/) (formerly QHub) is an integrated data science platform providing access to cloud-based tools with a simple, standard configuration using a "DevOps for non-DevOps people approach." It brings together [numerous technologies](https://www.nebari.dev/docs/welcome#components) including JupyterHub and Dask and deploys them on a Kubernetes platform in the cloud.
+
+This tool has been easy to use and configure so far. The primary challenge has been configuring it to meet specific organization cloud security policies.

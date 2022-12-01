@@ -21,26 +21,25 @@ The planned prototypes seek to demonstrate a modern, interconnected system. Visi
 
 **[Data Ingest](https://asascience-open.github.io/nextgen-dmac/ingest/ingest.html)**
 
-1. [Job Orchestration](https://asascience-open.github.io/nextgen-dmac/ingest/orchestration.html)
-2. [Distributed Data Ingest](https://asascience-open.github.io/nextgen-dmac/ingest/distributed.html)
-3. [Event Messaging](https://asascience-open.github.io/nextgen-dmac/ingest/events.html)
+1. [Workflow Management](https://asascience-open.github.io/nextgen-dmac/ingest/workflows.html)
+2. [Event Messaging](https://asascience-open.github.io/nextgen-dmac/ingest/events.html)
 
 **[Data Storage and Discovery](https://asascience-open.github.io/nextgen-dmac/metadata/storage-and-discovery.html)**
 
-4.  [Scientific data store](https://asascience-open.github.io/nextgen-dmac/metadata/data-formats.html)
-5.  [Metadata Catalog](https://asascience-open.github.io/nextgen-dmac/metadata/catalog.html)
-6.  [Catalog Queries](https://asascience-open.github.io/nextgen-dmac/metadata/queries.html)
+3.  [Scientific data store](https://asascience-open.github.io/nextgen-dmac/metadata/data-formats.html)
+4.  [Metadata Catalog](https://asascience-open.github.io/nextgen-dmac/metadata/catalog.html)
+5.  [Catalog Queries](https://asascience-open.github.io/nextgen-dmac/metadata/queries.html)
 
 **Data Processing**
 
-7. Real-Time Analytics
-8. Dask Processing
+6. Real-Time Analytics
+7. Dask Processing
 
 **[Data Analysis and Presentation](https://asascience-open.github.io/nextgen-dmac/analysis/analysis.html)**
 
-9. Jupyter Notebooks
-10. [Restful Grids: App Data Access](https://asascience-open.github.io/nextgen-dmac/analysis/data-access.html)
-11. Client-side Rendering
+8. Jupyter Notebooks
+9. [Restful Grids: App Data Access](https://asascience-open.github.io/nextgen-dmac/analysis/data-access.html)
+10. Client-side Rendering
 
 ![Prototype diagram](/docs/assets/prototype-diagram.png)
 

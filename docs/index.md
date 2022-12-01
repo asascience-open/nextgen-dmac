@@ -21,26 +21,25 @@ The planned prototypes seek to demonstrate a modern, interconnected system. Visi
 
 **[Data Ingest](ingest/ingest.md)**
 
-1.  [Job Orchestration](ingest/orchestration.md)
-2.  [Distributed Data Ingest](ingest/distributed.md)
-3.  [Event Messaging](ingest/events.md)
+1.  [Workflow Management](ingest/workflows.md)
+2.  [Event Messaging](ingest/events.md)
 
 **[Data Storage and Discovery](metadata/storage-and-discovery.md)**
 
-4.  [Scientific data store](metadata/data-formats.md)
-5.  [Metadata Catalog](metadata/catalog.md)
-6.  [Catalog Queries](metadata/queries.md)
+3.  [Scientific data store](metadata/data-formats.md)
+4.  [Metadata Catalog](metadata/catalog.md)
+5.  [Catalog Queries](metadata/queries.md)
 
 **Data Processing**
 
-7.  Real-Time Analytics
-8.  Dask Processing
+6.  Real-Time Analytics
+7.  Dask Processing
 
 **[Data Analysis and Presentation](analysis/analysis.md)**
 
-9.  Jupyter Notebooks
-10. [Restful Grids: App Data Access](analysis/data-access.md)
-11. Client-side Rendering
+8.  Jupyter Notebooks
+9. [Restful Grids: App Data Access](analysis/data-access.md)
+10. Client-side Rendering
 
 
 ![Prototype diagram](/assets/prototype-diagram.png)
