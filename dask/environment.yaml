@@ -4,5 +4,5 @@ channels:
 dependencies:
   - python=3.10.8
   - dask-gateway
-  - dask=2022.10.2
-  - distributed=2022.10.2  
+  - dask=2022.12.1
+  - distributed=2022.12.1

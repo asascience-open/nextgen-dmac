@@ -19,3 +19,10 @@ spec:
             name: rabbitmq
             port:
               number: 15672
+      - path: /xreds
+        pathType: Prefix
+        backend:
+          service:
+            name: xreds-service
+            port:
+              number: 8090
