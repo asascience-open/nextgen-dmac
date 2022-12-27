@@ -14,6 +14,7 @@ Modern data access patterns tend to provide an Application Programming Interface
 
 Our initial work on this topic started at the 2022 IOOS Code sprint with RESTful Grids. We extended [XPublish](https://xpublish.readthedocs.io/en/latest/) which is a simple web server using the [xarray](https://docs.xarray.dev/en/stable/) data model. Rather than force all clients to implement various APIs, each XPublish API can serve on its own or in parallel with others.
 
+- [XREDS](https://github.com/asascience-open/xreds): Xarray Environmental Data Services
 - [RESTful Grids](https://github.com/asascience/restful-grids): Exploring modern RESTful services for gridded data
 - [XPublish OpenDAP](https://github.com/gulfofmaine/xpublish-opendap): OpenDAP implementation
 - [XPublish EDR](https://github.com/gulfofmaine/xpublish-edr): Environmental Data Retrieval API

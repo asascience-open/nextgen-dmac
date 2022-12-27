@@ -7,9 +7,15 @@ For a great resource explaining the background information for the Next-Gen DMAC
 
 This repository is intended to be a collaborative working area for open discussion about cloud-based services for ocean science. Please feel welcome to start a [Discussion](https://github.com/asascience-open/nextgen-dmac/discussions), contribute your ideas, and even contribute to our prototyping efforts!
 
-If you are new to contributing to GitHub, check out these links [here](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request) and [here](https://www.youtube.com/watch?v=gvvvdearAPE) to get started.
+If you are new to contributing to GitHub, check out these links:
+ - [Creating a Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request)
+ - [Getting started with GitHub (video)](https://www.youtube.com/watch?v=gvvvdearAPE)
 
 ### View the full documentation at our [GitHub Pages site.](https://asascience-open.github.io/nextgen-dmac/)
+
+## Related Projects
+
+We are addressing a wide variety of topics and collaborating with others to solve related problems. **[See a list of those projects here.](https://asascience-open.github.io/nextgen-dmac/related_projects.html)**
 
 ## Prototype Plan
 
