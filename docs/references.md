@@ -14,7 +14,7 @@ Joyce, J., Knee, K., Moretti, D., Morse, C., Quintrell, J., Snowden, D., Tripp, 
 
 [Pangeo Website](https://pangeo.io/)
 
-Abernathy, Ryan. (2020) Big Arrays, Fast: Profiling Cloud Storage Read Throughput. *Pangeo Gallery.* <http://gallery.pangeo.io/repos/earthcube2020/ec20_abernathey_etal/cloud_storage.html>
+Abernathy, Ryan. (2020). Big Arrays, Fast: Profiling Cloud Storage Read Throughput. *Pangeo Gallery.* <http://gallery.pangeo.io/repos/earthcube2020/ec20_abernathey_etal/cloud_storage.html>
 
 Gowan, T., Horel, J., Jacques, A., and Kovac, A. (2022, April 8). Using Cloud Computing to Analyze Model Output Archived in Zarr Format. 
 *Journal of Atmospheric and Oceanic Technology* <https://journals.ametsoc.org/view/journals/atot/39/4/JTECH-D-21-0106.1.xml>
@@ -41,6 +41,8 @@ Strengholt, Piethein. (2021, November 23). Data Domains and Data Products: Data 
 
 ## Software Architecture
 
-Strengholt, Piethein. (2021, December 15) Data Domains — Where do I start?: Strategic path towards designing an enterprise-scale data mesh. *Towards Data Science.* <https://towardsdatascience.com/data-domains-where-do-i-start-a6d52fef95d1>
+Kleppmann, Martin. (2017). *Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems.* O'Reilly.
+
+Strengholt, Piethein. (2021, December 15). Data Domains — Where do I start?: Strategic path towards designing an enterprise-scale data mesh. *Towards Data Science.* <https://towardsdatascience.com/data-domains-where-do-i-start-a6d52fef95d1>
 
 Verma, Kislay. (2020, July 20). How to build a technology platform. <https://kislayverma.com/technology/how-to-build-a-technology-platform/>
