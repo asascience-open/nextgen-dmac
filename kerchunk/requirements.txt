@@ -17,7 +17,3 @@ fsspec==2023.3.0
 h11==0.14.0
 h5netcdf==1.0.2
 h5py==3.7.0
-matplotlib==3.6.1
-hvplot==0.8.2
-cartopy==0.21.1
-geoviews==1.9.6
