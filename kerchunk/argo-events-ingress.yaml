@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argo-events-ingress
+  namespace: argo-events
+  annotations:
+    kubernetes.io/ingress.class: alb
+    # alb.ingress.kubernetes.io/load-balancer-name: "alb-argo-events"
+    alb.ingress.kubernetes.io/target-type: 'ip'
+    alb.ingress.kubernetes.io/scheme: internal
+    alb.ingress.kubernetes.io/subnets: subnet-201b3944, subnet-ad6f1e82
+    alb.ingress.kubernetes.io/group.name: "nextgen-dev"
+spec:
+    rules:
+    - http:
+        paths:
+        - path: /nos-sns
+          pathType: Prefix
+          backend:
+            service:
+              name: nos-sns-eventsource-svc
+              port:
+                number: 12000
+        - path: /sns-test
+          pathType: Prefix
+          backend:
+            service:
+              name: aws-sns-eventsource-svc
+              port:
+                number: 12000
