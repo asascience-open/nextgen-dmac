@@ -10,8 +10,8 @@ spec:
   sns:
     newofs:
       # arn of SNS topic
-      #topicArn: arn:aws:sns:us-east-1:123901341784:NewOFSObject
-      topicArn: arn:aws:sns:us-east-1:579273261343:test
+      topicArn: arn:aws:sns:us-east-1:123901341784:NewOFSObject
+      #topicArn: arn:aws:sns:us-east-1:579273261343:test
       # hook contains configuration for the HTTP server running in the event-source.
       # AWS will send events to following port and endpoint
       webhook:
