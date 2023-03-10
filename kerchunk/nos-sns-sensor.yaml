@@ -11,7 +11,7 @@ spec:
       eventName: newofs
   triggers:
     - template:
-        name: sns-workflow
+        name: nos-sns-workflow
         k8s:
           operation: create
           source:
@@ -19,7 +19,7 @@ spec:
               apiVersion: argoproj.io/v1alpha1
               kind: Workflow
               metadata:
-                generateName: aws-sns-workflow-
+                generateName: nos-sns-workflow-
               spec:
                 entrypoint: main
                 arguments:
