@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
-  name: nos-sns
+  name: aws-sns
 spec:
   template:
     serviceAccountName: operate-workflow-sa
   dependencies:
-    - name: nos-dep
-      eventSourceName: nos-sns
-      eventName: newofs
+    - name: test-dep
+      eventSourceName: aws-sns
+      eventName: example
   triggers:
     - template:
         name: sns-workflow
@@ -62,6 +62,6 @@ spec:
                     args: ["{{inputs.parameters.message}}"]
           parameters:
             - src:
-                dependencyName: nos-dep
+                dependencyName: test-dep
                 dataKey: body
               dest: spec.arguments.parameters.0.value

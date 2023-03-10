@@ -8,7 +8,7 @@ spec:
       - port: 12000
         targetPort: 12000
   sns:
-    example:
+    newofs:
       # arn of SNS topic
       topicArn: arn:aws:sns:us-east-1:123901341784:NewOFSObject
       # hook contains configuration for the HTTP server running in the event-source.
