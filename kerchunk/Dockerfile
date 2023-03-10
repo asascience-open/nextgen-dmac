@@ -1,4 +1,4 @@
-FROM python:3.11-bullseye
+FROM python:3.10-bullseye
 
 RUN mkdir -p /opt/kerchunk
 WORKDIR /opt/kerchunk
@@ -6,7 +6,7 @@ WORKDIR /opt/kerchunk
 # Install native dependencies
 RUN apt-get -y update && apt-get install -y \
     libudunits2-dev \
-    libgdal20 \
+    libgdal-dev \
     libnetcdf-dev \
     libeccodes-dev
 

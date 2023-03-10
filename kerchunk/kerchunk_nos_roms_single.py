@@ -8,4 +8,5 @@ def generate_kerchunked_ofs():
 
 
 if __name__ == "__main__":
+    print('test success')
     generate_kerchunked_ofs()
