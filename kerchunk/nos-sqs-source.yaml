@@ -7,7 +7,7 @@ spec:
     newofs:
       # jsonBody specifies that all event body payload coming from this
       # source will be JSON
-      # jsonBody: true
+      jsonBody: true
       # accessKey contains information about K8s secret that stores the access key
       accessKey:
         # Key within the K8s secret whose corresponding value (must be base64 encoded) is access key
