@@ -21,21 +21,23 @@ spec:
               metadata:
                 generateName: nos-sqs-workflow-
               spec:
-                entrypoint: whalesay
+                entrypoint: extract-sqs-message
                 arguments:
                   parameters:
                   - name: message
                     # this is the value that should be overridden
                     value: hello world
                 templates:
-                - name: whalesay
+                - name: extract-sqs-message
                   inputs:
                     parameters:
                     - name: message
-                  container:
-                    image: docker/whalesay:latest
-                    command: [cowsay]
-                    args: ["{{inputs.parameters.message}}"]
+                  script:
+                    image: node:12-alpine
+                    command: [node]
+                    source: |
+                      const sqsMessage = {{inputs.parameters.message}};
+                      console.log(sqsMessage.Message);
           parameters:
             - src:
                 dependencyName: nos-dep
