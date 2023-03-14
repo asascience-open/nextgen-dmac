@@ -17,3 +17,5 @@ RUN git config --global http.sslverify false
 RUN pip3 install -r requirements.txt
 
 COPY ./kerchunk_nos_roms.py ./kerchunk_nos_roms.py
+
+ENV PYTHONPATH "${PYTHONPATH}:/opt/kerchunk"
