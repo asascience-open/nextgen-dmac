@@ -1,0 +1,75 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: nos-sqs
+spec:
+  template:
+    serviceAccountName: operate-workflow-sa
+  dependencies:
+    - name: nos-dep
+      eventSourceName: nos-sqs
+      eventName: newofs
+  triggers:
+    - template:
+        name: nos-sqs-workflow
+        k8s:
+          operation: create
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                generateName: nos-sqs-workflow-
+              spec:
+                entrypoint: extract-sqs-message
+                arguments:
+                  parameters:
+                  - name: message
+                    # this is the value that should be overridden
+                    value: hello world
+                templates:
+                - name: extract-sqs-message
+                  inputs:
+                    parameters:
+                    - name: message
+                  script:
+                    image: miannuccirps/kerchunk-nos:latest
+                    env:
+                    - name: AWS_ACCESS_KEY_ID
+                      valueFrom:
+                        secretKeyRef:
+                          name: aws-secret
+                          key: accesskey
+                    - name: AWS_SECRET_ACCESS_KEY
+                      valueFrom:
+                        secretKeyRef:
+                          name: aws-secret
+                          key: secretkey
+                    command: [python]
+                    source: |
+                      import json
+                      import os
+                      from kerchunk_nos_roms import generate_kerchunked_ofs_aws
+
+                      sqs_message = {{inputs.parameters.message}}
+                      message = json.loads(sqs_message["Message"])
+                      record = message["Records"][0]
+                      region = record["awsRegion"]
+                      bucket = record["s3"]["bucket"]["name"]
+                      key = record["s3"]["object"]["key"]
+
+                      if key.startswith("dbofs"):
+                        dest_bucket = "nextgen-dmac"
+                        dest_prefix = "nos"
+
+                        print(os.getenv('AWS_ACCESS_KEY_ID'))
+                        print(os.getenv('AWS_SECRET_ACCESS_KEY'))
+
+                        generate_kerchunked_ofs_aws(region, bucket, key, dest_bucket, dest_prefix)
+                      else: 
+                        print("Only kerchunking DBOFS files for now. Skipping...")
+          parameters:
+            - src:
+                dependencyName: nos-dep
+                dataKey: body
+              dest: spec.arguments.parameters.0.value

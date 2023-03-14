@@ -1,0 +1,67 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: aws-sns
+spec:
+  template:
+    serviceAccountName: operate-workflow-sa
+  dependencies:
+    - name: test-dep
+      eventSourceName: aws-sns
+      eventName: example
+  triggers:
+    - template:
+        name: sns-workflow
+        k8s:
+          operation: create
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                generateName: aws-sns-workflow-
+              spec:
+                entrypoint: main
+                arguments:
+                  parameters:
+                  - name: message
+                templates:
+                - name: main
+                  dag:
+                    tasks:
+                    - name: extract-message
+                      template: extract-sns-message
+                      arguments:
+                        parameters:
+                          - name: sns-message
+                            value: "{{workflow.parameters.message}}"
+                    - name: whalesay
+                      dependencies: [extract-message]
+                      template: whalesay
+                      arguments:
+                        parameters:
+                        - name: message
+                          value: "{{tasks.extract-message.outputs.result}}"
+                - name: extract-sns-message
+                  inputs:
+                    parameters:
+                    - name: sns-message
+                  script:
+                    image: node:12-alpine
+                    command: [node]
+                    source: |
+                      const snsMessage = {{inputs.parameters.sns-message}};
+                      console.log(snsMessage.Message);
+                - name: whalesay
+                  inputs:
+                    parameters:
+                    - name: message
+                  container:
+                    image: docker/whalesay:latest
+                    command: [cowsay]
+                    args: ["{{inputs.parameters.message}}"]
+          parameters:
+            - src:
+                dependencyName: test-dep
+                dataKey: body
+              dest: spec.arguments.parameters.0.value
