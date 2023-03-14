@@ -33,11 +33,21 @@ spec:
                     parameters:
                     - name: message
                   script:
-                    image: node:12-alpine
-                    command: [node]
+                    image: python:3.11-alpine
+                    command: [python]
                     source: |
-                      const sqsMessage = {{inputs.parameters.message}};
-                      console.log(sqsMessage.Message);
+                      import json
+                      sqs_message = {{inputs.parameters.message}}
+                      message = json.loads(sqs_message["Message"])
+                      record = message["Records"][0]
+                      region = record["awsRegion"]
+                      bucket = record["s3"]["bucket"]["name"]
+                      key = record["s3"]["object"]["key"]
+                      print({
+                        "region": region,
+                        "bucket": bucket,
+                        "key": key
+                      })
           parameters:
             - src:
                 dependencyName: nos-dep

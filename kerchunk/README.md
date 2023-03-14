@@ -11,6 +11,6 @@ Test `argo-events` using the webhooks source example: https://argoproj.github.io
 Clear `Success` or `Error` Pods: 
 
 ```bash
-kubectl delete pod --field-selector=status.phase==Success -n argo-events
+kubectl delete pod --field-selector=status.phase==Succeeded -n argo-events
 kubectl delete pod --field-selector=status.phase==Failed -n argo-events
 ```
