@@ -25,6 +25,7 @@ def generate_kerchunked_ofs_aws(region: str, bucket: str, key: str, dest_bucket:
 
 
 if __name__ == '__main__':
+    import os
     sqs_message = {
         "Type": "Notification",
         "MessageId": "64e0cdc6-ce97-53cb-90b2-914f059429c1",
