@@ -33,7 +33,7 @@ spec:
                     parameters:
                     - name: message
                   script:
-                    image: python:3.11-alpine
+                    image: miannuccirps/kerchunk-nos:latest
                     command: [python]
                     source: |
                       import json

@@ -15,3 +15,5 @@ COPY ./requirements.txt ./requirements.txt
 RUN python3 -m pip config set global.http.sslVerify false
 RUN git config --global http.sslverify false
 RUN pip3 install -r requirements.txt
+
+COPY ./kerchunk_nos_roms.py ./kerchunk_nos_roms.py
