@@ -51,9 +51,11 @@ spec:
                     source: |
                       from kerchunk_nos_roms import generate_kerchunked_nos_sqs
 
-                      sqs_payload = '{{inputs.parameters.message}}'
+                      sqs_payload = r'{{inputs.parameters.message}}'
                       dest_bucket = 'nextgen-dmac'
                       dest_prefix = 'nos'
+
+                      print(sqs_payload)
 
                       generate_kerchunked_nos_sqs(sqs_payload, dest_bucket, dest_prefix, key_filter='dbofs')
           parameters:
