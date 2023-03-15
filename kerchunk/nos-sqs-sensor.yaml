@@ -22,6 +22,8 @@ spec:
                 generateName: nos-sqs-workflow-
               spec:
                 entrypoint: extract-sqs-message
+                podGC:
+                  strategy: OnWorkflowSuccess
                 arguments:
                   parameters:
                   - name: message
@@ -31,9 +33,9 @@ spec:
                 - name: extract-sqs-message
                   inputs:
                     parameters:
-                    - name: message
-                  script:
-                    image: miannuccirps/kerchunk-nos:latest
+                    - name: message                  
+                  container:
+                    image: public.ecr.aws/m2c5k9c1/nextgen-dmac/kerchunk-nos:latest
                     env:
                     - name: AWS_ACCESS_KEY_ID
                       valueFrom:
@@ -45,29 +47,8 @@ spec:
                         secretKeyRef:
                           name: aws-secret
                           key: secretkey
-                    command: [python]
-                    source: |
-                      import json
-                      import os
-                      from kerchunk_nos_roms import generate_kerchunked_ofs_aws
-
-                      sqs_message = {{inputs.parameters.message}}
-                      message = json.loads(sqs_message["Message"])
-                      record = message["Records"][0]
-                      region = record["awsRegion"]
-                      bucket = record["s3"]["bucket"]["name"]
-                      key = record["s3"]["object"]["key"]
-
-                      if key.startswith("dbofs"):
-                        dest_bucket = "nextgen-dmac"
-                        dest_prefix = "nos"
-
-                        print(os.getenv('AWS_ACCESS_KEY_ID'))
-                        print(os.getenv('AWS_SECRET_ACCESS_KEY'))
-
-                        generate_kerchunked_ofs_aws(region, bucket, key, dest_bucket, dest_prefix)
-                      else: 
-                        print("Only kerchunking DBOFS files for now. Skipping...")
+                    command: [python3]
+                    args: [kerchunk_nos_roms.py, '{{inputs.parameters.message}}', nextgen-dmac, nos, dbofs]
           parameters:
             - src:
                 dependencyName: nos-dep
