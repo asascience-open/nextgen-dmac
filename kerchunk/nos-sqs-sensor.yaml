@@ -64,9 +64,6 @@ spec:
                         dest_bucket = "nextgen-dmac"
                         dest_prefix = "nos"
 
-                        print(os.getenv('AWS_ACCESS_KEY_ID'))
-                        print(os.getenv('AWS_SECRET_ACCESS_KEY'))
-
                         generate_kerchunked_ofs_aws(region, bucket, key, dest_bucket, dest_prefix)
                       else: 
                         print("Only kerchunking DBOFS files for now. Skipping...")
