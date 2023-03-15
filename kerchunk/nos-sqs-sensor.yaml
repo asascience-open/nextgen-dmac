@@ -35,7 +35,7 @@ spec:
                     parameters:
                     - name: message
                   script:
-                    image: miannuccirps/kerchunk-nos:latest
+                    image: public.ecr.aws/m2c5k9c1/nextgen-dmac/kerchunk-nos:latest
                     env:
                     - name: AWS_ACCESS_KEY_ID
                       valueFrom:
