@@ -47,8 +47,8 @@ spec:
                         secretKeyRef:
                           name: aws-secret
                           key: secretkey
-                    command: [python3, kerchunk_nos_roms.py, '{{inputs.parameters.message}}', nextgen-dmac, nos, dbofs]
-                    args: ["{{inputs.parameters.message}}"]
+                    command: [python3]
+                    args: [kerchunk_nos_roms.py, '{{inputs.parameters.message}}', nextgen-dmac, nos, dbofs]
           parameters:
             - src:
                 dependencyName: nos-dep
