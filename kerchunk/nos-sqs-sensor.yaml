@@ -55,7 +55,7 @@ spec:
                       dest_bucket = 'nextgen-dmac'
                       dest_prefix = 'nos'
 
-                      generate_kerchunked_nos_sqs(sqs_payload, dest_bucket, dest_prefix, key_filter=dbofs)
+                      generate_kerchunked_nos_sqs(sqs_payload, dest_bucket, dest_prefix, key_filter='dbofs')
           parameters:
             - src:
                 dependencyName: nos-dep
