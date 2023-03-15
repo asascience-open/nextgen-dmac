@@ -33,8 +33,8 @@ spec:
                 - name: extract-sqs-message
                   inputs:
                     parameters:
-                    - name: message
-                  script:
+                    - name: message                  
+                  container:
                     image: public.ecr.aws/m2c5k9c1/nextgen-dmac/kerchunk-nos:latest
                     env:
                     - name: AWS_ACCESS_KEY_ID
@@ -47,17 +47,8 @@ spec:
                         secretKeyRef:
                           name: aws-secret
                           key: secretkey
-                    command: [python]
-                    source: |
-                      from kerchunk_nos_roms import generate_kerchunked_nos_sqs
-
-                      sqs_payload = r'{{inputs.parameters.message}}'
-                      dest_bucket = 'nextgen-dmac'
-                      dest_prefix = 'nos'
-
-                      print(sqs_payload)
-
-                      generate_kerchunked_nos_sqs(sqs_payload, dest_bucket, dest_prefix, key_filter='dbofs')
+                    command: [python3, kerchunk_nos_roms.py, '{{inputs.parameters.message}}', nextgen-dmac, nos, dbofs]
+                    args: ["{{inputs.parameters.message}}"]
           parameters:
             - src:
                 dependencyName: nos-dep

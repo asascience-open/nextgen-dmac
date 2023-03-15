@@ -57,11 +57,13 @@ def generate_kerchunked_nos_sqs(sqs_payload: str, dest_bucket: str, dest_prefix:
 if __name__ == '__main__':
     import sys
     
-    if len(sys.argv) < 2:
-        print("Usage: python kerchunk_nos_roms.py <sqs_message>")
+    if len(sys.argv) < 4:
+        print("Usage: python kerchunk_nos_roms.py <sqs_message> <dest_bucket> <dest_prefix> <key_filter>")
         sys.exit(1)
 
-    dest_bucket = 'nextgen-dmac'
-    dest_prefix = 'nos'
+    sqs_payload = sys.argv[1]
+    dest_bucket = sys.argv[2]
+    dest_prefix = sys.argv[3]
+    key_filter = sys.argv[4] if len(sys.argv) > 4 else None
 
-    generate_kerchunked_nos_sqs(sys.argv[1], dest_bucket, dest_prefix, key_filter='tbofs')
+    generate_kerchunked_nos_sqs(sqs_payload, dest_bucket, dest_prefix, key_filter)
