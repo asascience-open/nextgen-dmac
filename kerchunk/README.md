@@ -14,6 +14,16 @@ The python script runs in a custom docker image and kerchunks the OFS netcdf fil
 
 For now, only `dbofs` model output is acted upon to prove out the concept. 
 
+### Multizarr
+
+Once the NOS objects are injested as Zarr files to the nextgen-dmac bucket, they can be be combined to multizarr files using kerchunk. To do this, some AWS architecture is needed: 
+
+```
+Zarr -> s3 (nextgen-dmac) -> SNS (arn:aws:sns:us-east-1:579273261343:NOSZarrUpdated) -> SQS (nextgen-nos-updatemultizarr)
+```
+
+Once the object notifications are published to the SQS channel, an argo workflow is triggered to update the multizarr files so they can be viewed as an FMRC.
+
 ## Notes
 
 The keys for aws-secret need SQS, SNS, and S3 permissions.
