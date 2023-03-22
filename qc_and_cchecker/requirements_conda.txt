@@ -1,0 +1,5 @@
+ioos_qc
+ipywidgets
+xarray
+inflection
+jupyter

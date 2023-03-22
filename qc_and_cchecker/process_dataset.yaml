@@ -1,0 +1,132 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: curl-to-artifact-
+  namespace: default
+spec:
+  entrypoint: curl-file-and-process
+  arguments:
+    parameters:
+      - name: file-url
+        value: ""
+      - name: qc-config
+        # default value is required?
+        value: "{}"
+      - name: x-var-name
+        value: "longitude"
+      - name: y-var-name
+        value: "latitude"
+      - name: z-var-name
+        value: "z"
+      - name: t-var-name
+        value: "time"
+      - name: run-cchecker
+        value: "true"
+  templates:
+    - name: curl-file-and-process
+      steps:
+      - - name: curl-file
+          template: curl-file
+          arguments:
+            parameters:
+              - name: file-url
+                value: "{{workflow.parameters.file-url}}"
+      - - name: cchecker
+          template: compliance-check
+          arguments:
+            artifacts:
+            - name: nc-file-artifact
+              from: "{{steps.curl-file.outputs.artifacts.nc-file-artifact}}"
+          when: "{{workflow.parameters.run-cchecker}} == true"
+        - name: qc-dataset
+          template: qc-dataset
+          arguments:
+            parameters:
+              - name: qc-config
+                # default value is required?
+                value: "{}"
+              - name: x-var-name
+                value: "longitude"
+              - name: y-var-name
+                value: "latitude"
+              - name: z-var-name
+                value: "z"
+              - name: t-var-name
+                value: "time"
+            artifacts: 
+            - name: nc-file-artifact
+              from: "{{steps.curl-file.outputs.artifacts.nc-file-artifact}}"
+
+
+    - name: curl-file
+      container:
+        image: curlimages/curl:7.88.1
+        # TODO: How to split file URL to get filename?
+        command: ["curl", "-o", "nc_outfile.nc", "{{inputs.parameters.file-url}}"]
+        workingDir: /tmp
+      inputs:
+         # TODO: can a portion of this be split by slashes and used as
+         # filename/artifact name using templating features?
+         # Argo Workflows uses sprig templating, so find the appropriate file here
+        parameters:
+          - name: file-url
+      outputs:
+        artifacts:
+          - name: nc-file-artifact
+            path: /tmp/nc_outfile.nc
+            artifactGC:
+              strategy: OnWorkflowDeletion
+    - name: compliance-check
+      container:
+        image: ioos/compliance-checker-web
+        workingDir: /tmp
+        command: ["cchecker.py", "-t", "cf", "-f", "json", "-o", "cchecker_report.json",
+                  "/tmp/nc_outfile.nc"]
+      inputs:
+        artifacts:
+          - name: nc-file-artifact
+            path: /tmp/nc_outfile.nc
+      outputs:
+        artifacts:
+          - name: compliance-checker-report
+            path: /tmp/cchecker_report.json
+            s3:
+              key: cchecker_report.json
+            # serve raw json
+            archive:
+              none: {}
+    - name: qc-dataset
+      container:
+        image: public.ecr.aws/m2c5k9c1/nextgen-dmac/ioos_qc_build
+        workingDir: /tmp
+        command: ["python", "/ioos_qc_script.py"]
+        args: ["{{workflow.parameters.qc-config}}",
+               "{{workflow.parameters.x-var-name}}",
+               "{{workflow.parameters.y-var-name}}",
+               "{{workflow.parameters.z-var-name}}",
+               "{{workflow.parameters.t-var-name}}"]
+      inputs:
+        artifacts:
+          - name: nc-file-artifact
+            path: /tmp/nc_outfile.nc
+        parameters:
+          - name: qc-config
+          - name: x-var-name
+          - name: y-var-name
+          - name: z-var-name
+          - name: t-var-name
+      outputs:
+        artifacts:
+          - name: qced-file
+            path: /tmp/qced_results.csv
+            s3:
+              key: qced_results.csv
+            # serve raw json
+            archive:
+              none: {}
+  # Uncomment to enable max execution time bounds, removal of pods after run,
+  # kept around for debugging purposes
+  #ttlStrategy:
+  #  secondsAfterCompletion: 300
+  #podGC:
+  #  strategy: OnPodCompletion
