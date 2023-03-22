@@ -42,7 +42,7 @@ Build and push the docker image:
 https://gallery.ecr.aws/m2c5k9c1/nextgen-dmac/kerchunk-nos
 
 ```bash
-aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/m2c5k9c1
+aws ecr-public get-login-password --region us-east-1 --no-verify-ssl | docker login --username AWS --password-stdin public.ecr.aws/m2c5k9c1
 docker build -t nextgen-dmac/kerchunk-nos .
 docker tag nextgen-dmac/kerchunk-nos:latest public.ecr.aws/m2c5k9c1/nextgen-dmac/kerchunk-nos:latest
 docker push public.ecr.aws/m2c5k9c1/nextgen-dmac/kerchunk-nos:latest

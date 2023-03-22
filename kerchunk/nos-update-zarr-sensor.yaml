@@ -1,0 +1,54 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: nos-update-zarr-sqs
+spec:
+  template:
+    serviceAccountName: operate-workflow-sa
+  dependencies:
+    - name: nos-update-zarr-dep
+      eventSourceName: nos-update-zarr-sqs
+      eventName: nos-update-zarr
+  triggers:
+    - template:
+        name: nos-sqs-update-zarr-workflow
+        k8s:
+          operation: create
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                generateName: nos-sqs-workflow-
+              spec:
+                entrypoint: extract-sqs-message
+                arguments:
+                  parameters:
+                  - name: message
+                    # this is the value that should be overridden
+                    value: hello world
+                templates:
+                - name: extract-sqs-message
+                  inputs:
+                    parameters:
+                    - name: message                  
+                  container:
+                    image: public.ecr.aws/m2c5k9c1/nextgen-dmac/kerchunk-nos:latest
+                    env:
+                    - name: AWS_ACCESS_KEY_ID
+                      valueFrom:
+                        secretKeyRef:
+                          name: aws-secret
+                          key: accesskey
+                    - name: AWS_SECRET_ACCESS_KEY
+                      valueFrom:
+                        secretKeyRef:
+                          name: aws-secret
+                          key: secretkey
+                    command: [python3]
+                    args: [kerchunk_nos_roms.py, --dump, '{{inputs.parameters.message}}']
+          parameters:
+            - src:
+                dependencyName: nos-update-zarr-dep
+                dataKey: body
+              dest: spec.arguments.parameters.0.value

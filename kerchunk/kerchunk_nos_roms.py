@@ -58,8 +58,12 @@ if __name__ == '__main__':
     import sys
     
     if len(sys.argv) < 4:
-        print("Usage: python kerchunk_nos_roms.py <sqs_message> <dest_bucket> <dest_prefix> <key_filter>")
-        sys.exit(1)
+        if len(sys.argv) > 2 and sys.argv[1] == "--dump":
+            print(sys.argv[2])
+            sys.exit(0)
+        else:
+            print("Usage: python kerchunk_nos_roms.py <sqs_message> <dest_bucket> <dest_prefix> <key_filter>")
+            sys.exit(1)
 
     sqs_payload = sys.argv[1]
     dest_bucket = sys.argv[2]
