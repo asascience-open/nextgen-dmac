@@ -1,0 +1,25 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: v1
+data:
+  default-v1: |
+    s3:
+      bucket: nextgen-dmac-private
+      endpoint: s3.amazonaws.com
+      accessKeySecret:
+        name: nextgen-dmac-private-credentials
+        key: accesskey
+      secretKeySecret:
+        name: nextgen-dmac-private-credentials
+        key: secretkey
+kind: ConfigMap
+metadata:
+  annotations:
+    workflows.argoproj.io/default-artifact-repository: default-v1
+  creationTimestamp: "2023-02-23T04:13:44Z"
+  name: artifact-repositories
+  namespace: default
+  resourceVersion: "76186535"
+  uid: 7c84a640-2772-41c7-b9c0-61fade24cc38
