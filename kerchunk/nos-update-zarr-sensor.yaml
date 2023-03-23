@@ -46,7 +46,7 @@ spec:
                           name: aws-secret
                           key: secretkey
                     command: [python3]
-                    args: [kerchunk_nos_roms.py, --dump, '{{inputs.parameters.message}}']
+                    args: [kerchunk_nos_roms.py, update_model_run, '{{inputs.parameters.message}}']
           parameters:
             - src:
                 dependencyName: nos-update-zarr-dep

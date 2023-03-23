@@ -81,6 +81,8 @@ def generate_kerchunked_model_run(region: str, bucket: str, key: str):
 
     outkey = model_run_glob.replace('.f*', '')
     outurl = f's3://{bucket}/{outkey}'
+
+    print('Writing zarr model aggregation to {outurl}')
     with fs_write.open(outurl, 'w') as ofile:
         ofile.write(ujson.dumps(d).encode())
     
@@ -125,18 +127,23 @@ def generate_kerchunked_nos_multizarr_sqs(sqs_payload: str):
 
 if __name__ == '__main__':
     import sys
+
+    arg_count = len(sys.argv)
+
+    if arg_count < 3:
+        print("Usage: python kerchunk_nos_roms.py <command> <sqs_message> <dest_bucket> <dest_prefix> <key_filter>")
+        sys.exit(1)
     
-    if len(sys.argv) < 4:
-        if len(sys.argv) > 2 and sys.argv[1] == "--dump":
-            print(sys.argv[2])
-            sys.exit(0)
-        else:
-            print("Usage: python kerchunk_nos_roms.py <sqs_message> <dest_bucket> <dest_prefix> <key_filter>")
-            sys.exit(1)
+    command = sys.argv[1]
+    sqs_payload = sys.argv[2]
 
-    sqs_payload = sys.argv[1]
-    dest_bucket = sys.argv[2]
-    dest_prefix = sys.argv[3]
-    key_filter = sys.argv[4] if len(sys.argv) > 4 else None
-
-    generate_kerchunked_nos_sqs(sqs_payload, dest_bucket, dest_prefix, key_filter)
+    if command == 'dump': 
+        print(sqs_payload)
+        sys.exit(0)
+    elif command == 'extract_single':
+        dest_bucket = sys.argv[3]
+        dest_prefix = sys.argv[4]
+        key_filter = sys.argv[5] if len(sys.argv) > 5 else None
+        generate_kerchunked_nos_sqs(sqs_payload, dest_bucket, dest_prefix, key_filter)
+    elif command == 'update_model_run':
+        generate_kerchunked_nos_multizarr_sqs(sqs_payload)
