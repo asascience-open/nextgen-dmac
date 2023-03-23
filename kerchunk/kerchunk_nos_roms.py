@@ -60,8 +60,13 @@ def generate_kerchunked_model_run(region: str, bucket: str, key: str):
     fs_read = fsspec.filesystem('s3', anon=True, skip_instance_cache=True, use_ssl=False)
     fs_write = fsspec.filesystem('s3', anon=False, skip_instance_cache=True, use_ssl=False)
 
-    model_date, model_hour = parse_model_run_datestamp(key)
-    model_run_glob = generate_model_run_glob_expression(key, model_date, model_hour)
+    try:
+        model_date, model_hour = parse_model_run_datestamp(key)
+        model_run_glob = generate_model_run_glob_expression(key, model_date, model_hour)
+    except e as Exception:
+        print(f'Failed to parse model run date and hour from key {key}. Skipping...')
+        return
+
     model_run_files = fs_read.glob(f's3://{bucket}/{model_run_glob}')
     model_run_files = sorted(['s3://'+f for f in model_run_files])
 
@@ -137,8 +142,9 @@ if __name__ == '__main__':
     command = sys.argv[1]
     sqs_payload = sys.argv[2]
 
+    print(sqs_payload)
+
     if command == 'dump': 
-        print(sqs_payload)
         sys.exit(0)
     elif command == 'extract_single':
         dest_bucket = sys.argv[3]
