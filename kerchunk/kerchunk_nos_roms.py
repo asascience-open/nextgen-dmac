@@ -84,7 +84,7 @@ def generate_kerchunked_model_run(region: str, bucket: str, key: str):
 
     print('Writing zarr model aggregation to {outurl}')
     with fs_write.open(outurl, 'w') as ofile:
-        ofile.write(ujson.dumps(d).encode())
+        ofile.write(ujson.dumps(d))
     
     print('Successfully updated {outurl} NOS aggregation')
 
