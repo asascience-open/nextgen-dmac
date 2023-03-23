@@ -82,11 +82,11 @@ def generate_kerchunked_model_run(region: str, bucket: str, key: str):
     outkey = model_run_glob.replace('.f*', '')
     outurl = f's3://{bucket}/{outkey}'
 
-    print('Writing zarr model aggregation to {outurl}')
+    print(f'Writing zarr model aggregation to {outurl}')
     with fs_write.open(outurl, 'w') as ofile:
         ofile.write(ujson.dumps(d))
     
-    print('Successfully updated {outurl} NOS aggregation')
+    print(f'Successfully updated {outurl} NOS aggregation')
 
 
 def parse_nos_sqs_message(sqs_payload: str) -> Tuple[str, str, str]:

@@ -19,16 +19,16 @@ spec:
               apiVersion: argoproj.io/v1alpha1
               kind: Workflow
               metadata:
-                generateName: nos-sqs-workflow-
+                generateName: nos-sqs-update-zar-workflow-
               spec:
-                entrypoint: extract-sqs-message
+                entrypoint: nos-update-model-multizarr
                 arguments:
                   parameters:
                   - name: message
                     # this is the value that should be overridden
                     value: hello world
                 templates:
-                - name: extract-sqs-message
+                - name: nos-update-model-multizarr
                   inputs:
                     parameters:
                     - name: message                  
