@@ -32,6 +32,10 @@ def generate_kerchunked_nc(region: str, bucket: str, key: str, dest_bucket: str,
     '''
     Generate a kerchunked zarr file from a netcdf file in s3
     '''
+    if not key.endswith('.nc'):
+        print(f'File {key} does not have a netcdf file postfix. Skipping...')
+        return
+
      # For now SSL false is solving my cert issues **shrug**
     fs_read = fsspec.filesystem('s3', anon=True, skip_instance_cache=True, use_ssl=False)
     fs_write = fsspec.filesystem('s3', anon=False, skip_instance_cache=True, use_ssl=False)
@@ -63,8 +67,8 @@ def generate_kerchunked_model_run(region: str, bucket: str, key: str):
     try:
         model_date, model_hour = parse_model_run_datestamp(key)
         model_run_glob = generate_model_run_glob_expression(key, model_date, model_hour)
-    except e as Exception:
-        print(f'Failed to parse model run date and hour from key {key}. Skipping...')
+    except Exception as e:
+        print(f'Failed to parse model run date and hour from key {key}: {e}. Skipping...')
         return
 
     model_run_files = fs_read.glob(f's3://{bucket}/{model_run_glob}')

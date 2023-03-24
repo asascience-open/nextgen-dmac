@@ -30,7 +30,7 @@ The keys for aws-secret need SQS, SNS, and S3 permissions.
 
 Test `argo-events` using the webhooks source example: https://argoproj.github.io/argo-events/quick_start/
 
-Clear `Success` or `Error` Pods: 
+Clear `Completed` or `Error` Pods: 
 
 ```bash
 kubectl delete pod --field-selector=status.phase==Succeeded -n argo-events
