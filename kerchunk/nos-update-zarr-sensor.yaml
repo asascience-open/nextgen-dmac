@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
-  name: nos-sqs
+  name: nos-update-zarr-sqs
 spec:
   template:
     serviceAccountName: operate-workflow-sa
   dependencies:
-    - name: nos-dep
-      eventSourceName: nos-sqs
-      eventName: newofs
+    - name: nos-update-zarr-dep
+      eventSourceName: nos-update-zarr-sqs
+      eventName: nos-update-zarr
   triggers:
     - template:
-        name: nos-sqs-workflow
+        name: nos-sqs-update-zarr-workflow
         k8s:
           operation: create
           source:
@@ -19,18 +19,16 @@ spec:
               apiVersion: argoproj.io/v1alpha1
               kind: Workflow
               metadata:
-                generateName: nos-sqs-workflow-
+                generateName: nos-sqs-update-zar-workflow-
               spec:
-                entrypoint: extract-sqs-message
-                podGC:
-                  strategy: OnWorkflowSuccess
+                entrypoint: nos-update-model-multizarr
                 arguments:
                   parameters:
                   - name: message
                     # this is the value that should be overridden
                     value: hello world
                 templates:
-                - name: extract-sqs-message
+                - name: nos-update-model-multizarr
                   inputs:
                     parameters:
                     - name: message                  
@@ -48,9 +46,9 @@ spec:
                           name: aws-secret
                           key: secretkey
                     command: [python3]
-                    args: [kerchunk_nos_roms.py, extract_single, '{{inputs.parameters.message}}', nextgen-dmac, nos, dbofs]
+                    args: [kerchunk_nos_roms.py, update_model_run, '{{inputs.parameters.message}}']
           parameters:
             - src:
-                dependencyName: nos-dep
+                dependencyName: nos-update-zarr-dep
                 dataKey: body
               dest: spec.arguments.parameters.0.value
