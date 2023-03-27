@@ -22,6 +22,8 @@ spec:
                 generateName: nos-sqs-update-zar-workflow-
               spec:
                 entrypoint: nos-update-model-multizarr
+                podGC:
+                  strategy: OnWorkflowSuccess
                 arguments:
                   parameters:
                   - name: message
