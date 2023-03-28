@@ -4,7 +4,7 @@ metadata:
   name: alb-nextgen-dev
   annotations:
     kubernetes.io/ingress.class: alb
-    alb.ingress.kubernetes.io/load-balancer-name: "alb-nextgen-dev"
+    # alb.ingress.kubernetes.io/load-balancer-name: "alb-nextgen-dev"
     alb.ingress.kubernetes.io/target-type: 'ip'
     alb.ingress.kubernetes.io/scheme: internal
     alb.ingress.kubernetes.io/subnets: subnet-201b3944, subnet-ad6f1e82
@@ -14,24 +14,31 @@ spec:
   rules:
   - http:
       paths:
-      - path: /rabbitmq
+      - path: /
         pathType: Prefix
         backend:
           service:
-            name: rabbitmq
+            name: nginx
             port:
-              number: 15672
-      - path: /xreds
-        pathType: Prefix
-        backend:
-          service:
-            name: xreds-service
-            port:
-              number: 8090
-      - path: /argo
-        pathType: Prefix
-        backend:
-          service:
-            name: argo-argo-workflows-server
-            port:
-              number: 2746
+              number: 80
+      #- path: /rabbitmq
+      #  pathType: Prefix
+      #  backend:
+      #    service:
+      #      name: rabbitmq
+      #      port:
+      #        number: 15672
+      #- path: /xreds
+      #  pathType: Prefix
+      #  backend:
+      #    service:
+      #      name: xreds-service
+      #      port:
+      #        number: 8090
+      #- path: /argo
+      #  pathType: Prefix
+      #  backend:
+      #    service:
+      #      name: argo-argo-workflows-server
+      #      port:
+      #        number: 2746
