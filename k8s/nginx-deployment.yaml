@@ -11,9 +11,16 @@ data:
     http {
       server {
         listen   80;
-
-        location /xreds { 
+        # example url: http://nlb-nextgen-dev-c6f2020b8ae84ef5.elb.us-east-1.amazonaws.com/assets/index.ce230cd6.css
+        location /xreds/ {           
+          sub_filter '/assets'  '/xreds/assets';
+          sub_filter '/datasets'  '/xreds/datasets';
+          sub_filter_types *;
+          sub_filter_once off; # ensures it loops through the whole HTML (required)
           proxy_pass http://xreds-service:8090/; 
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-Host $host;
+          proxy_set_header X-Forwarded-Port $server_port;
         }
       }
     }
