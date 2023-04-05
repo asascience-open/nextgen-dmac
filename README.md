@@ -21,6 +21,13 @@ We are addressing a wide variety of topics and collaborating with others to solv
 
 The Steering Committee meets every quarter to discuss project updates and vet ideas for future development. **[The meeting minutes are here.](https://asascience-open.github.io/nextgen-dmac/meetings.md)**
 
+## Technical Documentation
+
+Completed prototypes have been documented alongside their code.
+
+- [Kerchunk Ingest for NOS model data](https://github.com/asascience-open/nextgen-dmac/tree/main/kerchunk)
+- [Argo Workflows Test of QARTOD and IOOS Compliance Checker](https://github.com/asascience-open/nextgen-dmac/tree/main/qc_and_cchecker)
+
 ## Prototype Plan
 
 The planned prototypes seek to demonstrate a modern, interconnected system. Visit the links below to learn more about each prototype design and considerations.
