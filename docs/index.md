@@ -17,6 +17,10 @@ This repository is intended to be a collaborative working area for open discussi
 
 We are addressing a wide variety of topics and collaborating with others to solve related problems. **[See a list of those projects here.](related_projects.md)**
 
+## Steering Committee Meeting Minutes
+
+The Steering Committee meets every quarter to discuss project updates and vet ideas for future development. **[The meeting minutes are here.](meetings.md)**
+
 ## Prototype Plan
 
 The planned prototypes seek to demonstrate a modern, interconnected system. Visit the links below to learn more about each prototype design and considerations.
