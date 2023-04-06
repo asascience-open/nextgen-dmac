@@ -15,11 +15,15 @@ This repository is intended to be a collaborative working area for open discussi
 
 ## Related Projects
 
-We are addressing a wide variety of topics and collaborating with others to solve related problems. **[See a list of those projects here.](related_projects.md)**
+We are addressing a wide variety of topics and collaborating with others to solve related problems. 
+
+**[See a list of those projects here.](related_projects.md)**
 
 ## Steering Committee Meeting Minutes
 
-The Steering Committee meets every quarter to discuss project updates and vet ideas for future development. **[The meeting minutes are here.](meetings.md)**
+The Steering Committee meets every quarter to discuss project updates and vet ideas for future development. 
+
+**[The meeting minutes are here.](meetings.md)**
 
 ## Technical Documentation
 

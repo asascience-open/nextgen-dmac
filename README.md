@@ -15,11 +15,15 @@ If you are new to contributing to GitHub, check out these links:
 
 ## Related Projects
 
-We are addressing a wide variety of topics and collaborating with others to solve related problems. **[See a list of those projects here.](https://asascience-open.github.io/nextgen-dmac/related_projects.html)**
+We are addressing a wide variety of topics and collaborating with others to solve related problems. 
+
+**[See a list of those projects here.](https://asascience-open.github.io/nextgen-dmac/related_projects.html)**
 
 ## Steering Committee Meeting Minutes
 
-The Steering Committee meets every quarter to discuss project updates and vet ideas for future development. **[The meeting minutes are here.](https://asascience-open.github.io/nextgen-dmac/meetings.md)**
+The Steering Committee meets every quarter to discuss project updates and vet ideas for future development. 
+
+**[The meeting minutes are here.](https://asascience-open.github.io/nextgen-dmac/meetings.html)**
 
 ## Technical Documentation
 
