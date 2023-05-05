@@ -2,6 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
   name: nos-sqs
+  namespace: argo-events
 spec:
   template:
     serviceAccountName: operate-workflow-sa
@@ -23,7 +24,7 @@ spec:
               spec:
                 entrypoint: extract-sqs-message
                 podGC:
-                  strategy: OnWorkflowSuccess
+                  strategy: OnPodSuccess
                 arguments:
                   parameters:
                   - name: message

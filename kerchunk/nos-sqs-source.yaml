@@ -2,6 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: EventSource
 metadata:
   name: nos-sqs
+  namespace: argo-events
 spec:
   sqs:
     newofs:
