@@ -1,0 +1,10 @@
+# config values source: https://argoproj.github.io/argo-workflows/workflow-controller-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: workflow-controller-configmap
+  namespace: argo
+data:
+  # Parallelism limits the max total parallel workflows that can execute at the same time
+  # (available since Argo v2.3). Controller must be restarted to take effect.
+  parallelism: "20"
