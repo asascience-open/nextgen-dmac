@@ -22,9 +22,12 @@ spec:
               metadata:
                 generateName: nos-sqs-update-zar-workflow-
               spec:
+                ttlStrategy:
+                  secondsAfterCompletion: 5
+                  secondsAfterFailure: 300
                 entrypoint: nos-update-model-multizarr
                 podGC:
-                  strategy: OnPodSuccess
+                  strategy: OnWorkflowCompletion
                 arguments:
                   parameters:
                   - name: message
