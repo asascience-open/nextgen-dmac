@@ -1,0 +1,39 @@
+# source: https://github.com/argoproj/argo-events/tree/master/examples
+# This defines the service account needed to run the sensor
+# e.g. nos-sqs-sensor.yaml refers to serviceAccountName operate-workflow-sa
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  namespace: argo-events
+  name: operate-workflow-sa
+---
+# Similarly you can use a ClusterRole and ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: operate-workflow-role
+  namespace: argo-events
+rules:
+  - apiGroups:
+      - argoproj.io
+    verbs:
+      - "*"
+    resources:
+      - workflows
+      - workflowtemplates
+      - cronworkflows
+      - clusterworkflowtemplates
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: operate-workflow-role-binding
+  namespace: argo-events
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: operate-workflow-role
+subjects:
+  - kind: ServiceAccount
+    name: operate-workflow-sa
