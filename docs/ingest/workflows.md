@@ -2,7 +2,7 @@
 layout: default
 title: Workflow Management
 parent: Data Ingest
-nav_order: 1
+nav_order: 2
 ---
 
 # Workflow Management

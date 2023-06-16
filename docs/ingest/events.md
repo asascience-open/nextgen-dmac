@@ -1,7 +1,7 @@
 ---
 layout: default
 parent: Data Ingest
-nav_order: 2
+nav_order: 3
 ---
 
 # Event Messaging
