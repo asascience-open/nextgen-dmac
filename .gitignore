@@ -1,3 +1,4 @@
 *.sw?
 **/.ipynb_checkpoints/
 .ropeproject
+*.venv
