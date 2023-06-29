@@ -1,0 +1,513 @@
+[2023-06-27 18:38:54 +0000] [7] [DEBUG] Current configuration:
+  config: ./gunicorn.conf.py
+  wsgi_app: None
+  bind: ['0.0.0.0:8090']
+  backlog: 2048
+  workers: 1
+  worker_class: uvicorn.workers.UvicornWorker
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 30
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /opt/xreds
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 0
+  group: 0
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: None
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: -
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: app:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7f66df99e950>
+  on_reload: <function OnReload.on_reload at 0x7f66df99ea70>
+  when_ready: <function WhenReady.when_ready at 0x7f66df99eb90>
+  pre_fork: <function Prefork.pre_fork at 0x7f66df99ecb0>
+  post_fork: <function Postfork.post_fork at 0x7f66df99edd0>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7f66df99eef0>
+  worker_int: <function WorkerInt.worker_int at 0x7f66df99f010>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7f66df99f130>
+  pre_exec: <function PreExec.pre_exec at 0x7f66df99f250>
+  pre_request: <function PreRequest.pre_request at 0x7f66df99f370>
+  post_request: <function PostRequest.post_request at 0x7f66df99f400>
+  child_exit: <function ChildExit.child_exit at 0x7f66df99f520>
+  worker_exit: <function WorkerExit.worker_exit at 0x7f66df99f640>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7f66df99f760>
+  on_exit: <function OnExit.on_exit at 0x7f66df99f880>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: None
+  certfile: None
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2023-06-27 18:38:54 +0000] [7] [INFO] Starting gunicorn 20.1.0
+[2023-06-27 18:38:54 +0000] [7] [DEBUG] Arbiter booted
+[2023-06-27 18:38:54 +0000] [7] [INFO] Listening at: http://0.0.0.0:8090 (7)
+[2023-06-27 18:38:54 +0000] [7] [INFO] Using worker: uvicorn.workers.UvicornWorker
+[2023-06-27 18:38:54 +0000] [8] [INFO] Booting worker with pid: 8
+[2023-06-27 18:38:54 +0000] [7] [DEBUG] 1 workers
+[2023-06-27 18:38:56 +0000] [8] [INFO] Started server process [8]
+[2023-06-27 18:38:56 +0000] [8] [INFO] Waiting for application startup.
+[2023-06-27 18:38:56 +0000] [8] [INFO] Application startup complete.
+[2023-06-27 18:43:32 +0000] [8] [INFO] No dataset found in cache for gfswave_global, loading...
+/usr/local/lib/python3.10/site-packages/gribapi/__init__.py:23: UserWarning: ecCodes 2.21.0 or higher is recommended. You are running version 2.20.0
+  warnings.warn(
+[2023-06-27 18:43:33 +0000] [8] [INFO] Loaded and cached dataset for gfswave_global
+[2023-06-27 18:43:33 +0000] [8] [INFO] WMS: getcapabilities
+[2023-06-27 18:45:53 +0000] [8] [INFO] Using cached dataset for gfswave_global
+[2023-06-27 18:45:53 +0000] [8] [INFO] WMS: getcapabilities
+[2023-06-27 18:47:29 +0000] [8] [INFO] Using cached dataset for gfswave_global
+[2023-06-27 18:47:29 +0000] [8] [INFO] WMS: getcapabilities
+[2023-06-27 18:59:44 +0000] [8] [INFO] Using cached dataset for gfswave_global
+[2023-06-27 18:59:44 +0000] [8] [INFO] WMS: getcapabilities
+[2023-06-27 19:03:53 +0000] [8] [INFO] Using cached dataset for gfswave_global
+[2023-06-27 19:03:53 +0000] [8] [INFO] WMS: getcapabilities
+[2023-06-27 19:08:17 +0000] [8] [INFO] Using cached dataset for gfswave_global
+[2023-06-27 19:08:17 +0000] [8] [INFO] WMS: getcapabilities
+[2023-06-27 19:09:51 +0000] [8] [INFO] Using cached dataset for gfswave_global
+[2023-06-27 19:09:51 +0000] [8] [INFO] WMS: getcapabilities
+[2023-06-27 19:12:04 +0000] [8] [INFO] Using cached dataset for gfswave_global
+[2023-06-27 19:12:04 +0000] [8] [INFO] WMS: getcapabilities
+[2023-06-27 19:14:48 +0000] [8] [INFO] No dataset found in cache for dbofs, loading...
+[2023-06-27 19:14:49 +0000] [8] [INFO] Loaded and cached dataset for dbofs
+[2023-06-27 19:14:49 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:15:54 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:15:54 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:16:35 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:16:35 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:16:48 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:16:48 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:18:54 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:18:54 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:20:01 +0000] [8] [INFO] Using cached dataset for gfswave_global
+[2023-06-27 19:20:01 +0000] [8] [INFO] WMS: getcapabilities
+[2023-06-27 19:20:01 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:20:01 +0000] [8] [INFO] WMS: getcapabilities
+[2023-06-27 19:20:06 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:20:06 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:20:06 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:20:07 +0000] [8] [INFO] WMS: getlegendgraphic
+[2023-06-27 19:20:07 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:20:07 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 19:21:05 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:21:05 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:34:13 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:34:13 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 19:34:16 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:34:16 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 19:34:17 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:34:17 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 19:34:17 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:34:17 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 19:34:19 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:34:19 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 19:34:19 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:34:19 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 19:34:20 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:34:20 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 19:34:20 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:34:20 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 19:34:24 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:34:24 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 19:34:24 +0000] [8] [ERROR] Exception in ASGI application
+Traceback (most recent call last):
+  File "pandas/_libs/tslib.pyx", line 605, in pandas._libs.tslib.array_to_datetime
+  File "pandas/_libs/tslibs/parsing.pyx", line 320, in pandas._libs.tslibs.parsing.parse_datetime_string
+  File "/usr/local/lib/python3.10/site-packages/dateutil/parser/_parser.py", line 1368, in parse
+    return DEFAULTPARSER.parse(timestr, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/dateutil/parser/_parser.py", line 643, in parse
+    raise ParserError("Unknown string format: %s", timestr)
+dateutil.parser._parser.ParserError: Unknown string format: 2023-06-29T18:00:00Z Request Method: GET
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "pandas/_libs/tslib.pyx", line 616, in pandas._libs.tslib.array_to_datetime
+TypeError: invalid string coercion to datetime for "2023-06-29T18:00:00Z Request Method: GET" at position 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/site-packages/uvicorn/protocols/http/h11_impl.py", line 366, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "/usr/local/lib/python3.10/site-packages/uvicorn/middleware/proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/fastapi/applications.py", line 261, in __call__
+    await super().__call__(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/applications.py", line 119, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/middleware/errors.py", line 181, in __call__
+    raise exc
+  File "/usr/local/lib/python3.10/site-packages/starlette/middleware/errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/middleware/cors.py", line 84, in __call__
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/exceptions.py", line 87, in __call__
+    raise exc
+  File "/usr/local/lib/python3.10/site-packages/starlette/exceptions.py", line 76, in __call__
+    await self.app(scope, receive, sender)
+  File "/usr/local/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 21, in __call__
+    raise e
+  File "/usr/local/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/routing.py", line 659, in __call__
+    await route.handle(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/routing.py", line 61, in app
+    response = await func(request)
+  File "/usr/local/lib/python3.10/site-packages/fastapi/routing.py", line 227, in app
+    raw_response = await run_endpoint_function(
+  File "/usr/local/lib/python3.10/site-packages/fastapi/routing.py", line 160, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/usr/local/lib/python3.10/site-packages/xpublish_wms/plugin.py", line 39, in wms_root
+    return await wms_handler(request, dataset, cache)
+  File "/usr/local/lib/python3.10/site-packages/xpublish_wms/wms/__init__.py", line 35, in wms_handler
+    return getmap_service.get_map(dataset, query_params)
+  File "/usr/local/lib/python3.10/site-packages/xpublish_wms/wms/get_map.py", line 62, in get_map
+    self.ensure_query_types(ds, query)
+  File "/usr/local/lib/python3.10/site-packages/xpublish_wms/wms/get_map.py", line 122, in ensure_query_types
+    self.time = pd.to_datetime(self.time_str).tz_localize(None)
+  File "/usr/local/lib/python3.10/site-packages/pandas/core/tools/datetimes.py", line 1102, in to_datetime
+    result = convert_listlike(np.array([arg]), format)[0]
+  File "/usr/local/lib/python3.10/site-packages/pandas/core/tools/datetimes.py", line 438, in _convert_listlike_datetimes
+    result, tz_parsed = objects_to_datetime64ns(
+  File "/usr/local/lib/python3.10/site-packages/pandas/core/arrays/datetimes.py", line 2177, in objects_to_datetime64ns
+    result, tz_parsed = tslib.array_to_datetime(
+  File "pandas/_libs/tslib.pyx", line 427, in pandas._libs.tslib.array_to_datetime
+  File "pandas/_libs/tslib.pyx", line 683, in pandas._libs.tslib.array_to_datetime
+  File "pandas/_libs/tslib.pyx", line 829, in pandas._libs.tslib._array_to_datetime_object
+  File "pandas/_libs/tslib.pyx", line 819, in pandas._libs.tslib._array_to_datetime_object
+  File "pandas/_libs/tslibs/parsing.pyx", line 320, in pandas._libs.tslibs.parsing.parse_datetime_string
+  File "/usr/local/lib/python3.10/site-packages/dateutil/parser/_parser.py", line 1368, in parse
+    return DEFAULTPARSER.parse(timestr, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/dateutil/parser/_parser.py", line 643, in parse
+    raise ParserError("Unknown string format: %s", timestr)
+dateutil.parser._parser.ParserError: Unknown string format: 2023-06-29T18:00:00Z Request Method: GET present at position 0
+[2023-06-27 19:34:34 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:34:34 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 19:34:50 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:34:50 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 19:35:27 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:35:27 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:35:27 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:35:27 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:42:55 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:42:55 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:42:55 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:42:56 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:43:06 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:43:06 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:43:06 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:43:06 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:47:12 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:47:12 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:47:12 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:47:12 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:47:20 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:47:20 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:47:20 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:47:20 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:48:48 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:48:48 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:48:48 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:48:48 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:51:34 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:51:34 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:51:34 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:51:35 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:55:32 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:55:32 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:55:32 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:55:32 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:57:38 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:57:38 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:57:38 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:57:38 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:57:39 +0000] [8] [INFO] No dataset found in cache for d, loading...
+[2023-06-27 19:57:39 +0000] [8] [ERROR] Exception in ASGI application
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/site-packages/uvicorn/protocols/http/h11_impl.py", line 366, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "/usr/local/lib/python3.10/site-packages/uvicorn/middleware/proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/fastapi/applications.py", line 261, in __call__
+    await super().__call__(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/applications.py", line 119, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/middleware/errors.py", line 181, in __call__
+    raise exc
+  File "/usr/local/lib/python3.10/site-packages/starlette/middleware/errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/middleware/cors.py", line 84, in __call__
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/exceptions.py", line 87, in __call__
+    raise exc
+  File "/usr/local/lib/python3.10/site-packages/starlette/exceptions.py", line 76, in __call__
+    await self.app(scope, receive, sender)
+  File "/usr/local/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 21, in __call__
+    raise e
+  File "/usr/local/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/routing.py", line 659, in __call__
+    await route.handle(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/routing.py", line 61, in app
+    response = await func(request)
+  File "/usr/local/lib/python3.10/site-packages/fastapi/routing.py", line 217, in app
+    solved_result = await solve_dependencies(
+  File "/usr/local/lib/python3.10/site-packages/fastapi/dependencies/utils.py", line 526, in solve_dependencies
+    solved = await run_in_threadpool(call, **sub_values)
+  File "/usr/local/lib/python3.10/site-packages/starlette/concurrency.py", line 45, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "/usr/local/lib/python3.10/site-packages/anyio/to_thread.py", line 33, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(
+  File "/usr/local/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 877, in run_sync_in_worker_thread
+    return await future
+  File "/usr/local/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 807, in run
+    result = context.run(func, *args)
+  File "/usr/local/lib/python3.10/site-packages/xpublish/rest.py", line 135, in get_dataset_from_plugins
+    dataset = self.pm.hook.get_dataset(dataset_id=dataset_id)
+  File "/usr/local/lib/python3.10/site-packages/pluggy/_hooks.py", line 433, in __call__
+    return self._hookexec(self.name, self._hookimpls, kwargs, firstresult)
+  File "/usr/local/lib/python3.10/site-packages/pluggy/_manager.py", line 112, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+  File "/usr/local/lib/python3.10/site-packages/pluggy/_callers.py", line 116, in _multicall
+    raise exception.with_traceback(exception.__traceback__)
+  File "/usr/local/lib/python3.10/site-packages/pluggy/_callers.py", line 80, in _multicall
+    res = hook_impl.function(*args)
+  File "/opt/xreds/xreds/dataset_provider.py", line 57, in get_dataset
+    dataset_spec = self.dataset_mapping[dataset_id]
+KeyError: 'd'
+[2023-06-27 19:57:47 +0000] [8] [INFO] No dataset found in cache for d, loading...
+[2023-06-27 19:57:47 +0000] [8] [ERROR] Exception in ASGI application
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/site-packages/uvicorn/protocols/http/h11_impl.py", line 366, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "/usr/local/lib/python3.10/site-packages/uvicorn/middleware/proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/fastapi/applications.py", line 261, in __call__
+    await super().__call__(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/applications.py", line 119, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/middleware/errors.py", line 181, in __call__
+    raise exc
+  File "/usr/local/lib/python3.10/site-packages/starlette/middleware/errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/middleware/cors.py", line 84, in __call__
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/exceptions.py", line 87, in __call__
+    raise exc
+  File "/usr/local/lib/python3.10/site-packages/starlette/exceptions.py", line 76, in __call__
+    await self.app(scope, receive, sender)
+  File "/usr/local/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 21, in __call__
+    raise e
+  File "/usr/local/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/routing.py", line 659, in __call__
+    await route.handle(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/routing.py", line 61, in app
+    response = await func(request)
+  File "/usr/local/lib/python3.10/site-packages/fastapi/routing.py", line 217, in app
+    solved_result = await solve_dependencies(
+  File "/usr/local/lib/python3.10/site-packages/fastapi/dependencies/utils.py", line 526, in solve_dependencies
+    solved = await run_in_threadpool(call, **sub_values)
+  File "/usr/local/lib/python3.10/site-packages/starlette/concurrency.py", line 45, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "/usr/local/lib/python3.10/site-packages/anyio/to_thread.py", line 33, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(
+  File "/usr/local/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 877, in run_sync_in_worker_thread
+    return await future
+  File "/usr/local/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 807, in run
+    result = context.run(func, *args)
+  File "/usr/local/lib/python3.10/site-packages/xpublish/rest.py", line 135, in get_dataset_from_plugins
+    dataset = self.pm.hook.get_dataset(dataset_id=dataset_id)
+  File "/usr/local/lib/python3.10/site-packages/pluggy/_hooks.py", line 433, in __call__
+    return self._hookexec(self.name, self._hookimpls, kwargs, firstresult)
+  File "/usr/local/lib/python3.10/site-packages/pluggy/_manager.py", line 112, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+  File "/usr/local/lib/python3.10/site-packages/pluggy/_callers.py", line 116, in _multicall
+    raise exception.with_traceback(exception.__traceback__)
+  File "/usr/local/lib/python3.10/site-packages/pluggy/_callers.py", line 80, in _multicall
+    res = hook_impl.function(*args)
+  File "/opt/xreds/xreds/dataset_provider.py", line 57, in get_dataset
+    dataset_spec = self.dataset_mapping[dataset_id]
+KeyError: 'd'
+[2023-06-27 19:58:06 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:58:06 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 19:59:28 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:59:28 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:59:28 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:59:29 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:59:29 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:59:29 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 19:59:47 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:59:47 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:59:47 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:59:47 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 19:59:48 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 19:59:48 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 20:00:16 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:00:16 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:00:16 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 20:00:16 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 20:00:16 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:00:16 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 20:00:19 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:00:19 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:00:19 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 20:00:19 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 20:00:19 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:00:19 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 20:00:29 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:00:29 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:00:29 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 20:00:30 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 20:00:30 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:00:30 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 20:00:41 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:00:41 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:00:41 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 20:00:42 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 20:00:42 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:00:42 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 20:00:53 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:00:53 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 20:00:53 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:00:53 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 20:00:53 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:00:53 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 20:01:02 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:01:02 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:01:02 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 20:01:02 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 20:01:03 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:01:03 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 20:01:07 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:01:07 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:01:07 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 20:01:07 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 20:01:08 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:01:08 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 20:01:59 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:01:59 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 20:02:16 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:02:16 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 20:02:31 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:02:31 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:02:31 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 20:02:31 +0000] [8] [INFO] WMS: getmetadata
+[2023-06-27 20:02:32 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:02:32 +0000] [8] [INFO] WMS: getmap
+[2023-06-27 20:12:35 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:12:35 +0000] [8] [INFO] WMS: 
+[2023-06-27 20:20:44 +0000] [8] [INFO] Using cached dataset for gfswave_global
+[2023-06-27 20:20:44 +0000] [8] [INFO] WMS: getcapabilities
+[2023-06-27 20:21:38 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:21:38 +0000] [8] [INFO] WMS: getfeatureinfo
+[2023-06-27 20:22:20 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:22:20 +0000] [8] [INFO] WMS: getfeatureinfo
+[2023-06-27 20:22:20 +0000] [8] [ERROR] Exception in ASGI application
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/site-packages/uvicorn/protocols/http/h11_impl.py", line 366, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "/usr/local/lib/python3.10/site-packages/uvicorn/middleware/proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/fastapi/applications.py", line 261, in __call__
+    await super().__call__(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/applications.py", line 119, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/middleware/errors.py", line 181, in __call__
+    raise exc
+  File "/usr/local/lib/python3.10/site-packages/starlette/middleware/errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/middleware/cors.py", line 84, in __call__
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/exceptions.py", line 87, in __call__
+    raise exc
+  File "/usr/local/lib/python3.10/site-packages/starlette/exceptions.py", line 76, in __call__
+    await self.app(scope, receive, sender)
+  File "/usr/local/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 21, in __call__
+    raise e
+  File "/usr/local/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/routing.py", line 659, in __call__
+    await route.handle(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.10/site-packages/starlette/routing.py", line 61, in app
+    response = await func(request)
+  File "/usr/local/lib/python3.10/site-packages/fastapi/routing.py", line 227, in app
+    raw_response = await run_endpoint_function(
+  File "/usr/local/lib/python3.10/site-packages/fastapi/routing.py", line 160, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/usr/local/lib/python3.10/site-packages/xpublish_wms/plugin.py", line 39, in wms_root
+    return await wms_handler(request, dataset, cache)
+  File "/usr/local/lib/python3.10/site-packages/xpublish_wms/wms/__init__.py", line 37, in wms_handler
+    return get_feature_info(dataset, query_params)
+  File "/usr/local/lib/python3.10/site-packages/xpublish_wms/wms/get_feature_info.py", line 86, in get_feature_info
+    if ":" in query["query_layers"]:
+KeyError: 'query_layers'
+[2023-06-27 20:22:28 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:22:28 +0000] [8] [INFO] WMS: getfeatureinfo
+[2023-06-27 20:36:58 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 20:36:58 +0000] [8] [INFO] WMS: getfeatureinfo
+[2023-06-27 20:40:36 +0000] [8] [INFO] Using cached dataset for gfswave_global
+[2023-06-27 20:40:36 +0000] [8] [INFO] WMS: getcapabilities
+[2023-06-27 20:42:02 +0000] [8] [INFO] Using cached dataset for gfswave_global
+[2023-06-27 20:42:02 +0000] [8] [INFO] WMS: getcapabilities
+[2023-06-27 20:49:27 +0000] [8] [INFO] Using cached dataset for gfswave_global
+[2023-06-27 20:49:27 +0000] [8] [INFO] WMS: getcapabilities
+[2023-06-27 20:51:50 +0000] [8] [INFO] Using cached dataset for gfswave_global
+[2023-06-27 20:51:50 +0000] [8] [INFO] WMS: getcapabilities
+[2023-06-27 21:01:52 +0000] [8] [INFO] Using cached dataset for gfswave_global
+[2023-06-27 21:01:52 +0000] [8] [INFO] WMS: getcapabilities
+[2023-06-27 21:01:52 +0000] [8] [INFO] Using cached dataset for dbofs
+[2023-06-27 21:01:53 +0000] [8] [INFO] WMS: getcapabilities
