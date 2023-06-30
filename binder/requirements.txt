@@ -1,5 +1,6 @@
 cftime==1.6.2
 cfgrib
+eccodes
 dask==2023.6.1
 datashader==0.15.0
 fsspec==2023.6.0
