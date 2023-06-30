@@ -1,0 +1,15 @@
+name: nextgen-notebooks
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - numpy
+  - matplotlib
+  - datashader
+  - dask
+  - xarray
+  - s3fs
+  - fsspec
+  - netCDF4
+  - cfgrib
+  - h5netcdf
