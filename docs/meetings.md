@@ -20,6 +20,11 @@ nav_order: 7
 - February 28, 2023
   - [Agenda](https://docs.google.com/document/d/1lcCfvDWuGeDp5i1ak7uN20YPPAnKJUufOgFkMp8XPkE/edit?usp=share_link)
   - [Meeting Notes](https://docs.google.com/document/d/1V7BoSwQw4oq_pVdcRUPTh3e2vFUXFMZ6DVpj4C3G-K4/edit?usp=share_link)
+- June 13, 2023
+  - [Agenda](https://docs.google.com/document/d/1mE8kHpsMMal32M2JDGeyjrfqY9Bh8S8IQCJocCo2C-0/edit?usp=drive_link)
+  - [Meeting Notes](https://docs.google.com/document/d/1KF_CPYmRERqN1ry6GkNdDPMgJdMM3TZEyFZ7IlAY0EM/edit?usp=drive_link)
+  - [Slides](https://docs.google.com/presentation/d/1g_SqVmwaLFgnED0-hgF0T9IE2mu3aQBS/edit?usp=drive_link&ouid=105308995313737509177&rtpof=true&sd=true)
+  - [Recording](https://drive.google.com/file/d/1hte0rBK2epx_mlQzphq9EfXkuKBuxCPp/view?usp=drive_link)
 
 ## Technical Team Meetings
 
