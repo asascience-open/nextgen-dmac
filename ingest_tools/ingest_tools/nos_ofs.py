@@ -76,7 +76,7 @@ def generate_kerchunked_nc(region: str, bucket: str, key: str, dest_bucket: str,
 
     url = f"s3://{bucket}/{key}"
     filekey = generate_output_key(key)
-    outurl = f"s3://{dest_bucket}/{dest_prefix}/{filekey}.zarr"
+    outurl = f"s3://{dest_bucket}/{dest_prefix}/{filekey}"
 
     with fs_read.open(url) as ifile:
         print(f"Kerchunking nos model at {url}")
@@ -94,7 +94,7 @@ def generate_kerchunked_nc(region: str, bucket: str, key: str, dest_bucket: str,
     print(f'Successfully processed {url}')
 
 
-def generate_kerchunked_model_run(region: str, bucket: str, key: str):
+def generate_kerchunked_roms_model_run(region: str, bucket: str, key: str):
     '''
     Generate or update the multizarr kerchunked aggregation for the model run that the specified file belongs to
     '''
@@ -136,7 +136,7 @@ def generate_kerchunked_model_run(region: str, bucket: str, key: str):
     print(f'Successfully updated {outurl} NOS aggregation')
 
 
-def generate_kerchunked_best_time_series(region: str, bucket: str, key: str):
+def generate_kerchunked_roms_best_time_series(region: str, bucket: str, key: str):
     '''
     Generate or update the best time series kerchunked aggregation for the model run. If the specified file is not in the best time series, 
     then the best time series aggregation will not be updated
@@ -238,5 +238,6 @@ def generate_kerchunked_nos_multizarr_sqs(sqs_payload: str):
     '''
     region, bucket, key = parse_nos_sqs_message(sqs_payload)
 
-    generate_kerchunked_model_run(region, bucket, key)
-    generate_kerchunked_best_time_series(region, bucket, key)
+    # TODO: How to diff between roms or other model types
+    generate_kerchunked_roms_model_run(region, bucket, key)
+    generate_kerchunked_roms_best_time_series(region, bucket, key)
