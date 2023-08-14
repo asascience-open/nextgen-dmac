@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ingest_tools"
+authors = [{ name = "Matthew Iannucci", email = "matt.iannucci@rpsgroup.com" }]
+description = "Tools for ingesting data into cloud native zarr virtual datasets"
+readme = "README.md"
+requires-python = ">=3.9"
+keywords = ["xarray", "kerchunk", "zarr", "cloud"]
+license = { file = "LICENSE.txt" }
+version = "0.0.1"
+dynamic = ["dependencies"]
+
+[project.urls]
+"Homepage" = "https://github.com/asascience-open/nextgen-dmac/ingest_tools"
+
+[tool.setuptools]
+packages = ["ingest_tools"]
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
+
+[tool.check-manifest]
+ignore = [
+    "*.yml",
+    "*.yaml",
+    ".coveragerc",
+    "docs",
+    "docs/*",
+    "*.enc",
+    "notebooks",
+    "notebooks/*",
+    "tests",
+    "tests/*",
+    "ingest_tools/_version.py",
+    "Dockerfile",
+    "env",
+    "env/*",
+    "venv",
+    "venv/*"
+]

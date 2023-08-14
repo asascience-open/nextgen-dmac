@@ -1,0 +1,6 @@
+name: cloud_aggregator
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+description: Serverless aggregator for cloud native gridded datasets
