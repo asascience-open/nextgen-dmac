@@ -30,22 +30,24 @@ class PublicS3Bucket(pulumi.ComponentResource):
         self.bucket = s3.Bucket(
             bucket_name, 
             bucket=bucket_name,
-            lifecycle_rules=lifecycle_rules
+            lifecycle_rules=lifecycle_rules,
+            opts=pulumi.ResourceOptions(parent=self)
         )
 
         # Make the bucket public
-        bucket_public_access_block = s3.BucketPublicAccessBlock(f"{bucket_name}-public",
+        self.bucket_public_access_block = s3.BucketPublicAccessBlock(
+            f'{bucket_name}-public-bucket-access-block',
             bucket=self.bucket.id,
             block_public_acls=False,
             block_public_policy=False,
             ignore_public_acls=False,
-            restrict_public_buckets=False
+            restrict_public_buckets=False,
         )
 
-        public_bucket_policy = s3.BucketPolicy(
-            f'{bucket_name}-public-policy', 
+        self.public_bucket_policy = s3.BucketPolicy(
+            f'{bucket_name}-public-bucket-policy', 
             bucket=self.bucket.id,
-            policy={
+            policy=self.bucket.arn.apply(lambda arn: {
                 "Version": "2012-10-17",
                 "Statement": [{
                     "Effect": "Allow",
@@ -56,13 +58,15 @@ class PublicS3Bucket(pulumi.ComponentResource):
                         "s3:ListBucket"
                     ],
                     "Resource": [
-                        self.bucket.arn.apply(lambda arn: f"{arn}/*"),
-                        self.bucket.arn.apply(lambda arn: f"{arn}")
+                        f"{arn}/*",
+                        f"{arn}"
                     ]
                 }]
-            }
+            }), 
+            opts=pulumi.ResourceOptions(parent=self, depends_on=self.bucket)
         )
         
         self.register_outputs({
             'bucket_name': self.bucket.bucket,
+            'bucket_policy_name': self.public_bucket_policy.id,
         })
