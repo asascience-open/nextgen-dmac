@@ -30,6 +30,15 @@ pulumi login s3://cloud-aggregator-pulumi
 
 At this point, the project was created with `pulumi new aws-python --force` but that is only done once. 
 
+If the virtual environment is not available in the `venv` folder, create it with:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+deactivate
+```
+
 ## Deploy
 
 We can deploy the stack with

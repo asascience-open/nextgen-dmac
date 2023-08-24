@@ -4,61 +4,21 @@ import json
 import pulumi
 from pulumi_aws import s3, sns, sqs, iam, lambda_
 from pulumi_awsx import ecr
-
+from infra import public_s3_bucket
 
 # Create the bucket to ingest data into
-bucket = s3.Bucket(
-    'nextgen-dmac-cloud-ingest', 
-    bucket='nextgen-dmac-cloud-ingest',
-    lifecycle_rules=[
-        # We need to expire NOS operational data after 30 days because the source data is
-        # only kept on rolling 30 day windows.
-        # TODO: Tie these to actual underlying NODD object deletion?
-        s3.BucketLifecycleRuleArgs(
-            enabled=True,
-            expiration=s3.BucketLifecycleRuleExpirationArgs(
-                days=30
-            ),
-            id='nos-expiration',
+bucket = public_s3_bucket.PublicS3Bucket(
+    bucket_name='nextgen-dmac-cloud-ingest',
+    expiration_rules=[
+        public_s3_bucket.BucketExpirationRule(
             prefix='nos/',
-            noncurrent_version_expiration=s3.BucketLifecycleRuleNoncurrentVersionExpirationArgs(
-                days=7
-            ),
+            days=30,
         )
     ]
 )
 
-# Make the bucket public
-bucket_public_access_block = s3.BucketPublicAccessBlock("nextgen-dmac-cloud-ingest-public",
-    bucket=bucket.id,
-    block_public_acls=False,
-    block_public_policy=False,
-    ignore_public_acls=False,
-    restrict_public_buckets=False)
-
-public_bucket_policy = s3.BucketPolicy(
-    'public-read-ingest-bucket', 
-    bucket=bucket.id,
-    policy={
-        "Version": "2012-10-17",
-        "Statement": [{
-            "Effect": "Allow",
-            "Principal": "*",
-            "Action": [
-                "s3:GetObject", 
-                "s3:GetObjectVersion", 
-                "s3:ListBucket"
-            ],
-            "Resource": [
-                bucket.arn.apply(lambda arn: f"{arn}/*"),
-                bucket.arn.apply(lambda arn: f"{arn}")
-            ]
-        }]
-    }
-)
-
 # Export the name of the bucket
-pulumi.export('bucket_name', bucket.id)
+pulumi.export('bucket_name', bucket.bucket.id)
 
 # Next we need the sns topic of the NODD service that we want to subscribe to
 # TODO: This should be a config value.
@@ -150,7 +110,7 @@ ingest_lambda_s3_policy = iam.Policy(
         "Statement": [
             {
                 "Action": "s3:PutObject",
-                "Resource": bucket.arn.apply(lambda arn: f"{arn}/*"),
+                "Resource": bucket.bucket.arn.apply(lambda arn: f"{arn}/*"),
                 "Effect": "Allow"
             },
             {
@@ -220,7 +180,7 @@ ingest_bucket_topic_policy_document = iam.get_policy_document_output(statements=
     conditions=[iam.GetPolicyDocumentStatementConditionArgs(
         test="ArnLike",
         variable="aws:SourceArn",
-        values=[bucket.arn],
+        values=[bucket.bucket.arn],
     )],
 )])
 
@@ -233,7 +193,7 @@ sns.TopicPolicy(
 # Subscribe the topic to the bucket
 s3.BucketNotification(
     'ingest-bucket-subscription',
-    bucket=bucket.id,
+    bucket=bucket.bucket.id,
     topics=[s3.BucketNotificationTopicArgs(
         topic_arn=ingest_bucket_notifications_topic.arn,
         events=[
@@ -318,7 +278,7 @@ aggregation_lambda_s3_policy = iam.Policy(
         "Statement": [
             {
                 "Action": "s3:PutObject",
-                "Resource": bucket.arn.apply(lambda arn: f"{arn}/*"),
+                "Resource": bucket.bucket.arn.apply(lambda arn: f"{arn}/*"),
                 "Effect": "Allow"
             },
             {
