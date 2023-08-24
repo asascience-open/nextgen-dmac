@@ -12,7 +12,7 @@ bucket = public_s3_bucket.PublicS3Bucket(
     expiration_rules=[
         public_s3_bucket.BucketExpirationRule(
             prefix='nos/',
-            days=30,
+            days=29,
         )
     ]
 )
