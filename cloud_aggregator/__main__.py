@@ -4,13 +4,16 @@ import json
 import pulumi
 from pulumi_aws import s3, sns, sqs, iam, lambda_
 from pulumi_awsx import ecr
-from infra import public_s3_bucket
+
+from infra.public_s3_bucket import PublicS3Bucket, BucketExpirationRule
+from infra.message_queue import MessageQueue
+
 
 # Create the bucket to ingest data into
-bucket = public_s3_bucket.PublicS3Bucket(
+bucket = PublicS3Bucket(
     bucket_name='nextgen-dmac-cloud-ingest',
     expiration_rules=[
-        public_s3_bucket.BucketExpirationRule(
+        BucketExpirationRule(
             prefix='nos/',
             days=29,
         )
@@ -24,55 +27,65 @@ pulumi.export('bucket_name', bucket.bucket.id)
 # TODO: This should be a config value.
 nodd_nos_topic_arn = 'arn:aws:sns:us-east-1:123901341784:NewOFSObject'
 
-# We need a dead letter queue to handle messages that fail to process 
-# for the nos new object topic
-new_ofs_object_dlq = sqs.Queue(
-    'nos-new-ofs-object-dlq',
-    sqs_managed_sse_enabled=False,
+new_ofs_object_queue = MessageQueue(
+    'nos-new-ofs-object-queue',
+    visibility_timeout=360,
 )
 
-# We create an sqs queue to ingest the messages from the NOS new object topic
-# Default the visibility timeout to 10 minutes to try and handle surges of data dumps
-new_ofs_object_queue = sqs.Queue(
-    'nos-new-ofs-object-queue', 
-    sqs_managed_sse_enabled=False,
-    visibility_timeout_seconds=360,
-    redrive_policy=new_ofs_object_dlq.arn.apply(lambda arn: json.dumps({
-        "deadLetterTargetArn": arn,
-        "maxReceiveCount": 4
-    }))
+new_ofs_object_subscription = new_ofs_object_queue.subscribe_to_sns(
+    subscription_name='nos-new-ofs-object-subscription',
+    sns_arn=nodd_nos_topic_arn,
 )
 
-# Give the SNS message from the NOS NODD bucket access to post to the sqs queue
-new_ofs_object_queue_policy_document = new_ofs_object_queue.arn.apply(lambda arn: iam.get_policy_document_output(statements=[iam.GetPolicyDocumentStatementArgs(
-    sid="First",
-    effect="Allow",
-    principals=[iam.GetPolicyDocumentStatementPrincipalArgs(
-        type="*",
-        identifiers=["*"],
-    )],
-    actions=["sqs:SendMessage"],
-    resources=[arn],
-    conditions=[iam.GetPolicyDocumentStatementConditionArgs(
-        test="ArnEquals",
-        variable="aws:SourceArn",
-        values=[nodd_nos_topic_arn]
-    )]
-)]))
+# # We need a dead letter queue to handle messages that fail to process 
+# # for the nos new object topic
+# new_ofs_object_dlq = sqs.Queue(
+#     'nos-new-ofs-object-dlq',
+#     sqs_managed_sse_enabled=False,
+# )
 
-new_ofs_object_queue_policy = sqs.QueuePolicy(
-    "nos-new-ofs-object-queue-policy", 
-    queue_url=new_ofs_object_queue.id,
-    policy=new_ofs_object_queue_policy_document.json
-)
+# # We create an sqs queue to ingest the messages from the NOS new object topic
+# # Default the visibility timeout to 10 minutes to try and handle surges of data dumps
+# new_ofs_object_queue = sqs.Queue(
+#     'nos-new-ofs-object-queue', 
+#     sqs_managed_sse_enabled=False,
+#     visibility_timeout_seconds=360,
+#     redrive_policy=new_ofs_object_dlq.arn.apply(lambda arn: json.dumps({
+#         "deadLetterTargetArn": arn,
+#         "maxReceiveCount": 4
+#     }))
+# )
 
-# We create a subscription to the NOS new object topic
-new_ofs_subscription = sns.TopicSubscription(
-    'nos-new-ofs-object-subscription', 
-    topic=nodd_nos_topic_arn,
-    protocol='sqs',
-    endpoint=new_ofs_object_queue.arn
-)
+# # Give the SNS message from the NOS NODD bucket access to post to the sqs queue
+# new_ofs_object_queue_policy_document = new_ofs_object_queue.arn.apply(lambda arn: iam.get_policy_document_output(statements=[iam.GetPolicyDocumentStatementArgs(
+#     sid="First",
+#     effect="Allow",
+#     principals=[iam.GetPolicyDocumentStatementPrincipalArgs(
+#         type="*",
+#         identifiers=["*"],
+#     )],
+#     actions=["sqs:SendMessage"],
+#     resources=[arn],
+#     conditions=[iam.GetPolicyDocumentStatementConditionArgs(
+#         test="ArnEquals",
+#         variable="aws:SourceArn",
+#         values=[nodd_nos_topic_arn]
+#     )]
+# )]))
+
+# new_ofs_object_queue_policy = sqs.QueuePolicy(
+#     "nos-new-ofs-object-queue-policy", 
+#     queue_url=new_ofs_object_queue.id,
+#     policy=new_ofs_object_queue_policy_document.json
+# )
+
+# # We create a subscription to the NOS new object topic
+# new_ofs_subscription = sns.TopicSubscription(
+#     'nos-new-ofs-object-subscription', 
+#     topic=nodd_nos_topic_arn,
+#     protocol='sqs',
+#     endpoint=new_ofs_object_queue.arn
+# )
 
 # An ECR repository to store our ingest images
 # TODO: Figure out how this works as a public image with ecrpublic
@@ -115,7 +128,7 @@ ingest_lambda_s3_policy = iam.Policy(
             },
             {
                 "Action": "sqs:*",
-                "Resource": new_ofs_object_queue.arn.apply(lambda arn: f"{arn}"),
+                "Resource": new_ofs_object_queue.queue.arn.apply(lambda arn: f"{arn}"),
                 "Effect": "Allow"
             }, 
             {
@@ -154,7 +167,7 @@ ingest_lambda = lambda_.Function(
 # TODO: Use larger batches? (https://www.pulumi.com/registry/packages/aws/api-docs/lambda/eventsourcemapping/#batch-size)
 ingest_event_mapping = lambda_.EventSourceMapping(
     'nos-sqs-lambda-mapping', 
-    event_source_arn=new_ofs_object_queue.arn,
+    event_source_arn=new_ofs_object_queue.queue.arn.apply(lambda arn: f"{arn}"),
     function_name=ingest_lambda.arn,
     batch_size=1,
 )
