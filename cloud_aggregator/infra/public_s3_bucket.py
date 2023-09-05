@@ -3,13 +3,32 @@ from pulumi_aws import s3
 
 
 class BucketExpirationRule:
-    def __init__(self, prefix, days):
+    '''
+    A lifecycle rule for an S3 bucket.
+    '''
+    def __init__(self, prefix: str, days: int):
+        '''Defines a lifecycle rule for a public S3 bucket.
+        
+        :param prefix: The prefix to apply the rule to.
+        :param days: The number of days after which to expire objects.
+        '''
         self.prefix = prefix
         self.days = days
 
 
 class PublicS3Bucket(pulumi.ComponentResource):
-    def __init__(self, bucket_name, expiration_rules = [], opts = None):
+    '''
+    A public S3 bucket with a lifecycle policy that expires objects after a certain number of days.
+    '''
+
+    def __init__(self, bucket_name: str, expiration_rules: list[BucketExpirationRule] = [], opts = None):
+        '''
+        Creates a public S3 bucket with a lifecycle policy that expires objects after a certain number of days.
+
+        :param bucket_name: The name of the bucket to create.
+        :param expiration_rules: A list of BucketExpirationRule objects that define the lifecycle policy.
+        :param opts: Options to pass to the component.
+        '''
         super().__init__('infra:public_s3_bucket:PublicS3Bucket', bucket_name, None, opts)
 
         lifecycle_rules = [
