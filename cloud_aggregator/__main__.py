@@ -1,9 +1,7 @@
 """Serverless Kerchunk infrastructure using Pulumi and AWS"""
 
-import json
 import pulumi
-from pulumi_aws import s3, sns, sqs, iam, lambda_
-from pulumi_awsx import ecr
+from pulumi_aws import sns
 
 from infra.public_s3_bucket import PublicS3Bucket, BucketExpirationRule
 from infra.local_docker_lambda import LocalDockerLambda
@@ -100,9 +98,9 @@ aggregation_lambda = LocalDockerLambda(
 
 # Add cloudwatch, s3, and sqs access to the lambda. Finally subscribe the lambda 
 # to the aggregation queue
-ingest_lambda.add_cloudwatch_log_access()
-ingest_lambda.add_s3_access('aggreagtion-s3-lambda-policy', bucket.bucket)
-ingest_lambda.subscribe_to_sqs(
+aggregation_lambda.add_cloudwatch_log_access()
+aggregation_lambda.add_s3_access('aggreagtion-s3-lambda-policy', bucket.bucket)
+aggregation_lambda.subscribe_to_sqs(
     subscription_name='nos-aggregation-lambda-mapping',
     queue=aggregation_queue.queue,
     batch_size=1,

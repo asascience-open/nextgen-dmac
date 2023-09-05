@@ -1,5 +1,6 @@
 import pulumi
-from pulumi_aws import ecr, iam, lambda_, s3, sqs
+from pulumi_aws import iam, lambda_, s3, sqs
+from pulumi_awsx import ecr
 
 
 class LocalDockerLambda(pulumi.ComponentResource):
@@ -19,9 +20,7 @@ class LocalDockerLambda(pulumi.ComponentResource):
         :param concurrency: The number of concurrent executions allowed for the lambda function
         :param opts: Options to pass to the component
         '''
-        super().__init__('infra:local_docker_lambda:LocalDockerLambda', None, None, opts)
-
-        self.name = name
+        super().__init__('infra:local_docker_lambda:LocalDockerLambda', name, None, opts)
 
         # An ECR repository to store our ingest images
         # TODO: Figure out how this works as a public image with ecrpublic
@@ -65,16 +64,17 @@ class LocalDockerLambda(pulumi.ComponentResource):
             "lambda_name": self.lambda_.name,
         })
 
-    def attach_policy_to_role(self, policy: iam.Policy):
+    def attach_policy_to_role(self, attachment_name: str, policy: iam.Policy):
         '''
         Attach a given policy to the lambda role
 
+        :param attachment_name: The name of the policy attachment
         :param policy: The policy to attach to the lambda role
 
         :returns: The policy attachment
         '''
         return iam.RolePolicyAttachment(
-            policy.name.apply(lambda name: f"{name}_{self.name}_attachment"),
+            attachment_name,
             role=self.lambda_role.name.apply(lambda name: f"{name}"), 
             policy_arn=policy.arn.apply(lambda arn: f"{arn}"),
             opts=pulumi.ResourceOptions(parent=self, depends_on=[self.lambda_role, policy])
@@ -86,8 +86,9 @@ class LocalDockerLambda(pulumi.ComponentResource):
 
         :returns: The policy attachment
         '''
+        policy_name = f"{self._name}_cloudwatch_policy"
         cloudwatch_policy = iam.Policy(
-            self.lambda_.name.apply(lambda name: f"{name}_cloudwatch"), 
+            f"{self._name}_cloudwatch_policy",
             description='Policy to write data to cloudwatch logs',
             path='/', 
             policy={
@@ -107,7 +108,7 @@ class LocalDockerLambda(pulumi.ComponentResource):
             opts=pulumi.ResourceOptions(parent=self, depends_on=[self.lambda_role])
         )
 
-        return self.attach_policy_to_role(cloudwatch_policy)
+        return self.attach_policy_to_role(f"{policy_name}_attachment", cloudwatch_policy)
 
     def add_s3_access(self, policy_name: str, bucket: s3.bucket.Bucket):
         '''
@@ -135,7 +136,7 @@ class LocalDockerLambda(pulumi.ComponentResource):
             opts=pulumi.ResourceOptions(parent=self, depends_on=[self.lambda_role, bucket])
         )
 
-        return self.attach_policy_to_role(lambda_s3_policy)
+        return self.attach_policy_to_role(f"{policy_name}_{self._name}_attachment", lambda_s3_policy)
 
     def subscribe_to_sqs(self, subscription_name: str, queue: sqs.Queue, batch_size: int):
         '''
@@ -148,6 +149,7 @@ class LocalDockerLambda(pulumi.ComponentResource):
         :returns: The event source mapping
         '''
         # First we have to give the lambda access to the sqs queue
+        policy_name = f"{subscription_name}_policy"
         lambda_sqs_policy = iam.Policy(
             f"{subscription_name}_policy",
             description='Policy to access sqs queue',
@@ -165,7 +167,7 @@ class LocalDockerLambda(pulumi.ComponentResource):
             opts=pulumi.ResourceOptions(parent=self, depends_on=[self.lambda_role, queue])
         )
 
-        lambda_sqs_policy_attachemnt = self.attach_policy_to_role(lambda_sqs_policy)
+        lambda_sqs_policy_attachemnt = self.attach_policy_to_role(f"{policy_name}_attachment", lambda_sqs_policy)
 
         # Then we can create the event mapping
         # TODO: Include filters! (https://www.pulumi.com/registry/packages/aws/api-docs/lambda/eventsourcemapping/#sqs-with-event-filter)
