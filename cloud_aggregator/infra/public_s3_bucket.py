@@ -101,7 +101,7 @@ class PublicS3Bucket(pulumi.ComponentResource):
         )
 
     def subscribe_sns_to_bucket_notifications(
-        self, subscription_name: str, sns_topic: sns.Topic, filter_suffix: Optional[str] = None
+        self, subscription_name: str, sns_topic: sns.Topic, filter_prefix: Optional[str] = None, filter_suffix: Optional[str] = None
     ):
         """
         Subscribes an SNS topic to bucket object notifications.
@@ -152,6 +152,7 @@ class PublicS3Bucket(pulumi.ComponentResource):
                         "s3:ObjectCreated:*",
                         "s3:ObjectRemoved:*",
                     ],
+                    filter_prefix=filter_prefix,
                     filter_suffix=filter_suffix,
                 )
             ],
