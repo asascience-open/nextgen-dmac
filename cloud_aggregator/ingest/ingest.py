@@ -4,7 +4,7 @@ from ingest_tools.nos_ofs import generate_kerchunked_nos_sqs
 # TODO: Make these configurable
 DESTINATION_BUCKET_NAME='nextgen-dmac-cloud-ingest'
 DESTINATION_PREFIX='nos'
-FILTERS=['cbofs']
+FILTERS=['cbofs', 'ciofs', 'dbofs', 'tbofs', 'wcofs']
 
 
 def handler(event, context):
