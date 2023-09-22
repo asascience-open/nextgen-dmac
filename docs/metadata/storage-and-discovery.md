@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Data Storage and Discovery
-nav_order: 3
+nav_order: 4
 has_children: true
 ---
 
