@@ -1,3 +1,9 @@
+---
+layout: default
+parent: Data Storage and Discovery
+nav_order: 5
+---
+
 # Data Workflows
 
 This document attempts to define three core data workflows touched upon in the DMAC community and provide understanding about how they fit together to create a robust foundation for building data consumer interfaces for cloud native data.

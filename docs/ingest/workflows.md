@@ -23,5 +23,5 @@ The primary tasks of the data ingest pipeline for model data are:
 
 - Quality Control
 - Compliance Checking
-- Indexing / Transformation
+- Indexing / Transformation (i.e. generating zarr files)
 - Metadata Indexing
