@@ -8,7 +8,7 @@ from kerchunk.combine import MultiZarrToZarr
 from kerchunk.hdf import SingleHdf5ToZarr
 
 
-def parse_model_run_datestamp(key: str) -> Tuple[str, str]:
+def parse_nos_model_run_datestamp(key: str) -> Tuple[str, str]:
     '''
     Parse the model run date from the key of the file in the NOS S3 bucket, given the NOS naming convention: 
         'nos/dbofs/nos.dbofs.fields.f001.20230315.t00z.nc.zarr' 
@@ -19,7 +19,7 @@ def parse_model_run_datestamp(key: str) -> Tuple[str, str]:
     return model_date, model_hour
 
 
-def parse_model_run_datestamp_offset(key: str) -> Tuple[str, int]:
+def parse_nos_model_run_datestamp_offset(key: str) -> Tuple[str, int]:
     '''
     Parse the model run forecast time key from the key of the file in the NOS S3 bucket, given the NOS naming convention: 
         'nos/dbofs/nos.dbofs.fields.f001.20230315.t00z.nc.zarr' 
@@ -31,7 +31,7 @@ def parse_model_run_datestamp_offset(key: str) -> Tuple[str, int]:
     return model_date_key, int(offset)
 
 
-def generate_model_run_glob_expression(key: str, model_date: str, model_hour: str) -> str: 
+def generate_nos_model_run_glob_expression(key: str, model_date: str, model_hour: str) -> str: 
     '''
     Parse the glob prefix and postfix given the zarr single file key: 
         'nos/dbofs/nos.dbofs.fields.f001.20230315.t00z.nc.zarr'
@@ -41,7 +41,7 @@ def generate_model_run_glob_expression(key: str, model_date: str, model_hour: st
     return f'{prefix}.f*.{model_date}.t{model_hour}z.{postfix}'
 
 
-def generate_best_time_series_glob_expression(key: str) -> str:
+def generate_nos_best_time_series_glob_expression(key: str) -> str:
     '''
     Parse the glob prefix and postfix given the zarr single file key: 
         'nos/dbofs/nos.dbofs.fields.f001.20230315.t00z.nc.zarr'
@@ -51,7 +51,7 @@ def generate_best_time_series_glob_expression(key: str) -> str:
     return f'{prefix}.f*.*.t*z.{postfix}'
 
 
-def generate_output_key(key: str) -> str:
+def generate_nos_output_key(key: str) -> str:
     '''
     Generate the output file key for a given input key and destination bucket and prefix:
         'tbofs.20230314/nos.tbofs.fields.n002.20230314.t00z.nc'
@@ -62,7 +62,7 @@ def generate_output_key(key: str) -> str:
     return f'{model_name}/{parts[1]}.zarr'
 
 
-def generate_kerchunked_nc(region: str, bucket: str, key: str, dest_bucket: str, dest_prefix: str):
+def generate_kerchunked_nos_nc(region: str, bucket: str, key: str, dest_bucket: str, dest_prefix: str):
     '''
     Generate a kerchunked zarr file from a netcdf file in s3
     '''
@@ -75,7 +75,7 @@ def generate_kerchunked_nc(region: str, bucket: str, key: str, dest_bucket: str,
     fs_write = fsspec.filesystem('s3', anon=False, skip_instance_cache=True, use_ssl=False)
 
     url = f"s3://{bucket}/{key}"
-    filekey = generate_output_key(key)
+    filekey = generate_nos_output_key(key)
     outurl = f"s3://{dest_bucket}/{dest_prefix}/{filekey}"
 
     with fs_read.open(url) as ifile:
@@ -94,13 +94,13 @@ def generate_kerchunked_nc(region: str, bucket: str, key: str, dest_bucket: str,
     print(f'Successfully processed {url}')
 
 
-def generate_kerchunked_roms_model_run(region: str, bucket: str, key: str):
+def generate_kerchunked_nos_roms_model_run(region: str, bucket: str, key: str):
     '''
     Generate or update the multizarr kerchunked aggregation for the model run that the specified file belongs to
     '''
     try:
-        model_date, model_hour = parse_model_run_datestamp(key)
-        model_run_glob = generate_model_run_glob_expression(key, model_date, model_hour)
+        model_date, model_hour = parse_nos_model_run_datestamp(key)
+        model_run_glob = generate_nos_model_run_glob_expression(key, model_date, model_hour)
     except Exception as e:
         print(f'Failed to parse model run date and hour from key {key}: {e}. Skipping...')
         return
@@ -136,7 +136,7 @@ def generate_kerchunked_roms_model_run(region: str, bucket: str, key: str):
     print(f'Successfully updated {outurl} NOS aggregation')
 
 
-def generate_kerchunked_roms_best_time_series(region: str, bucket: str, key: str):
+def generate_kerchunked_nos_roms_best_time_series(region: str, bucket: str, key: str):
     '''
     Generate or update the best time series kerchunked aggregation for the model run. If the specified file is not in the best time series, 
     then the best time series aggregation will not be updated
@@ -144,7 +144,7 @@ def generate_kerchunked_roms_best_time_series(region: str, bucket: str, key: str
     print(f'Generating best time series multizarr aggregation for key: {key}')
 
     try:
-        best_time_series_glob = generate_best_time_series_glob_expression(key)
+        best_time_series_glob = generate_nos_best_time_series_glob_expression(key)
     except Exception as e: 
         print(f'Failed to parse model run date and hour from key {key}: {e}. Skipping...')
         return
@@ -159,7 +159,7 @@ def generate_kerchunked_roms_best_time_series(region: str, bucket: str, key: str
     indexes = {}
 
     for f in model_files:
-        model_date_key, offset = parse_model_run_datestamp_offset(f)
+        model_date_key, offset = parse_nos_model_run_datestamp_offset(f)
         if model_date_key not in indexes:
             indexes[model_date_key] = [offset, f]
         else: 
@@ -195,49 +195,3 @@ def generate_kerchunked_roms_best_time_series(region: str, bucket: str, key: str
         ofile.write(ujson.dumps(d))
     
     print(f'Successfully updated {outurl} NOS best time series aggregation')
-
-
-def parse_nos_sqs_message(sqs_payload: str) -> Tuple[str, str, str]:
-    '''
-    Parse the SQS message from the S3 bucket to extract the file metadata needed for kerchunking and uploading 
-    to a destination bucket
-    '''
-    sqs_message = ujson.loads(sqs_payload)
-    message = ujson.loads(sqs_message["Message"])
-    record = message["Records"][0]
-    region = record["awsRegion"]
-    bucket = record["s3"]["bucket"]["name"]
-    key = record["s3"]["object"]["key"]
-
-    return region, bucket, key
-
-
-def generate_kerchunked_nos_sqs(sqs_payload: str, dest_bucket: str, dest_prefix: str, key_filter: [str] = []):
-    '''
-    Generate a kerchunked zarr file from a netcdf file in s3 given an SQS payload from the NOS S3 bucket
-    '''
-    region, bucket, key = parse_nos_sqs_message(sqs_payload)
-    if len(key_filter) > 0:
-        matched = False
-        for k in key_filter:
-            if k in key:
-                matched = True
-                break
-        
-        if not matched:
-            print(f"Skipping {key} because it doesn't contain {key_filter}")
-            return
-
-    generate_kerchunked_nc(region, bucket, key, dest_bucket, dest_prefix)
-
-
-def generate_kerchunked_nos_multizarr_sqs(sqs_payload: str):
-    '''
-    Given an SQS payload from the NOS S3 bucket, generate or update the multizarr kerchunked aggregation for the model run that the changed file belongs to,
-    and update the best time series if the target key is in the best time series
-    '''
-    region, bucket, key = parse_nos_sqs_message(sqs_payload)
-
-    # TODO: How to diff between roms or other model types
-    generate_kerchunked_roms_model_run(region, bucket, key)
-    generate_kerchunked_roms_best_time_series(region, bucket, key)
