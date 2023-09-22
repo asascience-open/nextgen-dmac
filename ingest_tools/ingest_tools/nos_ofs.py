@@ -5,7 +5,8 @@ from typing import Tuple
 import fsspec
 import ujson
 from kerchunk.combine import MultiZarrToZarr
-from kerchunk.hdf import SingleHdf5ToZarr
+
+from .generic import generate_kerchunked_nc
 
 
 def parse_nos_model_run_datestamp(key: str) -> Tuple[str, str]:
@@ -61,37 +62,12 @@ def generate_nos_output_key(key: str) -> str:
     model_name = parts[0].split('.')[0]
     return f'{model_name}/{parts[1]}.zarr'
 
-
 def generate_kerchunked_nos_nc(region: str, bucket: str, key: str, dest_bucket: str, dest_prefix: str):
     '''
     Generate a kerchunked zarr file from a netcdf file in s3
     '''
-    if not key.endswith('.nc'):
-        print(f'File {key} does not have a netcdf file postfix. Skipping...')
-        return
-
-     # For now SSL false is solving my cert issues **shrug**
-    fs_read = fsspec.filesystem('s3', anon=True, skip_instance_cache=True, use_ssl=False)
-    fs_write = fsspec.filesystem('s3', anon=False, skip_instance_cache=True, use_ssl=False)
-
-    url = f"s3://{bucket}/{key}"
     filekey = generate_nos_output_key(key)
-    outurl = f"s3://{dest_bucket}/{dest_prefix}/{filekey}"
-
-    with fs_read.open(url) as ifile:
-        print(f"Kerchunking nos model at {url}")
-        try:
-            chunks = SingleHdf5ToZarr(ifile, url)
-        except Exception as e:
-            print(f'Failed to kerchunk {url}: {e}')
-            return
-
-        print(f"Writing kerchunked nos model to {outurl}")
-        with fs_write.open(outurl, mode="w") as ofile:
-            data = ujson.dumps(chunks.translate())
-            ofile.write(data)
-    
-    print(f'Successfully processed {url}')
+    generate_kerchunked_nc(bucket, key, filekey, dest_bucket, dest_prefix)
 
 
 def generate_kerchunked_nos_roms_model_run(region: str, bucket: str, key: str):
