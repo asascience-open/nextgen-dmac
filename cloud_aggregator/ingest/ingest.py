@@ -1,4 +1,5 @@
 from ingest_tools.nos_ofs import generate_kerchunked_nos_nc
+from ingest_tools.rtofs import generate_kerchunked_rtofs_nc
 from ingest_tools.aws import parse_s3_sqs_payload
 from ingest_tools.filters import key_contains
 
@@ -6,8 +7,8 @@ from ingest_tools.filters import key_contains
 # TODO: Make these configurable
 DESTINATION_BUCKET_NAME='nextgen-dmac-cloud-ingest'
 DESTINATION_PREFIX='nos'
-ROMS_FILTERS=['cbofs', 'ciofs', 'dbofs', 'tbofs', 'wcofs']
-
+ROMS_FILTERS= ['cbofs', 'ciofs', 'dbofs', 'tbofs', 'wcofs']
+RTOFS_FILTERS = ['rtofs']
 
 def handler(event, context):
     '''
@@ -24,5 +25,7 @@ def handler(event, context):
 
     if key_contains(key, ROMS_FILTERS):
         generate_kerchunked_nos_nc(region, bucket, key, DESTINATION_BUCKET_NAME, DESTINATION_PREFIX)
+    elif key_contains(key, RTOFS_FILTERS):
+        generate_kerchunked_rtofs_nc(region, bucket, key, DESTINATION_BUCKET_NAME, DESTINATION_PREFIX)
     else:
         print(f'No ingest available for key: {key}')
