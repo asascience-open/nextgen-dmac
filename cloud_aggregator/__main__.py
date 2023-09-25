@@ -93,7 +93,7 @@ ingest_bucket_notifications_topic = sns.Topic(
 bucket.subscribe_sns_to_bucket_notifications(
     subscription_name='ingest-bucket-notifications-subscription',
     sns_topic=ingest_bucket_notifications_topic,
-    filter_prefix='nos/',
+    filter_prefix=['nos/', 'rtofs/'],
     filter_suffix='.zarr',
 )
 

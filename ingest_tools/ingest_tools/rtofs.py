@@ -60,7 +60,7 @@ def generate_rtofs_best_timeseries_key(best_timeseries_glob: str) -> str:
     return best_timeseries_glob.replace('.*', '').replace('_f*', '').replace('.nc.zarr', '.best.nc.zarr')
 
 
-def generate_kerchunked_nos_roms_best_time_series(region: str, bucket: str, key: str):
+def generate_kerchunked_rtofs_best_time_series(region: str, bucket: str, key: str):
     '''
     Generate or update the best time series kerchunked aggregation for the model. If the specified file is not in the best time series, 
     then the best time series aggregation will not be updated
