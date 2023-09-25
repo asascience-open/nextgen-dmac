@@ -1,9 +1,11 @@
 from ingest_tools.nos_ofs import generate_kerchunked_nos_roms_model_run, generate_kerchunked_nos_roms_best_time_series
+from ingest_tools.rtofs import generate_kerchunked_rtofs_best_time_series
 from ingest_tools.aws import parse_s3_sqs_payload
 from ingest_tools.filters import key_contains
 
 
 ROMS_FILTERS = ['cbofs', 'ciofs', 'dbofs', 'tbofs', 'wcofs']
+RTOFS_FILTERS = ['rtofs']
 
 
 def handler(event, context):
@@ -24,5 +26,7 @@ def handler(event, context):
     if key_contains(key, ROMS_FILTERS):
         generate_kerchunked_nos_roms_model_run(region, bucket, key)
         generate_kerchunked_nos_roms_best_time_series(region, bucket, key)
+    elif key_contains(key, RTOFS_FILTERS):
+        generate_kerchunked_rtofs_best_time_series(region, bucket, key)
     else:
         print(f'No aggregation available for key: {key}')

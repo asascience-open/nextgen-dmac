@@ -25,7 +25,9 @@ pulumi.export('bucket_name', bucket.bucket.id)
 # Next we need the sns topic of the NODD service that we want to subscribe to
 # TODO: This should be a config value.
 nodd_nos_topic_arn = 'arn:aws:sns:us-east-1:123901341784:NewOFSObject'
+nodd_rtofs_topic_arn = 'arn:aws:sns:us-east-1:709902155096:NewRTOFSObject'
 
+# First nos ofs queue
 new_ofs_object_queue = MessageQueue(
     'nos-new-ofs-object-queue',
     visibility_timeout=360,
@@ -36,9 +38,21 @@ new_ofs_object_subscription = new_ofs_object_queue.subscribe_to_sns(
     sns_arn=nodd_nos_topic_arn,
 )
 
+# next, rtofs queue
+new_rtofs_object_queue = MessageQueue(
+    'new-rtofs-object-queue',
+    visibility_timeout=360,
+)
+
+new_rtofs_object_subscription = new_rtofs_object_queue.subscribe_to_sns(
+    subscription_name='new-rtofs-object-subscription',
+    sns_arn=nodd_rtofs_topic_arn,
+)
+
+# Create the lambda to ingest NODD data into the bucket
 # TODO: Decrease memory
 ingest_lambda = LocalDockerLambda(
-    name="ingest-nos-to-zarr", 
+    name="ingest-nos-to-zarr",
     repo="nextgen-dmac-ingest",
     path='./ingest',
     timeout=60,
@@ -50,9 +64,17 @@ ingest_lambda = LocalDockerLambda(
 # to the new object queue
 ingest_lambda.add_cloudwatch_log_access()
 ingest_lambda.add_s3_access('ingest-s3-lambda-policy', bucket.bucket)
+
+# Subscribe to the necessary queues
 ingest_lambda.subscribe_to_sqs(
     subscription_name='nos-sqs-lambda-mapping',
     queue=new_ofs_object_queue.queue,
+    batch_size=1,
+)
+
+ingest_lambda.subscribe_to_sqs(
+    subscription_name='rtofs-sqs-lambda-mapping',
+    queue=new_rtofs_object_queue.queue,
     batch_size=1,
 )
 
@@ -71,7 +93,7 @@ ingest_bucket_notifications_topic = sns.Topic(
 bucket.subscribe_sns_to_bucket_notifications(
     subscription_name='ingest-bucket-notifications-subscription',
     sns_topic=ingest_bucket_notifications_topic,
-    filter_prefix='nos/',
+    filter_prefix=['nos/', 'rtofs/'],
     filter_suffix='.zarr',
 )
 
