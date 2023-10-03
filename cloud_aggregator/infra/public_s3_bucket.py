@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 import pulumi
 from pulumi_aws import iam, s3, sns
 
@@ -101,7 +101,7 @@ class PublicS3Bucket(pulumi.ComponentResource):
         )
 
     def subscribe_sns_to_bucket_notifications(
-        self, subscription_name: str, sns_topic: sns.Topic, filter_prefix: Optional[str] = None, filter_suffix: Optional[str] = None
+        self, subscription_name: str, sns_topic: sns.Topic, filter_prefix: List[str] = [], filter_suffix: Optional[str] = None
     ):
         """
         Subscribes an SNS topic to bucket object notifications.
@@ -152,9 +152,9 @@ class PublicS3Bucket(pulumi.ComponentResource):
                         "s3:ObjectCreated:*",
                         "s3:ObjectRemoved:*",
                     ],
-                    filter_prefix=filter_prefix,
+                    filter_prefix=prefix,
                     filter_suffix=filter_suffix,
-                )
+                ) for prefix in filter_prefix
             ],
             opts=pulumi.ResourceOptions(
                 parent=self, depends_on=[self.bucket, bucket_topic_policy]

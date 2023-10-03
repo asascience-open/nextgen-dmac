@@ -1,7 +1,11 @@
-from ingest_tools.nos_ofs import parse_nos_sqs_message, generate_kerchunked_roms_model_run, generate_kerchunked_roms_best_time_series
+from ingest_tools.nos_ofs import generate_kerchunked_nos_roms_model_run, generate_kerchunked_nos_roms_best_time_series
+from ingest_tools.rtofs import generate_kerchunked_rtofs_best_time_series
+from ingest_tools.aws import parse_s3_sqs_payload
+from ingest_tools.filters import key_contains
 
 
 ROMS_FILTERS = ['cbofs', 'ciofs', 'dbofs', 'tbofs', 'wcofs']
+RTOFS_FILTERS = ['rtofs']
 
 
 def handler(event, context):
@@ -17,11 +21,12 @@ def handler(event, context):
 
     print(f'Updating aggregations from given notification: {payload}')
 
-    region, bucket, key = parse_nos_sqs_message(payload)
-    for k in ROMS_FILTERS:
-        if k in key:
-            generate_kerchunked_roms_model_run(region, bucket, key)
-            generate_kerchunked_roms_best_time_series(region, bucket, key)
-            return
+    region, bucket, key = parse_s3_sqs_payload(payload)
 
-    print(f'No aggregation available for key: {key}')
+    if key_contains(key, ROMS_FILTERS):
+        generate_kerchunked_nos_roms_model_run(region, bucket, key)
+        generate_kerchunked_nos_roms_best_time_series(region, bucket, key)
+    elif key_contains(key, RTOFS_FILTERS):
+        generate_kerchunked_rtofs_best_time_series(region, bucket, key)
+    else:
+        print(f'No aggregation available for key: {key}')
