@@ -6,7 +6,7 @@ import fsspec
 import ujson
 from kerchunk.combine import MultiZarrToZarr
 
-from .generic import generate_kerchunked_nc
+from .generic import generate_kerchunked_hdf
 
 
 def parse_nos_model_run_datestamp(key: str) -> Tuple[str, str]:
@@ -67,7 +67,7 @@ def generate_kerchunked_nos_nc(region: str, bucket: str, key: str, dest_bucket: 
     Generate a kerchunked zarr file from a netcdf file in s3
     '''
     filekey = generate_nos_output_key(key)
-    generate_kerchunked_nc(bucket, key, filekey, dest_bucket, dest_prefix)
+    generate_kerchunked_hdf(bucket, key, filekey, dest_bucket, dest_prefix)
 
 
 def generate_kerchunked_nos_roms_model_run(region: str, bucket: str, key: str):
