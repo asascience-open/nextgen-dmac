@@ -2,7 +2,7 @@ from ingest_tools.nos_ofs import generate_nos_output_key
 from ingest_tools.rtofs import generate_kerchunked_rtofs_nc
 from ingest_tools.aws import parse_s3_sqs_payload
 from ingest_tools.filters import key_contains
-from ingest_tooks.generic import generate_kerchunked_hdf, generate_kerchunked_netcdf
+from ingest_tools.generic import generate_kerchunked_hdf, generate_kerchunked_netcdf
 
 
 # TODO: Make these configurable
