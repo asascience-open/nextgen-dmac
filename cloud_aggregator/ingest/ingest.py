@@ -1,7 +1,8 @@
-from ingest_tools.nos_ofs import generate_kerchunked_nos_nc
+from ingest_tools.nos_ofs import generate_nos_output_key
 from ingest_tools.rtofs import generate_kerchunked_rtofs_nc
 from ingest_tools.aws import parse_s3_sqs_payload
 from ingest_tools.filters import key_contains
+from ingest_tooks.generic import generate_kerchunked_hdf, generate_kerchunked_netcdf
 
 
 # TODO: Make these configurable
@@ -9,6 +10,7 @@ DESTINATION_BUCKET_NAME='nextgen-dmac-cloud-ingest'
 NOS_DESTINATION_PREFIX='nos'
 RTOFS_DESTINATION_PREFIX='rtofs'
 NOS_ROMS_FILTERS= ['cbofs', 'ciofs', 'dbofs', 'tbofs', 'wcofs']
+NOS_FVCOM_FILTERS = ['ngofs2']
 RTOFS_FILTERS = ['rtofs']
 
 def handler(event, context):
@@ -30,7 +32,11 @@ def handler(event, context):
         return
 
     if key_contains(key, NOS_ROMS_FILTERS):
-        generate_kerchunked_nos_nc(region, bucket, key, DESTINATION_BUCKET_NAME, NOS_DESTINATION_PREFIX)
+        output_key = generate_nos_output_key(key)
+        generate_kerchunked_hdf(bucket, key, output_key, DESTINATION_BUCKET_NAME, NOS_DESTINATION_PREFIX)
+    elif key_contains(key, NOS_FVCOM_FILTERS):
+        output_key = generate_nos_output_key(key)
+        generate_kerchunked_netcdf(bucket, key, output_key, DESTINATION_BUCKET_NAME, NOS_DESTINATION_PREFIX)
     elif key_contains(key, RTOFS_FILTERS):
         generate_kerchunked_rtofs_nc(region, bucket, key, DESTINATION_BUCKET_NAME, RTOFS_DESTINATION_PREFIX)
     else:

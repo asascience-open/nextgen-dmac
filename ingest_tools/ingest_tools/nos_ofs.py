@@ -62,13 +62,6 @@ def generate_nos_output_key(key: str) -> str:
     model_name = parts[0].split('.')[0]
     return f'{model_name}/{parts[1]}.zarr'
 
-def generate_kerchunked_nos_nc(region: str, bucket: str, key: str, dest_bucket: str, dest_prefix: str):
-    '''
-    Generate a kerchunked zarr file from a netcdf file in s3
-    '''
-    filekey = generate_nos_output_key(key)
-    generate_kerchunked_hdf(bucket, key, filekey, dest_bucket, dest_prefix)
-
 
 def generate_kerchunked_nos_roms_model_run(region: str, bucket: str, key: str):
     '''
