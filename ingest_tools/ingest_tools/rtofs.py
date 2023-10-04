@@ -6,7 +6,7 @@ import fsspec
 import ujson
 from kerchunk.combine import MultiZarrToZarr
 
-from .generic import generate_kerchunked_nc
+from .generic import generate_kerchunked_hdf
 
 
 def generate_rtofs_output_key(key: str) -> str:
@@ -26,7 +26,7 @@ def generate_kerchunked_rtofs_nc(region: str, bucket: str, key: str, dest_bucket
     Generate a kerchunked zarr file from a netcdf file in s3
     '''
     filekey = generate_rtofs_output_key(key)
-    generate_kerchunked_nc(bucket, key, filekey, dest_bucket, dest_prefix)
+    generate_kerchunked_hdf(bucket, key, filekey, dest_bucket, dest_prefix)
 
 
 def generate_rtofs_best_time_series_glob_expression(key: str) -> str:
