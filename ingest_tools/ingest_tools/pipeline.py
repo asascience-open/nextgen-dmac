@@ -22,9 +22,9 @@ class Pipeline(ABC):
         
         return False
     
-    def run(self, src_bucket: str, src_key: str, dest_bucket: str):
+    def run(self, region: str, src_bucket: str, src_key: str, dest_bucket: str):
         dest_key = self.generate_output_key(src_key)
-        self.generate_kerchunk(src_bucket, src_key, dest_key, dest_bucket, self.dest_prefix)
+        self.generate_kerchunk(region, src_bucket, src_key, dest_bucket, dest_key, self.dest_prefix)
     
     @abstractmethod
     def generate_output_key(self, src_key: str) -> str:
@@ -48,15 +48,13 @@ class PipelineContext():
     def get_dest_bucket(self) -> str:
         return self.dest_bucket
     
-    def add_pipeline(self, name: str, pipeline):
+    def add_pipeline(self, name: str, pipeline: Pipeline):
         self.pipelines[name] = pipeline
 
-    def get_pipelines(self, key: str) -> typing.List[Pipeline]:
+    def get_matching_pipelines(self, key: str) -> typing.List[Pipeline]:
         matching = []
         for p in self.pipelines:        
             pipeline = self.pipelines[p]
             if pipeline.accepts(key):
                 matching.append(pipeline)
-        if len(matching) == 0:
-            return None
         return matching

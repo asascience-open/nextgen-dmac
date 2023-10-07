@@ -23,7 +23,11 @@ def handler(event, context):
 
     context = PipelineContext(region, DESTINATION_BUCKET_NAME)
 
+    # TODO: These could get auto-registered
     context.add_pipeline('nos_roms', NOS_Pipeline())
     context.add_pipeline('fvcom', FVCOM_Pipeline())
     context.add_pipeline('rtofs', RTOFS_Pipeline())
-    context.run(bucket, key)
+
+    matching = context.get_matching_pipelines(key)
+    for pipeline in matching:
+        pipeline.run(context.get_region(), bucket, key, context.get_dest_bucket())    

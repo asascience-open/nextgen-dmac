@@ -28,6 +28,6 @@ def test_pipeline_context():
     context.add_pipeline('rtofs', RTOFS_Pipeline())
 
     # This test should only return the NOS Pipeline because that's what this data is
-    matching = context.get_pipelines('tbofs.20230314/nos.tbofs.fields.n002.20230314.t00z.nc')
+    matching = context.get_matching_pipelines('tbofs.20230314/nos.tbofs.fields.n002.20230314.t00z.nc')
     assert len(matching) == 1
     assert isinstance(matching[0], NOS_Pipeline)
