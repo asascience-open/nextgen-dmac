@@ -22,6 +22,12 @@ packages = ["ingest_tools"]
 [tool.setuptools.dynamic]
 dependencies = { file = ["requirements.txt"] }
 
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+pythonpath = ["."]
+
 [tool.check-manifest]
 ignore = [
     "*.yml",

@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 import typing
-
-from ingest_tools.ingest_tools.filters import key_contains
+from .filters import key_contains
 
 
 class PipelineContext():

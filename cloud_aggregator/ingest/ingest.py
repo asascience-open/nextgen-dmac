@@ -1,4 +1,4 @@
-from pipeline import PipelineContext
+from ingest_tools.pipeline import PipelineContext
 from ingest_tools.fvcom import FVCOM_Pipeline
 from ingest_tools.nos_ofs import NOS_Pipeline
 from ingest_tools.rtofs import RTOFS_Pipeline

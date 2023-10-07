@@ -4,7 +4,7 @@ from typing import Tuple
 
 import fsspec
 import ujson
-from cloud_aggregator.ingest.pipeline import Pipeline
+from ingest_tools.pipeline import Pipeline
 from kerchunk.combine import MultiZarrToZarr
 
 from .generic import generate_kerchunked_hdf
@@ -16,30 +16,18 @@ class RTOFS_Pipeline(Pipeline):
         super().__init__('.nc', ['rtofs'], 'rtofs')
 
     def generate_output_key(self, src_key: str) -> str:
-        return src_key
+        '''
+        Generate the output file key for a given input key and destination bucket and prefix:
+            'rtofs.20230922/rtofs_glo_2ds_f001_diag.nc'
+        The following output key will be generated: rtofs.20230922.rtofs_glo_2ds_f001_diag.nc.zarr'
+        '''
+        components = src_key.split('/')
+        model_date = components[-2]
+        filename = components[-1]
+        return f'{model_date}.{filename}.zarr'
 
     def generate_kerchunk(self, region: str, src_bucket: str, src_key: str, dest_bucket: str, dest_key: str, dest_prefix: str):
-        generate_kerchunked_rtofs_nc(region, src_bucket, src_key, dest_bucket, dest_prefix)
-
-
-def generate_rtofs_output_key(key: str) -> str:
-    '''
-    Generate the output file key for a given input key and destination bucket and prefix:
-        'rtofs.20230922/rtofs_glo_2ds_f001_diag.nc'
-    The following output key will be generated: rtofs.20230922.rtofs_glo_2ds_f001_diag.nc.zarr'
-    '''
-    components = key.split('/')
-    model_date = components[-2]
-    filename = components[-1]
-    return f'{model_date}.{filename}.zarr'
-
-
-def generate_kerchunked_rtofs_nc(region: str, bucket: str, key: str, dest_bucket: str, dest_prefix: str):
-    '''
-    Generate a kerchunked zarr file from a netcdf file in s3
-    '''
-    filekey = generate_rtofs_output_key(key)
-    generate_kerchunked_hdf(bucket, key, filekey, dest_bucket, dest_prefix)
+        generate_kerchunked_hdf(src_bucket, src_key, dest_key, dest_bucket, dest_prefix)
 
 
 def generate_rtofs_best_time_series_glob_expression(key: str) -> str:

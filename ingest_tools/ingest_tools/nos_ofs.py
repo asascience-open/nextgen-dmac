@@ -4,7 +4,7 @@ from typing import List, Tuple
 
 import fsspec
 import ujson
-from cloud_aggregator.ingest.pipeline import Pipeline
+from ingest_tools.pipeline import Pipeline
 from kerchunk.combine import MultiZarrToZarr
 
 from .generic import generate_kerchunked_hdf

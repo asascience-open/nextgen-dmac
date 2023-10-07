@@ -1,4 +1,4 @@
-from cloud_aggregator.ingest.pipeline import Pipeline
+from ingest_tools.ingest_tools.pipeline import Pipeline
 from .generic import generate_kerchunked_netcdf, generate_nos_output_key
 
 
