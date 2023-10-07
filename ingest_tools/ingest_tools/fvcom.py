@@ -1,5 +1,6 @@
-from ingest_tools.ingest_tools.pipeline import Pipeline
-from .generic import generate_kerchunked_netcdf, generate_nos_output_key
+from ingest_tools.pipeline import Pipeline
+from .generic import generate_kerchunked_netcdf
+from .nos_ofs import generate_nos_output_key
 
 
 class FVCOM_Pipeline(Pipeline):
