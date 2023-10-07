@@ -4,9 +4,22 @@ from typing import Tuple
 
 import fsspec
 import ujson
+from cloud_aggregator.ingest.pipeline import Pipeline
 from kerchunk.combine import MultiZarrToZarr
 
 from .generic import generate_kerchunked_hdf
+
+
+class RTOFS_Pipeline(Pipeline):
+    
+    def __init__(self) -> None:
+        super().__init__('.nc', ['rtofs'], 'rtofs')
+
+    def generate_output_key(self, src_key: str) -> str:
+        return src_key
+
+    def generate_kerchunk(self, region: str, src_bucket: str, src_key: str, dest_bucket: str, dest_key: str, dest_prefix: str):
+        generate_kerchunked_rtofs_nc(region, src_bucket, src_key, dest_bucket, dest_prefix)
 
 
 def generate_rtofs_output_key(key: str) -> str:
