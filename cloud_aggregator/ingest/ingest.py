@@ -1,4 +1,6 @@
-from ingest_tools.nos_ofs import generate_nos_output_key
+from pipeline import PipelineContext
+from pipeline import Pipeline
+from ingest_tools.nos_ofs import generate_nos_outpu1t_key
 from ingest_tools.rtofs import generate_kerchunked_rtofs_nc
 from ingest_tools.aws import parse_s3_sqs_payload
 from ingest_tools.filters import key_contains
@@ -26,10 +28,12 @@ def handler(event, context):
 
     region, bucket, key = parse_s3_sqs_payload(payload)
 
-    # For now, we only care about nc files
-    if not key.endswith('.nc'):
-        print(f'No ingest available for key: {key}')
-        return
+    context = PipelineContext(DESTINATION_BUCKET_NAME, NOS_DESTINATION_PREFIX)
+
+    context.add_pipeline('nos_roms', Pipeline('.nc', NOS_ROMS_FILTERS))
+    context.add_pipeline('fvcom', Pipeline('.nc', NOS_FVCOM_FILTERS))
+    context.add_pipeline('rtofs', Pipeline('.nc', RTOFS_FILTERS))
+    context.run(bucket, key)
 
     if key_contains(key, NOS_ROMS_FILTERS):
         output_key = generate_nos_output_key(key)
