@@ -65,9 +65,3 @@ def test_generate_best_time_series_glob_expression():
     key = 'nos/ngofs2/nos.ngofs2.fields.f042.20231003.t09z.nc.zarr'
     glob_expression = nos_ofs.generate_nos_best_time_series_glob_expression(key)
     assert glob_expression == 'nos/ngofs2/nos.ngofs2.fields.f*.*.t*z.nc.zarr'
-
-
-def test_generate_outputkey():
-    key = 'tbofs.20230314/nos.tbofs.fields.n002.20230314.t00z.nc'
-    output_key = nos_ofs.generate_nos_output_key(key)
-    assert output_key == 'tbofs/nos.tbofs.fields.n002.20230314.t00z.nc.zarr'

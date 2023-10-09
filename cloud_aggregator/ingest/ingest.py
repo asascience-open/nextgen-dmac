@@ -1,17 +1,12 @@
-from ingest_tools.nos_ofs import generate_nos_output_key
-from ingest_tools.rtofs import generate_kerchunked_rtofs_nc
+from ingest_tools.pipeline import PipelineContext
+from ingest_tools.fvcom import FVCOM_Pipeline
+from ingest_tools.nos_ofs import NOS_Pipeline
+from ingest_tools.rtofs import RTOFS_Pipeline
 from ingest_tools.aws import parse_s3_sqs_payload
-from ingest_tools.filters import key_contains
-from ingest_tools.generic import generate_kerchunked_hdf, generate_kerchunked_netcdf
 
 
 # TODO: Make these configurable
 DESTINATION_BUCKET_NAME='nextgen-dmac-cloud-ingest'
-NOS_DESTINATION_PREFIX='nos'
-RTOFS_DESTINATION_PREFIX='rtofs'
-NOS_ROMS_FILTERS= ['cbofs', 'ciofs', 'dbofs', 'tbofs', 'wcofs']
-NOS_FVCOM_FILTERS = ['ngofs2']
-RTOFS_FILTERS = ['rtofs']
 
 def handler(event, context):
     '''
@@ -26,18 +21,13 @@ def handler(event, context):
 
     region, bucket, key = parse_s3_sqs_payload(payload)
 
-    # For now, we only care about nc files
-    if not key.endswith('.nc'):
-        print(f'No ingest available for key: {key}')
-        return
+    context = PipelineContext(region, DESTINATION_BUCKET_NAME)
 
-    if key_contains(key, NOS_ROMS_FILTERS):
-        output_key = generate_nos_output_key(key)
-        generate_kerchunked_hdf(bucket, key, output_key, DESTINATION_BUCKET_NAME, NOS_DESTINATION_PREFIX)
-    elif key_contains(key, NOS_FVCOM_FILTERS):
-        output_key = generate_nos_output_key(key)
-        generate_kerchunked_netcdf(bucket, key, output_key, DESTINATION_BUCKET_NAME, NOS_DESTINATION_PREFIX)
-    elif key_contains(key, RTOFS_FILTERS):
-        generate_kerchunked_rtofs_nc(region, bucket, key, DESTINATION_BUCKET_NAME, RTOFS_DESTINATION_PREFIX)
-    else:
-        print(f'No ingest available for key: {key}')
+    # TODO: These could get auto-registered
+    context.add_pipeline('nos_roms', NOS_Pipeline())
+    context.add_pipeline('fvcom', FVCOM_Pipeline())
+    context.add_pipeline('rtofs', RTOFS_Pipeline())
+
+    matching = context.get_matching_pipelines(key)
+    for pipeline in matching:
+        pipeline.run(context.get_region(), bucket, key, context.get_dest_bucket())    
