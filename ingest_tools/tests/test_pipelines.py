@@ -18,8 +18,8 @@ def test_pipelines(test_input):
 
     assert pipeline.accepts(test_key)
     
-    out_key = pipeline.generate_output_key(test_key)
-    assert out_key == expected_key
+    filemetadata = pipeline.read_file_metadata(test_key)
+    assert filemetadata.output_key == expected_key
 
 
 def test_pipeline_context():

@@ -5,6 +5,7 @@ from typing import List, Tuple
 import fsspec
 import ujson
 from ingest_tools.pipeline import Pipeline
+from ingest_tools.filemetadata import FileMetadata
 from kerchunk.combine import MultiZarrToZarr
 
 from .generic import generate_kerchunked_hdf
@@ -15,8 +16,14 @@ class NOS_Pipeline(Pipeline):
     def __init__(self) -> None:
         super().__init__('.nc', ['cbofs', 'ciofs', 'dbofs', 'tbofs', 'wcofs'], 'nos')
 
-    def generate_output_key(self, src_key: str) -> str:
-        return generate_nos_output_key(src_key)
+    def read_file_metadata(self, key: str) -> FileMetadata:
+        # this will be specific per pipeline
+        parts = key.split('/')
+        model_name = parts[0].split('.')[0]
+        model_date, model_hour = re.search(r'(\d{8}).t(\d{2})', key).groups()
+        output_key = generate_nos_output_key(key)
+        # TODO: offset = 
+        return FileMetadata(key, model_name, model_date, model_hour, 0, output_key)
 
     def generate_kerchunk(self, region: str, src_bucket: str, src_key: str, dest_bucket: str, dest_key: str, dest_prefix: str):
         generate_kerchunked_hdf(src_bucket, src_key, dest_key, dest_bucket, dest_prefix)
