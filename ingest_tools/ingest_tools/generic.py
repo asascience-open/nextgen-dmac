@@ -48,7 +48,7 @@ def generate_kerchunked(bucket: str, key: str, dest_key: str, dest_bucket: str, 
 
     with fs_read.open(url) as ifile:
         print(f'Identifying file at {url}')
-        raw = ifile.read(4)
+        raw = ifile.read(5)
         fmt = FileFormat.from_startbytes(raw)
 
         if fmt == FileFormat.UNKNOWN or fmt == FileFormat.GRIB2:
