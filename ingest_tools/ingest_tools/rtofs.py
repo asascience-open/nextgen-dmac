@@ -8,7 +8,7 @@ from ingest_tools.filemetadata import FileMetadata
 from ingest_tools.pipeline import Pipeline
 from kerchunk.combine import MultiZarrToZarr
 
-from .generic import generate_kerchunked_hdf
+from .generic import generate_kerchunked
 
 
 class RTOFS_Pipeline(Pipeline):
@@ -30,7 +30,7 @@ class RTOFS_Pipeline(Pipeline):
         return FileMetadata(key, 'rtofs', model_date_formatted, None, offset, output_key)
 
     def generate_kerchunk(self, region: str, src_bucket: str, src_key: str, dest_bucket: str, dest_key: str, dest_prefix: str):
-        generate_kerchunked_hdf(src_bucket, src_key, dest_key, dest_bucket, dest_prefix)
+        generate_kerchunked(src_bucket, src_key, dest_key, dest_bucket, dest_prefix)
 
 
 def generate_rtofs_best_time_series_glob_expression(key: str) -> str:

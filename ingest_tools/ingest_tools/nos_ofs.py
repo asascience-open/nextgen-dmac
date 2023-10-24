@@ -8,7 +8,7 @@ from ingest_tools.pipeline import Pipeline
 from ingest_tools.filemetadata import FileMetadata
 from kerchunk.combine import MultiZarrToZarr
 
-from .generic import generate_kerchunked_hdf
+from .generic import generate_kerchunked
 
 
 class NOS_Pipeline(Pipeline):
@@ -26,7 +26,7 @@ class NOS_Pipeline(Pipeline):
         return FileMetadata(key, model_name, model_date, model_hour, 0, output_key)
 
     def generate_kerchunk(self, region: str, src_bucket: str, src_key: str, dest_bucket: str, dest_key: str, dest_prefix: str):
-        generate_kerchunked_hdf(src_bucket, src_key, dest_key, dest_bucket, dest_prefix)
+        generate_kerchunked(src_bucket, src_key, dest_key, dest_bucket, dest_prefix)
 
 
 def parse_nos_model_run_datestamp(key: str) -> Tuple[str, str]:
