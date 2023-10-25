@@ -13,7 +13,7 @@ from .generic import ModelRunType, generate_kerchunked
 class NOS_Pipeline(Pipeline):
 
     def __init__(self) -> None:
-        super().__init__('.nc', ['cbofs', 'ciofs', 'dbofs', 'tbofs', 'wcofs'], 'nos')
+        super().__init__('.nc', ['cbofs', 'ciofs', 'creofs', 'dbofs', 'gomofs', 'leofs', 'lmhofs', 'loofs', 'lsofs', 'ngofs2', 'sfbofs', 'tbofs', 'wcofs'], 'nos')
 
     def generate_output_key(self, src_key: str) -> str:
         return generate_nos_output_key(src_key)
