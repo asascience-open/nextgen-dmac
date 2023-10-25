@@ -7,7 +7,7 @@ import ujson
 from ingest_tools.pipeline import Pipeline
 from kerchunk.combine import MultiZarrToZarr
 
-from .generic import generate_kerchunked
+from .generic import ModelRunType, generate_kerchunked
 
 
 class NOS_Pipeline(Pipeline):
@@ -39,20 +39,21 @@ def parse_nos_model_run_datestamp_offset(key: str) -> Tuple[str, int]:
         'nos/dbofs/nos.dbofs.fields.f001.20230315.t00z.nc.zarr' 
     where the model_date is 20230315 and the model_hour is 00 and the offset is 1, this would result in a key of 20230315T01
     '''
-    offset, model_date, model_hour = re.search(r'f(\d{3}).(\d{8}).t(\d{2})', key).groups()
+    offset, model_date, model_hour = re.search(r'[f|n](\d{3}).(\d{8}).t(\d{2})', key).groups()
     model_date = datetime.datetime.strptime(f'{model_date}T{model_hour}', '%Y%m%dT%H') + datetime.timedelta(hours=int(offset))
     model_date_key = model_date.strftime('%Y%m%dT%H')
     return model_date_key, int(offset)
 
 
-def generate_nos_model_run_glob_expression(key: str, model_date: str, model_hour: str) -> str: 
+def generate_nos_model_run_glob_expression(key: str, model_date: str, model_hour: str) -> Tuple[str, ModelRunType]: 
     '''
     Parse the glob prefix and postfix given the zarr single file key: 
         'nos/dbofs/nos.dbofs.fields.f001.20230315.t00z.nc.zarr'
     The following expression will be created: nos/dbofs/nos.dbofs.fields.f*.{model_date}.t{model_hour}z.nc.zarr'
     '''
-    prefix, postfix = re.search(r'(.*).f\d{3}.\d{8}.t\d{2}z.(.*)', key).groups()
-    return f'{prefix}.f*.{model_date}.t{model_hour}z.{postfix}'
+    prefix, run_type, postfix = re.search(r'(.*).([f|n])\d{3}.\d{8}.t\d{2}z.(.*)', key).groups()
+    model_run_type = ModelRunType.from_offset_prefix(run_type)
+    return f'{prefix}.{run_type}*.{model_date}.t{model_hour}z.{postfix}', model_run_type
 
 
 def generate_nos_best_time_series_glob_expression(key: str) -> str:
@@ -124,7 +125,7 @@ def generate_kerchunked_nos_fvcom_model_run(region: str, bucket: str, key: str):
     '''
     try:
         model_date, model_hour = parse_nos_model_run_datestamp(key)
-        model_run_glob = generate_nos_model_run_glob_expression(key, model_date, model_hour)
+        model_run_glob, model_run_type = generate_nos_model_run_glob_expression(key, model_date, model_hour)
     except Exception as e:
         print(f'Failed to parse model run date and hour from key {key}: {e}. Skipping...')
         return
@@ -150,7 +151,7 @@ def generate_kerchunked_nos_fvcom_model_run(region: str, bucket: str, key: str):
 
     d = mzz.translate()
 
-    outkey = model_run_glob.replace('.f*', '')
+    outkey = model_run_glob.replace('f*', model_run_type.name.lower())
     outurl = f's3://{bucket}/{outkey}'
 
     print(f'Writing zarr model aggregation to {outurl}')
