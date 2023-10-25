@@ -9,8 +9,8 @@ from ingest_tools.aws import parse_s3_sqs_payload
 from ingest_tools.filters import key_contains
 
 
-NOS_ROMS_FILTERS = ["cbofs", "ciofs", "dbofs", "tbofs", "wcofs"]
-NOS_FVCOM_FILTERS = ["ngofs2"]
+NOS_ROMS_FILTERS = ["cbofs", "ciofs", "dbofs", 'gomofs', "tbofs", "wcofs"]
+NOS_FVCOM_FILTERS = ["leofs", "lmhofs", "loofs", 'lsofs', "ngofs2", "sfbofs"]
 RTOFS_FILTERS = ["rtofs"]
 
 
