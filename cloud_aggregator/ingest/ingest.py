@@ -1,5 +1,4 @@
 from ingest_tools.pipeline import PipelineContext
-from ingest_tools.fvcom import FVCOM_Pipeline
 from ingest_tools.nos_ofs import NOS_Pipeline
 from ingest_tools.rtofs import RTOFS_Pipeline
 from ingest_tools.aws import parse_s3_sqs_payload
@@ -24,8 +23,7 @@ def handler(event, context):
     context = PipelineContext(region, DESTINATION_BUCKET_NAME)
 
     # TODO: These could get auto-registered
-    context.add_pipeline('nos_roms', NOS_Pipeline())
-    context.add_pipeline('fvcom', FVCOM_Pipeline())
+    context.add_pipeline('nos_ofs', NOS_Pipeline())
     context.add_pipeline('rtofs', RTOFS_Pipeline())
 
     matching = context.get_matching_pipelines(key)

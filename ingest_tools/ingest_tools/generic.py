@@ -1,8 +1,24 @@
 from enum import Enum
+from typing import Any, List
 import fsspec
 import ujson
 from kerchunk.hdf import SingleHdf5ToZarr
 from kerchunk.netCDF3 import NetCDF3ToZarr
+
+
+class ModelRunType(Enum):
+    FORECAST = 1
+    NOWCAST = 2
+    UNKNOWN = 255
+
+    @staticmethod
+    def from_offset_prefix(prefix: str):
+        if prefix == 'f':
+            return ModelRunType.FORECAST
+        elif prefix == 'n':
+            return ModelRunType.NOWCAST
+        else:
+            return ModelRunType.UNKNOWN
 
 
 class FileFormat(Enum):

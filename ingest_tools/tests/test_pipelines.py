@@ -1,5 +1,4 @@
 import pytest
-from ingest_tools.fvcom import FVCOM_Pipeline
 from ingest_tools.nos_ofs import NOS_Pipeline
 from ingest_tools.pipeline import Pipeline, PipelineContext
 from ingest_tools.rtofs import RTOFS_Pipeline
@@ -9,7 +8,7 @@ from ingest_tools.rtofs import RTOFS_Pipeline
 @pytest.mark.parametrize('test_input', [
     [RTOFS_Pipeline(), 'rtofs.20230922/rtofs_glo_2ds_f001_diag.nc', 'rtofs.20230922.rtofs_glo_2ds_f001_diag.nc.zarr'],
     [NOS_Pipeline(), 'tbofs.20230314/nos.tbofs.fields.n002.20230314.t00z.nc', 'tbofs/nos.tbofs.fields.n002.20230314.t00z.nc.zarr'],
-    [FVCOM_Pipeline(), 'ngofs2/nos.ngofs2.fields.f042.20231003.t09z.nc', 'ngofs2/nos.ngofs2.fields.f042.20231003.t09z.nc.zarr']
+    [NOS_Pipeline(), 'ngofs2/nos.ngofs2.fields.f042.20231003.t09z.nc', 'ngofs2/nos.ngofs2.fields.f042.20231003.t09z.nc.zarr']
     ])
 def test_pipelines(test_input):
     pipeline = test_input[0]
