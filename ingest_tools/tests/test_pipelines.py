@@ -30,3 +30,30 @@ def test_pipeline_context():
     matching = context.get_matching_pipelines('tbofs.20230314/nos.tbofs.fields.n002.20230314.t00z.nc')
     assert len(matching) == 1
     assert isinstance(matching[0], NOS_Pipeline)
+
+
+# TODO: Can create a generic function passing in the filemetadata object for validation
+def test_filemetadata():
+    key = 'cbofs.20231022/nos.cbofs.fields.n006.20231022.t00z.nc'
+    pipeline = NOS_Pipeline()
+    m = pipeline.read_file_metadata(key)        
+    assert m.source_key == key
+    assert m.dataset_id == 'cbofs'
+    assert m.model_date == '20231022'
+    assert m.model_hour == '00'
+    assert m.offset == 6
+    assert m.output_key == 'cbofs/nos.cbofs.fields.n006.20231022.t00z.nc.zarr'
+
+
+def test_filemetadata_rtofs():
+    key = 'rtofs.20230922/rtofs_glo_2ds_f001_diag.nc'
+    pipeline = RTOFS_Pipeline()
+    m = pipeline.read_file_metadata(key)        
+    assert m.source_key == key
+    assert m.dataset_id == 'rtofs'
+    # TODO: This is inconsistent with how model_date is represented in NOS
+    assert m.model_date == '20230922T01' 
+    # TODO: Do we need both hour and offset?
+    assert m.model_hour == '1'
+    assert m.offset == 1
+    assert m.output_key == 'rtofs.20230922.rtofs_glo_2ds_f001_diag.nc.zarr'
