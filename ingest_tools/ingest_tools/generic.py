@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Any, List
 import fsspec
 import ujson
 from kerchunk.hdf import SingleHdf5ToZarr
