@@ -26,14 +26,20 @@ class NOS_Pipeline(Pipeline):
         parts = key.split('/')
         model_name = parts[0].split('.')[0]
         output_key = f'{model_name}/{parts[1]}.zarr'
+        output_key = self.generate_kerchunk_output_key(output_key)
         offset, model_date, model_hour = re.search(r'[f|n](\d{3}).(\d{8}).t(\d{2})', key).groups()
         
         return FileMetadata(key, model_name, model_date, model_hour, int(offset), output_key)
 
+    def generate_kerchunk_output_key(self, key: str) -> str:
+        '''This should be replaced eventually'''
+        parts = key.split('/')
+        model_name = parts[0].split('.')[0]
+        return f'{model_name}/{parts[1]}.zarr'
 
     def generate_kerchunk(self, region: str, src_bucket: str, src_key: str, dest_bucket: str, dest_key: str, dest_prefix: str):
         generate_kerchunked(src_bucket, src_key, dest_key, dest_bucket, dest_prefix)
-    
+
 
 def parse_nos_model_run_datestamp(key: str) -> Tuple[str, str]:
     '''

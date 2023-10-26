@@ -25,13 +25,18 @@ class Pipeline(ABC):
         return False
     
     def run(self, region: str, src_bucket: str, src_key: str, dest_bucket: str):
-        self.filemetadata = self.read_file_metadata(src_key)
         # TODO: More of a listener pattern might work better
+        #self.filemetadata = self.read_file_metadata(src_key)
         # status.log(filemetadata)
-        self.generate_kerchunk(region, src_bucket, src_key, dest_bucket, self.filemetadata.output_key, self.dest_prefix)
+        output_key = self.generate_kerchunk_output_key(src_key)
+        self.generate_kerchunk(region, src_bucket, src_key, dest_bucket, output_key, self.dest_prefix)
 
     @abstractmethod
     def read_file_metadata(self, key: str) -> FileMetadata:
+        pass
+
+    @abstractmethod
+    def generate_kerchunk_output_key(self, key: str) -> str:
         pass
 
     @abstractmethod
