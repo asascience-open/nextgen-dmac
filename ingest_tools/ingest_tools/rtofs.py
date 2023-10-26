@@ -29,6 +29,13 @@ class RTOFS_Pipeline(Pipeline):
         model_date_formatted, offset = parse_rtofs_model_run_datestamp_offset(key)        
         return FileMetadata(key, 'rtofs', model_date_formatted, str(offset), offset, output_key)
 
+    def generate_kerchunk_output_key(self, key: str) -> str:
+        '''This should be replaced eventually'''
+        components = key.split('/')
+        model_date = components[-2]
+        filename = components[-1]
+        return f'{model_date}.{filename}.zarr'
+
     def generate_kerchunk(self, region: str, src_bucket: str, src_key: str, dest_bucket: str, dest_key: str, dest_prefix: str):
         generate_kerchunked(src_bucket, src_key, dest_key, dest_bucket, dest_prefix)
 
