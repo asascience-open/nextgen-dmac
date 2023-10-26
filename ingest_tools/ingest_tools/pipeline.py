@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 import typing
+
+from ingest_tools.filemetadata import FileMetadata
 from .filters import key_contains
 
 
@@ -23,11 +25,13 @@ class Pipeline(ABC):
         return False
     
     def run(self, region: str, src_bucket: str, src_key: str, dest_bucket: str):
-        dest_key = self.generate_output_key(src_key)
-        self.generate_kerchunk(region, src_bucket, src_key, dest_bucket, dest_key, self.dest_prefix)
-    
+        self.filemetadata = self.read_file_metadata(src_key)
+        # TODO: More of a listener pattern might work better
+        # status.log(filemetadata)
+        self.generate_kerchunk(region, src_bucket, src_key, dest_bucket, self.filemetadata.output_key, self.dest_prefix)
+
     @abstractmethod
-    def generate_output_key(self, src_key: str) -> str:
+    def read_file_metadata(self, key: str) -> FileMetadata:
         pass
 
     @abstractmethod

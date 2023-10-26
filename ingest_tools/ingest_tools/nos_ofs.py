@@ -5,6 +5,7 @@ from typing import List, Tuple
 import fsspec
 import ujson
 from ingest_tools.pipeline import Pipeline
+from ingest_tools.filemetadata import FileMetadata
 from kerchunk.combine import MultiZarrToZarr
 
 from .generic import ModelRunType, generate_kerchunked
@@ -15,12 +16,24 @@ class NOS_Pipeline(Pipeline):
     def __init__(self) -> None:
         super().__init__('.nc', ['cbofs', 'ciofs', 'creofs', 'dbofs', 'gomofs', 'leofs', 'lmhofs', 'loofs', 'lsofs', 'ngofs2', 'sfbofs', 'tbofs', 'wcofs'], 'nos')
 
-    def generate_output_key(self, src_key: str) -> str:
-        return generate_nos_output_key(src_key)
+    def read_file_metadata(self, key: str) -> FileMetadata:
+        # this will be specific per pipeline
+
+        '''in this case, the keys must come from the NewOFSObject notifications, looking like:
+           cbofs.20231022/nos.cbofs.fields.n006.20231022.t00z.nc
+           TODO: Standardize/clean key inputs, assert what our assumptions are
+        '''
+        parts = key.split('/')
+        model_name = parts[0].split('.')[0]
+        output_key = f'{model_name}/{parts[1]}.zarr'
+        offset, model_date, model_hour = re.search(r'[f|n](\d{3}).(\d{8}).t(\d{2})', key).groups()
+        
+        return FileMetadata(key, model_name, model_date, model_hour, int(offset), output_key)
+
 
     def generate_kerchunk(self, region: str, src_bucket: str, src_key: str, dest_bucket: str, dest_key: str, dest_prefix: str):
         generate_kerchunked(src_bucket, src_key, dest_key, dest_bucket, dest_prefix)
-
+    
 
 def parse_nos_model_run_datestamp(key: str) -> Tuple[str, str]:
     '''
@@ -64,17 +77,6 @@ def generate_nos_best_time_series_glob_expression(key: str) -> str:
     '''
     prefix, postfix = re.search(r'(.*).f\d{3}.\d{8}.t\d{2}z.(.*)', key).groups()
     return f'{prefix}.f*.*.t*z.{postfix}'
-
-
-def generate_nos_output_key(key: str) -> str:
-    '''
-    Generate the output file key for a given input key and destination bucket and prefix:
-        'tbofs.20230314/nos.tbofs.fields.n002.20230314.t00z.nc'
-    The following output key will be generated: tbofs/nos.tbofs.fields.n002.20230314.t00z.nc.zarr'
-    '''
-    parts = key.split('/')
-    model_name = parts[0].split('.')[0]
-    return f'{model_name}/{parts[1]}.zarr'
 
 
 def generate_kerchunked_nos_model_run(region: str, bucket: str, key: str, concat_dims=List[str], identical_dims=List[str]):

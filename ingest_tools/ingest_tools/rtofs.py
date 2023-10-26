@@ -4,6 +4,7 @@ from typing import Tuple
 
 import fsspec
 import ujson
+from ingest_tools.filemetadata import FileMetadata
 from ingest_tools.pipeline import Pipeline
 from kerchunk.combine import MultiZarrToZarr
 
@@ -15,16 +16,18 @@ class RTOFS_Pipeline(Pipeline):
     def __init__(self) -> None:
         super().__init__('.nc', ['rtofs'], 'rtofs')
 
-    def generate_output_key(self, src_key: str) -> str:
+    def read_file_metadata(self, key: str) -> FileMetadata:
         '''
         Generate the output file key for a given input key and destination bucket and prefix:
             'rtofs.20230922/rtofs_glo_2ds_f001_diag.nc'
         The following output key will be generated: rtofs.20230922.rtofs_glo_2ds_f001_diag.nc.zarr'
         '''
-        components = src_key.split('/')
+        components = key.split('/')
         model_date = components[-2]
         filename = components[-1]
-        return f'{model_date}.{filename}.zarr'
+        output_key = f'{model_date}.{filename}.zarr'
+        model_date_formatted, offset = parse_rtofs_model_run_datestamp_offset(key)        
+        return FileMetadata(key, 'rtofs', model_date_formatted, str(offset), offset, output_key)
 
     def generate_kerchunk(self, region: str, src_bucket: str, src_key: str, dest_bucket: str, dest_key: str, dest_prefix: str):
         generate_kerchunked(src_bucket, src_key, dest_key, dest_bucket, dest_prefix)
