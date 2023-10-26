@@ -110,7 +110,9 @@ def generate_kerchunked_nos_model_run(region: str, bucket: str, key: str, concat
 
     d = mzz.translate()
 
-    outkey = model_run_glob.replace('f*', model_run_type.name.lower())
+    model_run_type_name = model_run_type.name.lower()
+    outkey = model_run_glob.replace('f*', model_run_type_name).replace('n*', model_run_type_name)
+
     outurl = f's3://{bucket}/{outkey}'
 
     print(f'Writing zarr model aggregation to {outurl}')
