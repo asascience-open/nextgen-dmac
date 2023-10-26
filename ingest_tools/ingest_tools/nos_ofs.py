@@ -83,7 +83,7 @@ def generate_kerchunked_nos_model_run(region: str, bucket: str, key: str, concat
     '''
     try:
         model_date, model_hour = parse_nos_model_run_datestamp(key)
-        model_run_glob = generate_nos_model_run_glob_expression(key, model_date, model_hour)
+        model_run_glob, model_run_type = generate_nos_model_run_glob_expression(key, model_date, model_hour)
     except Exception as e:
         print(f'Failed to parse model run date and hour from key {key}: {e}. Skipping...')
         return
@@ -108,7 +108,7 @@ def generate_kerchunked_nos_model_run(region: str, bucket: str, key: str, concat
 
     d = mzz.translate()
 
-    outkey = model_run_glob.replace('.f*', '')
+    outkey = model_run_glob.replace('f*', model_run_type.name.lower())
     outurl = f's3://{bucket}/{outkey}'
 
     print(f'Writing zarr model aggregation to {outurl}')
