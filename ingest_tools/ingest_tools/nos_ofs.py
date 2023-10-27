@@ -72,7 +72,8 @@ def generate_nos_model_run_glob_expression(key: str, model_date: str, model_hour
     '''
     prefix, run_type, postfix = re.search(r'(.*).([f|n])\d{3}.\d{8}.t\d{2}z.(.*)', key).groups()
     model_run_type = ModelRunType.from_offset_prefix(run_type)
-    return f'{prefix}.{run_type}*.{model_date}.t{model_hour}z.{postfix}', model_run_type
+    glob_expression = '[0-9][0-9][0-9]'
+    return f'{prefix}.{run_type}{glob_expression}.{model_date}.t{model_hour}z.{postfix}', model_run_type
 
 
 def generate_nos_best_time_series_glob_expression(key: str) -> str:
@@ -82,7 +83,8 @@ def generate_nos_best_time_series_glob_expression(key: str) -> str:
     The following expression will be created: nos/nos.dbofs.fields.f*.*.t*z.nc.zarr'
     '''
     prefix, postfix = re.search(r'(.*).f\d{3}.\d{8}.t\d{2}z.(.*)', key).groups()
-    return f'{prefix}.f*.*.t*z.{postfix}'
+    glob_expression = 'f[0-9][0-9][0-9]'
+    return f'{prefix}.{glob_expression}.*.t*z.{postfix}'
 
 
 def generate_kerchunked_nos_model_run(region: str, bucket: str, key: str, concat_dims=List[str], identical_dims=List[str]):
