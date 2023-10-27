@@ -1,5 +1,5 @@
 import pytest
-from ingest_tools.nos_ofs import NOS_Pipeline
+from ingest_tools.nos_ofs import NOS_Pipeline, ROMS_Agg_Pipeline
 from ingest_tools.pipeline import Pipeline, PipelineContext
 from ingest_tools.rtofs import RTOFS_Pipeline
 
@@ -35,7 +35,7 @@ def test_pipeline_context():
 # TODO: Can create a generic function passing in the filemetadata object for validation
 def test_filemetadata():
     key = 'cbofs.20231022/nos.cbofs.fields.n006.20231022.t00z.nc'
-    pipeline = NOS_Pipeline()
+    pipeline = ROMS_Agg_Pipeline()
     assert pipeline.accepts(key)
     m = pipeline.read_file_metadata(key)        
     assert m.source_key == key
