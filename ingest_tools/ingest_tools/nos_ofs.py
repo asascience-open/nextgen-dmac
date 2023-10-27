@@ -4,7 +4,7 @@ from typing import List, Tuple
 
 import fsspec
 import ujson
-from ingest_tools.pipeline import Pipeline
+from ingest_tools.pipeline import Pipeline, AggPipeline
 from ingest_tools.filemetadata import FileMetadata
 from kerchunk.combine import MultiZarrToZarr
 
@@ -15,6 +15,24 @@ class NOS_Pipeline(Pipeline):
 
     def __init__(self) -> None:
         super().__init__('.nc', ['cbofs', 'ciofs', 'creofs', 'dbofs', 'gomofs', 'leofs', 'lmhofs', 'loofs', 'lsofs', 'ngofs2', 'sfbofs', 'tbofs', 'wcofs'], 'nos')
+
+    def read_file_metadata(self, key: str) -> FileMetadata:
+        pass
+
+    def generate_kerchunk_output_key(self, key: str) -> str:
+        '''This should be replaced eventually'''
+        parts = key.split('/')
+        model_name = parts[0].split('.')[0]
+        return f'{model_name}/{parts[1]}.zarr'
+
+    def generate_kerchunk(self, region: str, src_bucket: str, src_key: str, dest_bucket: str, dest_key: str, dest_prefix: str):
+        generate_kerchunked(src_bucket, src_key, dest_key, dest_bucket, dest_prefix)
+
+
+class ROMS_Agg_Pipeline(AggPipeline):
+
+    def __init__(self) -> None:
+        super().__init__(["cbofs", "ciofs", "dbofs", 'gomofs', "tbofs", "wcofs"])
 
     def read_file_metadata(self, key: str) -> FileMetadata:
         # this will be specific per pipeline
@@ -31,15 +49,136 @@ class NOS_Pipeline(Pipeline):
         
         return FileMetadata(key, model_name, model_date, model_hour, int(offset), output_key)
 
-    def generate_kerchunk_output_key(self, key: str) -> str:
-        '''This should be replaced eventually'''
-        parts = key.split('/')
-        model_name = parts[0].split('.')[0]
-        return f'{model_name}/{parts[1]}.zarr'
+    def generate_kerchunk(self, bucket: str, key: str):
+        self.generate_kerchunked_nos_roms_model_run(bucket, key)
+        self.generate_kerchunked_nos_roms_best_time_series(bucket, key)
+    
+    def generate_kerchunked_nos_roms_model_run(bucket: str, key: str):
+        '''
+        Generate or update the multizarr kerchunked aggregation for the model run that the specified file belongs to
+        '''
+        generate_kerchunked_nos_model_run(
+            bucket=bucket, 
+            key=key, 
+            concat_dims=['ocean_time'], 
+            identical_dims=[
+                'eta_rho', 
+                'xi_rho', 
+                's_rho', 
+                'eta_psi', 
+                'xi_psi', 
+                's_w', 
+                'eta_u', 
+                'xi_u', 
+                'eta_v', 
+                'xi_v', 
+                'lat_rho', 
+                'lat_psi', 
+                'lat_u', 
+                'lat_v', 
+                'lon_rho', 
+                'lon_psi', 
+                'lon_u', 
+                'lon_v'
+            ])
+                
+    def generate_kerchunked_nos_roms_best_time_series(bucket: str, key: str):
+        '''
+        Generate or update the best time series kerchunked aggregation for the model run. If the specified file is not in the best time series, 
+        then the best time series aggregation will not be updated
+        '''
+        generate_kerchunked_nos_best_time_series(
+            bucket=bucket,
+            key=key,
+            concat_dims=['ocean_time'],
+            identical_dims=[ # TODO: These are the same as above, easily configurable
+                'eta_rho', 
+                'xi_rho', 
+                's_rho', 
+                'eta_psi', 
+                'xi_psi', 
+                's_w', 
+                'eta_u', 
+                'xi_u', 
+                'eta_v', 
+                'xi_v', 
+                'lat_rho', 
+                'lat_psi', 
+                'lat_u', 
+                'lat_v', 
+                'lon_rho', 
+                'lon_psi', 
+                'lon_u', 
+                'lon_v'
+            ]
+        )
 
-    def generate_kerchunk(self, region: str, src_bucket: str, src_key: str, dest_bucket: str, dest_key: str, dest_prefix: str):
-        generate_kerchunked(src_bucket, src_key, dest_key, dest_bucket, dest_prefix)
 
+class FVCOM_Agg_Pipeline(AggPipeline):
+    def __init__(self) -> None:
+        super().__init__(["leofs", "lmhofs", "loofs", 'lsofs', "ngofs2", "sfbofs"])
+
+    def generate_kerchunk(self, bucket: str, key: str):
+        self.generate_kerchunked_nos_fvcom_model_run(bucket, key)
+        self.generate_kerchunked_nos_fvcom_best_time_series(bucket, key)
+
+    
+    def generate_kerchunked_nos_fvcom_model_run(bucket: str, key: str):
+        '''
+        Generate or update the multizarr kerchunked aggregation for the model run that the specified file belongs to
+        '''
+        generate_kerchunked_nos_model_run(
+            bucket=bucket,
+            key=key,
+            concat_dims=['time'],
+            identical_dims=['lon', 'lat', 'lonc', 'latc', 'siglay', 'siglev', 'nele', 'node']
+        )
+
+    def generate_kerchunked_nos_fvcom_best_time_series(bucket: str, key: str):
+        '''
+        Generate or update the best time series kerchunked aggregation for the model run. If the specified file is not in the best time series, 
+        then the best time series aggregation will not be updated
+        '''
+        generate_kerchunked_nos_best_time_series(
+            bucket=bucket,
+            key=key,
+            concat_dims=['time'],
+            identical_dims=['lon', 'lat', 'lonc', 'latc', 'siglay', 'siglev', 'nele', 'node']
+        )
+
+
+class SELFE_Agg_Pipeline(AggPipeline):
+
+    def __init__(self) -> None:
+        super().__init__(['creofs'])
+
+    def generate_kerchunk(self, bucket: str, key: str):
+        self.generate_kerchunked_nos_selfe_model_run(bucket, key)
+        self.generate_kerchunked_nos_selfe_best_time_series(bucket, key)
+
+    def generate_kerchunked_nos_selfe_model_run(bucket: str, key: str):
+        '''
+        Generate or update the multizarr kerchunked aggregation for the model run that the specified file belongs to
+        '''
+        generate_kerchunked_nos_model_run(
+            bucket=bucket,
+            key=key,
+            concat_dims=['time'],
+            identical_dims=['lon', 'lat', 'sigma']
+        )
+
+    def generate_kerchunked_nos_selfe_best_time_series(region: str, bucket: str, key: str):
+        '''
+        Generate or update the best time series kerchunked aggregation for the model run. If the specified file is not in the best time series, 
+        then the best time series aggregation will not be updated
+        '''
+        generate_kerchunked_nos_best_time_series(
+            bucket=bucket,
+            key=key,
+            concat_dims=['time'],
+            identical_dims=['lon', 'lat', 'sigma']
+        )
+        
 
 def parse_nos_model_run_datestamp(key: str) -> Tuple[str, str]:
     '''
@@ -87,7 +226,7 @@ def generate_nos_best_time_series_glob_expression(key: str) -> str:
     return f'{prefix}.{glob_expression}.*.t*z.{postfix}'
 
 
-def generate_kerchunked_nos_model_run(region: str, bucket: str, key: str, concat_dims=List[str], identical_dims=List[str]):
+def generate_kerchunked_nos_model_run(bucket: str, key: str, concat_dims=List[str], identical_dims=List[str]):
     '''
     Generate or update the multizarr kerchunked aggregation for the model run that the specified file belongs to
     '''
@@ -130,64 +269,7 @@ def generate_kerchunked_nos_model_run(region: str, bucket: str, key: str, concat
     print(f'Successfully updated {outurl} NOS aggregation')
 
 
-def generate_kerchunked_nos_roms_model_run(region: str, bucket: str, key: str):
-    '''
-    Generate or update the multizarr kerchunked aggregation for the model run that the specified file belongs to
-    '''
-    generate_kerchunked_nos_model_run(
-        region=region, 
-        bucket=bucket, 
-        key=key, 
-        concat_dims=['ocean_time'], 
-        identical_dims=[
-            'eta_rho', 
-            'xi_rho', 
-            's_rho', 
-            'eta_psi', 
-            'xi_psi', 
-            's_w', 
-            'eta_u', 
-            'xi_u', 
-            'eta_v', 
-            'xi_v', 
-            'lat_rho', 
-            'lat_psi', 
-            'lat_u', 
-            'lat_v', 
-            'lon_rho', 
-            'lon_psi', 
-            'lon_u', 
-            'lon_v'
-        ])
-
-
-def generate_kerchunked_nos_fvcom_model_run(region: str, bucket: str, key: str):
-    '''
-    Generate or update the multizarr kerchunked aggregation for the model run that the specified file belongs to
-    '''
-    generate_kerchunked_nos_model_run(
-        region=region,
-        bucket=bucket,
-        key=key,
-        concat_dims=['time'],
-        identical_dims=['lon', 'lat', 'lonc', 'latc', 'siglay', 'siglev', 'nele', 'node']
-    )
-
-
-def generate_kerchunked_nos_selfe_model_run(region: str, bucket: str, key: str):
-    '''
-    Generate or update the multizarr kerchunked aggregation for the model run that the specified file belongs to
-    '''
-    generate_kerchunked_nos_model_run(
-        region=region,
-        bucket=bucket,
-        key=key,
-        concat_dims=['time'],
-        identical_dims=['lon', 'lat', 'sigma']
-    )
-
-
-def generate_kerchunked_nos_best_time_series(region: str, bucket: str, key: str, concat_dims=List[str], identical_dims=List[str]):
+def generate_kerchunked_nos_best_time_series(bucket: str, key: str, concat_dims=List[str], identical_dims=List[str]):
     '''
     Generate or update the best time series kerchunked aggregation for the model run. If the specified file is not in the best time series, 
     then the best time series aggregation will not be updated
@@ -245,64 +327,3 @@ def generate_kerchunked_nos_best_time_series(region: str, bucket: str, key: str,
         ofile.write(ujson.dumps(d))
     
     print(f'Successfully updated {outurl} NOS best time series aggregation')
-
-
-def generate_kerchunked_nos_roms_best_time_series(region: str, bucket: str, key: str):
-    '''
-    Generate or update the best time series kerchunked aggregation for the model run. If the specified file is not in the best time series, 
-    then the best time series aggregation will not be updated
-    '''
-    generate_kerchunked_nos_best_time_series(
-        region=region,
-        bucket=bucket,
-        key=key,
-        concat_dims=['ocean_time'],
-        identical_dims=[
-            'eta_rho', 
-            'xi_rho', 
-            's_rho', 
-            'eta_psi', 
-            'xi_psi', 
-            's_w', 
-            'eta_u', 
-            'xi_u', 
-            'eta_v', 
-            'xi_v', 
-            'lat_rho', 
-            'lat_psi', 
-            'lat_u', 
-            'lat_v', 
-            'lon_rho', 
-            'lon_psi', 
-            'lon_u', 
-            'lon_v'
-        ]
-    )
-
-
-def generate_kerchunked_nos_fvcom_best_time_series(region: str, bucket: str, key: str):
-    '''
-    Generate or update the best time series kerchunked aggregation for the model run. If the specified file is not in the best time series, 
-    then the best time series aggregation will not be updated
-    '''
-    generate_kerchunked_nos_best_time_series(
-        region=region,
-        bucket=bucket,
-        key=key,
-        concat_dims=['time'],
-        identical_dims=['lon', 'lat', 'lonc', 'latc', 'siglay', 'siglev', 'nele', 'node']
-    )
-
-
-def generate_kerchunked_nos_selfe_best_time_series(region: str, bucket: str, key: str):
-    '''
-    Generate or update the best time series kerchunked aggregation for the model run. If the specified file is not in the best time series, 
-    then the best time series aggregation will not be updated
-    '''
-    generate_kerchunked_nos_best_time_series(
-        region=region,
-        bucket=bucket,
-        key=key,
-        concat_dims=['time'],
-        identical_dims=['lon', 'lat', 'sigma']
-    )

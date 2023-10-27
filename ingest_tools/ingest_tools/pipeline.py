@@ -3,7 +3,7 @@ import typing
 
 from ingest_tools.filemetadata import FileMetadata
 from .filters import key_contains
-
+ 
 
 class Pipeline(ABC):
 
@@ -41,6 +41,23 @@ class Pipeline(ABC):
 
     @abstractmethod
     def generate_kerchunk(self, region: str, src_bucket: str, src_key: str, dest_bucket: str, dest_key: str, dest_prefix: str):
+        pass
+
+
+class AggPipeline(ABC):
+
+    def __init__(self, filters: typing.List[str]) -> None:
+        self.filters = filters
+
+    def accepts(self, key) -> bool:
+        # The pipeline's message filters must match
+        if key_contains(key, self.filters):
+            return True
+        
+        return False
+
+    @abstractmethod
+    def generate_kerchunk(self, bucket: str, key: str):
         pass
 
     
