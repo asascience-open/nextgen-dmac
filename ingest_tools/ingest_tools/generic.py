@@ -38,7 +38,7 @@ class FileFormat(Enum):
                 return FileFormat.NETCDF
             elif raw[3] == 2:
                 return FileFormat.NETCDF_64BIT
-        elif raw[0:3] == b'\x89HDF':
+        elif raw[0:4] == b'\x89HDF':
             return FileFormat.HDF
         elif raw[0:4] == b'GRIB':
             return FileFormat.GRIB2
