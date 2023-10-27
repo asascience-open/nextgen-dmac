@@ -36,6 +36,7 @@ def test_pipeline_context():
 def test_filemetadata():
     key = 'cbofs.20231022/nos.cbofs.fields.n006.20231022.t00z.nc'
     pipeline = NOS_Pipeline()
+    assert pipeline.accepts(key)
     m = pipeline.read_file_metadata(key)        
     assert m.source_key == key
     assert m.dataset_id == 'cbofs'
@@ -57,3 +58,17 @@ def test_filemetadata_rtofs():
     assert m.model_hour == '1'
     assert m.offset == 1
     assert m.output_key == 'rtofs.20230922.rtofs_glo_2ds_f001_diag.nc.zarr'
+
+
+@pytest.mark.xfail
+def test_failing_key():
+    key = 'loofs.20231026/nos.loofs.met.forecast.20231026.t12z.nc'
+    pipeline = NOS_Pipeline()
+    assert pipeline.accepts(key)
+    m = pipeline.read_file_metadata(key)        
+    assert m.source_key == key
+    assert m.dataset_id == 'loofs'
+    assert m.model_date == '20231026'
+    assert m.model_hour == '12'
+    assert m.offset == 12
+    assert m.output_key == 'loofs/nos.loofs.met.forecast.20231026.t12z.nc.zarr'
