@@ -32,10 +32,6 @@ class Pipeline(ABC):
         self.generate_kerchunk(region, src_bucket, src_key, dest_bucket, output_key, self.dest_prefix)
 
     @abstractmethod
-    def read_file_metadata(self, key: str) -> FileMetadata:
-        pass
-
-    @abstractmethod
     def generate_kerchunk_output_key(self, key: str) -> str:
         pass
 
@@ -55,6 +51,10 @@ class AggPipeline(ABC):
             return True
         
         return False
+    
+    @abstractmethod
+    def read_file_metadata(self, key: str) -> FileMetadata:
+        pass
 
     @abstractmethod
     def generate_kerchunk(self, bucket: str, key: str):

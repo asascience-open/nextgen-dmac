@@ -16,19 +16,6 @@ class RTOFS_Pipeline(Pipeline):
     def __init__(self) -> None:
         super().__init__('.nc', ['rtofs'], 'rtofs')
 
-    def read_file_metadata(self, key: str) -> FileMetadata:
-        '''
-        Generate the output file key for a given input key and destination bucket and prefix:
-            'rtofs.20230922/rtofs_glo_2ds_f001_diag.nc'
-        The following output key will be generated: rtofs.20230922.rtofs_glo_2ds_f001_diag.nc.zarr'
-        '''
-        components = key.split('/')
-        model_date = components[-2]
-        filename = components[-1]
-        output_key = f'{model_date}.{filename}.zarr'
-        model_date_formatted, offset = parse_rtofs_model_run_datestamp_offset(key)        
-        return FileMetadata(key, 'rtofs', model_date_formatted, str(offset), offset, output_key)
-
     def generate_kerchunk_output_key(self, key: str) -> str:
         '''This should be replaced eventually'''
         components = key.split('/')
@@ -44,6 +31,19 @@ class RTOFS_Agg_Pipeline(AggPipeline):
 
     def __init__(self) -> None:
         super().__init__(['rtofs'])
+
+    def read_file_metadata(self, key: str) -> FileMetadata:
+        '''
+        Generate the output file key for a given input key and destination bucket and prefix:
+            'rtofs.20230922/rtofs_glo_2ds_f001_diag.nc'
+        The following output key will be generated: rtofs.20230922.rtofs_glo_2ds_f001_diag.nc.zarr'
+        '''
+        components = key.split('/')
+        model_date = components[-2]
+        filename = components[-1]
+        output_key = f'{model_date}.{filename}.zarr'
+        model_date_formatted, offset = parse_rtofs_model_run_datestamp_offset(key)        
+        return FileMetadata(key, 'rtofs', model_date_formatted, str(offset), offset, output_key)
 
     def generate_kerchunk(self, bucket: str, key: str):
         generate_kerchunked_rtofs_best_time_series(bucket, key)

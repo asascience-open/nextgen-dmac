@@ -1,14 +1,14 @@
 import pytest
-from ingest_tools.nos_ofs import NOS_Pipeline, ROMS_Agg_Pipeline
+from ingest_tools.nos_ofs import FVCOM_Agg_Pipeline, NOS_Pipeline, ROMS_Agg_Pipeline
 from ingest_tools.pipeline import Pipeline, PipelineContext
-from ingest_tools.rtofs import RTOFS_Pipeline
+from ingest_tools.rtofs import RTOFS_Agg_Pipeline, RTOFS_Pipeline
 
 
 # TODO: This is simply a demonstration, but we can make this more robust to automatically test all available pipelines
 @pytest.mark.parametrize('test_input', [
-    [RTOFS_Pipeline(), 'rtofs.20230922/rtofs_glo_2ds_f001_diag.nc', 'rtofs.20230922.rtofs_glo_2ds_f001_diag.nc.zarr'],
-    [NOS_Pipeline(), 'tbofs.20230314/nos.tbofs.fields.n002.20230314.t00z.nc', 'tbofs/nos.tbofs.fields.n002.20230314.t00z.nc.zarr'],
-    [NOS_Pipeline(), 'ngofs2/nos.ngofs2.fields.f042.20231003.t09z.nc', 'ngofs2/nos.ngofs2.fields.f042.20231003.t09z.nc.zarr']
+    [RTOFS_Agg_Pipeline(), 'rtofs.20230922/rtofs_glo_2ds_f001_diag.nc', 'rtofs.20230922.rtofs_glo_2ds_f001_diag.nc.zarr'],
+    [ROMS_Agg_Pipeline(), 'tbofs.20230314/nos.tbofs.fields.n002.20230314.t00z.nc', 'tbofs/nos.tbofs.fields.n002.20230314.t00z.nc.zarr'],
+    [FVCOM_Agg_Pipeline(), 'ngofs2/nos.ngofs2.fields.f042.20231003.t09z.nc', 'ngofs2/nos.ngofs2.fields.f042.20231003.t09z.nc.zarr']
     ])
 def test_pipelines(test_input):
     pipeline = test_input[0]
@@ -48,7 +48,7 @@ def test_filemetadata():
 
 def test_filemetadata_rtofs():
     key = 'rtofs.20230922/rtofs_glo_2ds_f001_diag.nc'
-    pipeline = RTOFS_Pipeline()
+    pipeline = RTOFS_Agg_Pipeline()
     m = pipeline.read_file_metadata(key)        
     assert m.source_key == key
     assert m.dataset_id == 'rtofs'

@@ -16,9 +16,6 @@ class NOS_Pipeline(Pipeline):
     def __init__(self) -> None:
         super().__init__('.nc', ['cbofs', 'ciofs', 'creofs', 'dbofs', 'gomofs', 'leofs', 'lmhofs', 'loofs', 'lsofs', 'ngofs2', 'sfbofs', 'tbofs', 'wcofs'], 'nos')
 
-    def read_file_metadata(self, key: str) -> FileMetadata:
-        pass
-
     def generate_kerchunk_output_key(self, key: str) -> str:
         '''This should be replaced eventually'''
         parts = key.split('/')
@@ -56,19 +53,7 @@ class ROMS_Agg_Pipeline(AggPipeline):
         self.concat_dims = ['ocean_time']
 
     def read_file_metadata(self, key: str) -> FileMetadata:
-        # this will be specific per pipeline
-
-        '''in this case, the keys must come from the NewOFSObject notifications, looking like:
-           cbofs.20231022/nos.cbofs.fields.n006.20231022.t00z.nc
-           TODO: Standardize/clean key inputs, assert what our assumptions are
-        '''
-        parts = key.split('/')
-        model_name = parts[0].split('.')[0]
-        output_key = f'{model_name}/{parts[1]}.zarr'
-        output_key = self.generate_kerchunk_output_key(output_key)
-        offset, model_date, model_hour = re.search(r'[f|n](\d{3}).(\d{8}).t(\d{2})', key).groups()
-        
-        return FileMetadata(key, model_name, model_date, model_hour, int(offset), output_key)
+        return read_nos_file_metadata(key)
 
     def generate_kerchunk(self, bucket: str, key: str):
         self.generate_kerchunked_nos_roms_model_run(bucket, key)
@@ -98,10 +83,14 @@ class ROMS_Agg_Pipeline(AggPipeline):
 
 
 class FVCOM_Agg_Pipeline(AggPipeline):
+
     def __init__(self) -> None:
         super().__init__(["leofs", "lmhofs", "loofs", 'lsofs', "ngofs2", "sfbofs"])
         self.identical_dims = ['lon', 'lat', 'lonc', 'latc', 'siglay', 'siglev', 'nele', 'node']
         self.concat_dims = ['time']
+
+    def read_file_metadata(self, key: str) -> FileMetadata:
+        return read_nos_file_metadata(key)
 
     def generate_kerchunk(self, bucket: str, key: str):
         self.generate_kerchunked_nos_fvcom_model_run(bucket, key)
@@ -139,6 +128,9 @@ class SELFE_Agg_Pipeline(AggPipeline):
         self.identical_dims = ['lon', 'lat', 'sigma']
         self.concat_dims = ['time']
 
+    def read_file_metadata(self, key: str) -> FileMetadata:
+        return read_nos_file_metadata(key)
+
     def generate_kerchunk(self, bucket: str, key: str):
         self.generate_kerchunked_nos_selfe_model_run(bucket, key)
         self.generate_kerchunked_nos_selfe_best_time_series(bucket, key)
@@ -165,6 +157,28 @@ class SELFE_Agg_Pipeline(AggPipeline):
             concat_dims=self.concat_dims,
             identical_dims=self.identical_dims
         )
+
+
+# TODO: Make this into a generic class function (Generic_NOS_Pipeline class or something)
+def read_nos_file_metadata(key: str) -> FileMetadata:
+    # this will be specific per pipeline
+
+    '''in this case, the keys must come from the NewOFSObject notifications, looking like:
+        cbofs.20231022/nos.cbofs.fields.n006.20231022.t00z.nc
+        TODO: Standardize/clean key inputs, assert what our assumptions are
+    '''
+    parts = key.split('/')
+    model_name = parts[0].split('.')[0]
+    output_key = f'{model_name}/{parts[1]}.zarr'
+    offset, model_date, model_hour = re.search(r'[f|n](\d{3}).(\d{8}).t(\d{2})', key).groups()
+    return FileMetadata(key, model_name, model_date, model_hour, int(offset), output_key)
+
+
+def generate_kerchunk_output_key(key: str) -> str:
+        '''This should be replaced eventually'''
+        parts = key.split('/')
+        model_name = parts[0].split('.')[0]
+        return f'{model_name}/{parts[1]}.zarr'
 
 
 def parse_nos_model_run_datestamp(key: str) -> Tuple[str, str]:
