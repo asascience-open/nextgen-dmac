@@ -119,7 +119,7 @@ def generate_kerchunked_nos_model_run(region: str, bucket: str, key: str, concat
     d = mzz.translate()
 
     model_run_type_name = model_run_type.name.lower()
-    outkey = model_run_glob.replace('f*', model_run_type_name).replace('n*', model_run_type_name)
+    outkey = model_run_glob.replace('f[0-9][0-9][0-9]', model_run_type_name).replace('n[0-9][0-9][0-9]', model_run_type_name)
 
     outurl = f's3://{bucket}/{outkey}'
 
@@ -237,7 +237,7 @@ def generate_kerchunked_nos_best_time_series(region: str, bucket: str, key: str,
 
     d = mzz.translate()
 
-    outkey = best_time_series_glob.replace('f*', 'best').replace('.*.t*z', '')
+    outkey = best_time_series_glob.replace('f[0-9][0-9][0-9]', 'best').replace('.*.t*z', '')
     outurl = f's3://{bucket}/{outkey}'
 
     print(f'Writing zarr best time series aggregation to {outurl}')
