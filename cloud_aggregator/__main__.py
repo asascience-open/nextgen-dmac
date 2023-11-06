@@ -114,7 +114,7 @@ aggregation_lambda = LocalDockerLambda(
     name="aggregate-nos-zarr", 
     repo="nextgen-dmac-aggregation",
     path='./aggregation',
-    timeout=120,
+    timeout=240,
     memory_size=1536,
     concurrency=6,
 )
