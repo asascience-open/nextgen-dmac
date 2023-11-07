@@ -84,8 +84,7 @@ ingest_lambda.subscribe_to_sqs(
 
 # First create an SNS topic for the bucket notifications
 ingest_bucket_notifications_topic = sns.Topic(
-    'ingest-bucket-notifications-topic',
-    name='ingest-object-updated'
+    'ingest-bucket-object-notification',
 )
 
 # Subscribe the bucket object notifications to the SNS topic
