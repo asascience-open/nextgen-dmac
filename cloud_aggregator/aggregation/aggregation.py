@@ -1,4 +1,5 @@
-from ingest_tools.nos_ofs import ROMS_Agg_Pipeline, FVCOM_Agg_Pipeline, SELFE_Agg_Pipeline, RTOFS_Agg_Pipeline
+from ingest_tools.nos_ofs import ROMS_Agg_Pipeline, FVCOM_Agg_Pipeline, SELFE_Agg_Pipeline
+from ingest_tools.rtofs import RTOFS_Agg_Pipeline
 from ingest_tools.aws import parse_s3_sqs_payload
 
 
@@ -18,14 +19,14 @@ def handler(event, context):
     region, bucket, key = parse_s3_sqs_payload(payload)
 
     pipelines = []
-    pipelines.add(ROMS_Agg_Pipeline())
-    pipelines.add(FVCOM_Agg_Pipeline())
-    pipelines.add(SELFE_Agg_Pipeline())
-    pipelines.add(RTOFS_Agg_Pipeline())
+    pipelines.append(ROMS_Agg_Pipeline())
+    pipelines.append(FVCOM_Agg_Pipeline())
+    pipelines.append(SELFE_Agg_Pipeline())
+    pipelines.append(RTOFS_Agg_Pipeline())
 
     ran=False
     for p in pipelines:        
-        pipeline = pipelines[p]
+        pipeline = p
         if pipeline.accepts(key):
             ran=True
             pipeline.generate_kerchunk(bucket, key)
