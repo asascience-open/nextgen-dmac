@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 import typing
 
 from ingest_tools.filemetadata import FileMetadata
+from ingest_tools.pipelineconfig import PipelineConfig
 from .filters import key_contains
  
 
@@ -42,12 +44,14 @@ class Pipeline(ABC):
 
 class AggPipeline(ABC):
 
-    def __init__(self, filters: typing.List[str]) -> None:
-        self.filters = filters
+    def __init__(self, config: PipelineConfig) -> None:
+        if config is None:
+            raise ValueError('Pipeline configuration is missing')
+        self.config = config
 
     def accepts(self, key) -> bool:
         # The pipeline's message filters must match
-        if key_contains(key, self.filters):
+        if key_contains(key, self.config.filters):
             return True
         
         return False

@@ -1,4 +1,5 @@
-from ingest_tools.nos_ofs import ROMS_Agg_Pipeline, FVCOM_Agg_Pipeline, SELFE_Agg_Pipeline
+from ingest_tools.pipelineconfig import ConfigContext
+from ingest_tools.nos_ofs import NOS_Agg_Pipeline
 from ingest_tools.rtofs import RTOFS_Agg_Pipeline
 from ingest_tools.aws import parse_s3_sqs_payload
 
@@ -19,10 +20,11 @@ def handler(event, context):
     region, bucket, key = parse_s3_sqs_payload(payload)
 
     pipelines = []
-    pipelines.append(ROMS_Agg_Pipeline())
-    pipelines.append(FVCOM_Agg_Pipeline())
-    pipelines.append(SELFE_Agg_Pipeline())
-    pipelines.append(RTOFS_Agg_Pipeline())
+    cc = ConfigContext()
+    pipelines.append(NOS_Agg_Pipeline(cc.get_config('roms')))
+    pipelines.append(NOS_Agg_Pipeline(cc.get_config('fvcom')))
+    pipelines.append(NOS_Agg_Pipeline(cc.get_config('selfe')))
+    pipelines.append(RTOFS_Agg_Pipeline(cc.get_config('rtofs')))
 
     ran=False
     for p in pipelines:        

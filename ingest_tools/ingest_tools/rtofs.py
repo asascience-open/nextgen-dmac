@@ -5,7 +5,8 @@ from typing import Tuple
 import fsspec
 import ujson
 from ingest_tools.filemetadata import FileMetadata
-from ingest_tools.pipeline import AggPipeline, Pipeline
+from ingest_tools.pipelineconfig import ConfigContext
+from ingest_tools.pipeline import AggPipeline, Pipeline, PipelineConfig
 from kerchunk.combine import MultiZarrToZarr
 
 from .generic import generate_kerchunked
@@ -28,9 +29,6 @@ class RTOFS_Pipeline(Pipeline):
 
 
 class RTOFS_Agg_Pipeline(AggPipeline):
-
-    def __init__(self) -> None:
-        super().__init__(['rtofs'])
 
     def read_file_metadata(self, key: str) -> FileMetadata:
         '''
@@ -120,7 +118,7 @@ def generate_kerchunked_rtofs_best_time_series(bucket: str, key: str):
     model_run_file_count = len(model_best_files)
     print(f'Aggregating {model_run_file_count} model files for best time series aggregation...')
 
-    # TODO: Generalize this somehow? 
+    # TODO: Use the values from config object
     mzz = MultiZarrToZarr(
         model_best_files, 
         remote_protocol='s3', 
