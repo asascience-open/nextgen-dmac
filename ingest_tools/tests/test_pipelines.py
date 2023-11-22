@@ -24,7 +24,7 @@ def test_pipelines(test_input):
 
 
 def test_pipeline_context():
-    context = PipelineContext('us-east-1', 'nextgen-dmac')
+    context = PipelineContext()
     context.add_pipeline('nos', NOS_Pipeline(ConfigContext().get_config('nos_kerchunk')))
     context.add_pipeline('rtofs', RTOFS_Pipeline(ConfigContext().get_config('rtofs_kerchunk')))
 

@@ -64,21 +64,13 @@ class AggPipeline(ABC):
     
 class PipelineContext():
 
-    def __init__(self, region: str, dest_bucket: str) -> None:
-        self.region = region
-        self.dest_bucket = dest_bucket
+    def __init__(self) -> None:
         self.pipelines = {}
-
-    def get_region(self) -> str:
-        return self.region
     
-    def get_dest_bucket(self) -> str:
-        return self.dest_bucket
-    
-    def add_pipeline(self, name: str, pipeline: KerchunkPipeline):
+    def add_pipeline(self, name: str, pipeline):
         self.pipelines[name] = pipeline
 
-    def get_matching_pipelines(self, key: str) -> typing.List[KerchunkPipeline]:
+    def get_matching_pipelines(self, key: str):
         matching = []
         for p in self.pipelines:        
             pipeline = self.pipelines[p]

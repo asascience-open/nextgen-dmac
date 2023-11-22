@@ -73,3 +73,6 @@ class ConfigContext():
         if name in self.configs:
             return self.configs[name]
         return None
+    
+    def add_config(self, name: str, config):
+        self.configs[name] = config
