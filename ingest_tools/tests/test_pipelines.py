@@ -2,7 +2,7 @@ import pytest
 from ingest_tools.pipelineconfig import ConfigContext
 import ingest_tools.nos_ofs
 from ingest_tools.nos_ofs import NOS_Pipeline, NOS_Agg_Pipeline
-from ingest_tools.pipeline import Pipeline, PipelineContext
+from ingest_tools.pipeline import KerchunkPipeline, PipelineContext
 from ingest_tools.rtofs import RTOFS_Agg_Pipeline, RTOFS_Pipeline
 
 

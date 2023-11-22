@@ -46,6 +46,7 @@ class FileFormat(Enum):
             return FileFormat.UNKNOWN
 
 
+# TODO: Leaving this for now, but this could just be a method in the KerchunkPipeline class
 def generate_kerchunked(bucket: str, key: str, dest_key: str, dest_bucket: str, dest_prefix: str):
     '''
     Generate a kerchunked zarr file from a file in s3

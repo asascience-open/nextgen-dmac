@@ -3,15 +3,17 @@ from dataclasses import dataclass
 import typing
 
 from ingest_tools.filemetadata import FileMetadata
+from ingest_tools.generic import generate_kerchunked
 from ingest_tools.pipelineconfig import PipelineConfig
 from .filters import key_contains
  
 
-class Pipeline(ABC):
+class KerchunkPipeline(ABC):
 
-    def __init__(self, fileformat: str, filters: typing.List[str], dest_prefix: str) -> None:
+    def __init__(self, fileformat: str, filters: typing.List[str], dest_bucket: str, dest_prefix: str) -> None:
         self.fileformat = fileformat
         self.filters = filters
+        self.dest_bucket = dest_bucket
         self.dest_prefix = dest_prefix
     
     def accepts(self, key) -> bool:
@@ -26,21 +28,17 @@ class Pipeline(ABC):
         
         return False
     
-    def run(self, region: str, src_bucket: str, src_key: str, dest_bucket: str):
+    def run(self, region: str, src_bucket: str, src_key: str):
         # TODO: More of a listener pattern might work better
         #self.filemetadata = self.read_file_metadata(src_key)
         # status.log(filemetadata)
         output_key = self.generate_kerchunk_output_key(src_key)
-        self.generate_kerchunk(region, src_bucket, src_key, dest_bucket, output_key, self.dest_prefix)
+        generate_kerchunked(src_bucket, src_key, output_key, self.dest_bucket, self.dest_prefix)
 
     @abstractmethod
     def generate_kerchunk_output_key(self, key: str) -> str:
         pass
-
-    @abstractmethod
-    def generate_kerchunk(self, region: str, src_bucket: str, src_key: str, dest_bucket: str, dest_key: str, dest_prefix: str):
-        pass
-
+       
 
 class AggPipeline(ABC):
 
@@ -78,10 +76,10 @@ class PipelineContext():
     def get_dest_bucket(self) -> str:
         return self.dest_bucket
     
-    def add_pipeline(self, name: str, pipeline: Pipeline):
+    def add_pipeline(self, name: str, pipeline: KerchunkPipeline):
         self.pipelines[name] = pipeline
 
-    def get_matching_pipelines(self, key: str) -> typing.List[Pipeline]:
+    def get_matching_pipelines(self, key: str) -> typing.List[KerchunkPipeline]:
         matching = []
         for p in self.pipelines:        
             pipeline = self.pipelines[p]

@@ -7,7 +7,7 @@ class PipelineConfig():
 
     filters: typing.List[str]
     concat_dims: typing.List[str]
-    identical_dims: typing.List[str]   
+    identical_dims: typing.List[str]       
 
 
 ## TODO: Maybe singleton?

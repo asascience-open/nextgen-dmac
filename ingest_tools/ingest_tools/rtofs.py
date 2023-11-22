@@ -6,16 +6,14 @@ import fsspec
 import ujson
 from ingest_tools.filemetadata import FileMetadata
 from ingest_tools.pipelineconfig import ConfigContext
-from ingest_tools.pipeline import AggPipeline, Pipeline, PipelineConfig
+from ingest_tools.pipeline import AggPipeline, KerchunkPipeline, PipelineConfig
 from kerchunk.combine import MultiZarrToZarr
 
-from .generic import generate_kerchunked
 
-
-class RTOFS_Pipeline(Pipeline):
+class RTOFS_Pipeline(KerchunkPipeline):
     
     def __init__(self) -> None:
-        super().__init__('.nc', ['rtofs'], 'rtofs')
+        super().__init__('.nc', ['rtofs'], "s3://dest_bucket", 'rtofs')
 
     def generate_kerchunk_output_key(self, key: str) -> str:
         '''This should be replaced eventually'''
@@ -23,9 +21,6 @@ class RTOFS_Pipeline(Pipeline):
         model_date = components[-2]
         filename = components[-1]
         return f'{model_date}.{filename}.zarr'
-
-    def generate_kerchunk(self, region: str, src_bucket: str, src_key: str, dest_bucket: str, dest_key: str, dest_prefix: str):
-        generate_kerchunked(src_bucket, src_key, dest_key, dest_bucket, dest_prefix)
 
 
 class RTOFS_Agg_Pipeline(AggPipeline):

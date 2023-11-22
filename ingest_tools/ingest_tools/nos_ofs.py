@@ -4,26 +4,23 @@ from typing import List, Tuple
 
 import fsspec
 import ujson
-from ingest_tools.pipeline import Pipeline, AggPipeline, PipelineConfig
+from ingest_tools.pipeline import KerchunkPipeline, AggPipeline, PipelineConfig
 from ingest_tools.filemetadata import FileMetadata
 from kerchunk.combine import MultiZarrToZarr
 
-from .generic import ModelRunType, generate_kerchunked
+from .generic import ModelRunType
 
 
-class NOS_Pipeline(Pipeline):
+class NOS_Pipeline(KerchunkPipeline):
 
     def __init__(self) -> None:
-        super().__init__('.nc', ['cbofs', 'ciofs', 'creofs', 'dbofs', 'gomofs', 'leofs', 'lmhofs', 'loofs', 'lsofs', 'ngofs2', 'sfbofs', 'tbofs', 'wcofs'], 'nos')
+        super().__init__('.nc', ['cbofs', 'ciofs', 'creofs', 'dbofs', 'gomofs', 'leofs', 'lmhofs', 'loofs', 'lsofs', 'ngofs2', 'sfbofs', 'tbofs', 'wcofs'], "s3://dest-bucket", 'nos')
 
     def generate_kerchunk_output_key(self, key: str) -> str:
         '''This should be replaced eventually'''
         parts = key.split('/')
         model_name = parts[0].split('.')[0]
         return f'{model_name}/{parts[1]}.zarr'
-
-    def generate_kerchunk(self, region: str, src_bucket: str, src_key: str, dest_bucket: str, dest_key: str, dest_prefix: str):
-        generate_kerchunked(src_bucket, src_key, dest_key, dest_bucket, dest_prefix)
 
 
 class NOS_Agg_Pipeline(AggPipeline):
