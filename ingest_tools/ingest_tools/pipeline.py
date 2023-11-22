@@ -4,36 +4,35 @@ import typing
 
 from ingest_tools.filemetadata import FileMetadata
 from ingest_tools.generic import generate_kerchunked
-from ingest_tools.pipelineconfig import PipelineConfig
+from ingest_tools.pipelineconfig import KerchunkPipelineConfig, PipelineConfig
 from .filters import key_contains
  
 
 class KerchunkPipeline(ABC):
 
-    def __init__(self, fileformat: str, filters: typing.List[str], dest_bucket: str, dest_prefix: str) -> None:
-        self.fileformat = fileformat
-        self.filters = filters
-        self.dest_bucket = dest_bucket
-        self.dest_prefix = dest_prefix
+    def __init__(self, config: KerchunkPipelineConfig) -> None:
+        if config is None:
+            raise ValueError('Pipeline configuration is missing')
+        self.config = config
     
     def accepts(self, key) -> bool:
         # The pipeline must accept the fileformat input
-        if not key.endswith(self.fileformat):
+        if not key.endswith(self.config.fileformat):
             print(f'No ingest available for key: {key}')
             return False
         
         # The pipeline's message filters must match
-        if key_contains(key, self.filters):
+        if key_contains(key, self.config.filters):
             return True
         
         return False
     
-    def run(self, region: str, src_bucket: str, src_key: str):
+    def run(self, src_bucket: str, src_key: str):
         # TODO: More of a listener pattern might work better
         #self.filemetadata = self.read_file_metadata(src_key)
         # status.log(filemetadata)
         output_key = self.generate_kerchunk_output_key(src_key)
-        generate_kerchunked(src_bucket, src_key, output_key, self.dest_bucket, self.dest_prefix)
+        generate_kerchunked(src_bucket, src_key, output_key, self.config.dest_bucket, self.config.dest_prefix)
 
     @abstractmethod
     def generate_kerchunk_output_key(self, key: str) -> str:

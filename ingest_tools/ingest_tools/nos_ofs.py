@@ -13,9 +13,6 @@ from .generic import ModelRunType
 
 class NOS_Pipeline(KerchunkPipeline):
 
-    def __init__(self) -> None:
-        super().__init__('.nc', ['cbofs', 'ciofs', 'creofs', 'dbofs', 'gomofs', 'leofs', 'lmhofs', 'loofs', 'lsofs', 'ngofs2', 'sfbofs', 'tbofs', 'wcofs'], "s3://dest-bucket", 'nos')
-
     def generate_kerchunk_output_key(self, key: str) -> str:
         '''This should be replaced eventually'''
         parts = key.split('/')

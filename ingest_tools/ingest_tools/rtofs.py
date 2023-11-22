@@ -12,9 +12,6 @@ from kerchunk.combine import MultiZarrToZarr
 
 class RTOFS_Pipeline(KerchunkPipeline):
     
-    def __init__(self) -> None:
-        super().__init__('.nc', ['rtofs'], "s3://dest_bucket", 'rtofs')
-
     def generate_kerchunk_output_key(self, key: str) -> str:
         '''This should be replaced eventually'''
         components = key.split('/')
