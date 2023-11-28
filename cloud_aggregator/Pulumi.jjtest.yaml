@@ -1,0 +1,10 @@
+encryptionsalt: v1:z4PMXGoJPjc=:v1:aEcHJ8GjkP/22tOX:udDa1JZhl4y6GNMRJrsJzFf73BN3/Q==
+config:
+  aws:region: us-east-1
+  pipelines:
+    nos_ofs:
+      dest_bucket: nextgen-dmac-cloud-ingest-jjtest
+      create_bucket: True
+    rtofs:
+      dest_bucket: rtofs-jjtest
+      create_bucket: True

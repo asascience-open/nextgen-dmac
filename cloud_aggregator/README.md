@@ -39,6 +39,14 @@ pip install -r requirements.txt
 deactivate
 ```
 
+## Configuration
+
+Using [Pulumi config](https://www.pulumi.com/docs/concepts/config/#structured-configuration) we can verify that the various data flows are configured with the desired properties:
+
+`pulumi config get pipelines`
+
+Configs can be modified in the `Pulumi.yaml` files.
+
 ## Deploy
 
 We can deploy the stack with

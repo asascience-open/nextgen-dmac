@@ -1,6 +1,8 @@
 import pulumi
 from pulumi_aws import iam, lambda_, s3, sqs
 from pulumi_awsx import ecr
+from pulumi import Output
+from typing import List
 
 
 class LocalDockerLambda(pulumi.ComponentResource):
@@ -110,7 +112,7 @@ class LocalDockerLambda(pulumi.ComponentResource):
 
         return self.attach_policy_to_role(f"{policy_name}_attachment", cloudwatch_policy)
 
-    def add_s3_access(self, policy_name: str, bucket: s3.bucket.Bucket):
+    def add_s3_access(self, policy_name: str, bucket: List[s3.bucket.Bucket]):
         '''
         Gives the lambda function access to the given s3 bucket via the lambda role
 
@@ -128,12 +130,13 @@ class LocalDockerLambda(pulumi.ComponentResource):
                 "Statement": [
                     {
                         "Action": "s3:PutObject",
-                        "Resource": bucket.arn.apply(lambda arn: f"{arn}/*"),
+                        "Resource": [
+                            Output.all(bucket).apply(lambda arn: f"{arn}/*")],
                         "Effect": "Allow"
                     },
                 ]
             },
-            opts=pulumi.ResourceOptions(parent=self, depends_on=[self.lambda_role, bucket])
+            opts=pulumi.ResourceOptions(parent=self, depends_on=[self.lambda_role, *bucket])
         )
 
         return self.attach_policy_to_role(f"{policy_name}_{self._name}_attachment", lambda_s3_policy)

@@ -8,19 +8,51 @@ from infra.local_docker_lambda import LocalDockerLambda
 from infra.message_queue import MessageQueue
 
 
-# Create the bucket to ingest data into
-bucket = PublicS3Bucket(
-    bucket_name='nextgen-dmac-cloud-ingest',
-    expiration_rules=[
-        BucketExpirationRule(
-            prefix='nos/',
-            days=29,
+config = pulumi.Config()
+pipelines = config.require('pipelines')
+
+buckets = []
+
+for p in pipelines:
+    if 'dest_bucket' in p:
+        create_bucket = False
+        if 'create_bucket' in p:
+            create_bucket = p.create_bucket
+
+        # TODO: Can we verify a resource exists and subscribe to it? NODD Bucket
+
+        if create_bucket:
+            # Create the bucket to ingest data into
+            bucket = PublicS3Bucket(
+                bucket_name=p.dest_bucket,
+                expiration_rules=[
+                    BucketExpirationRule(
+                        prefix='nos/',
+                        days=29,
+                    )
+                ]
+            )
+            buckets.append(bucket)
+
+        # Any bucket mentioned in the config should be subscribed to for notifications
+        
+        # First create an SNS topic for the bucket notifications
+        ingest_bucket_notifications_topic = sns.Topic(
+            'ingest-bucket-object-notification',
         )
-    ]
-)
+
+        # Subscribe the bucket object notifications to the SNS topic
+        # for the aggregation queue
+        bucket.subscribe_sns_to_bucket_notifications(
+            subscription_name='ingest-bucket-notifications-subscription',
+            sns_topic=ingest_bucket_notifications_topic,
+            filter_prefix=['nos/', 'rtofs/'],
+            filter_suffix='.zarr',
+        )
 
 # Export the name of the bucket
-pulumi.export('bucket_name', bucket.bucket.id)
+# TODO: Needed?
+#pulumi.export('bucket_name', bucket.bucket.id)
 
 # Next we need the sns topic of the NODD service that we want to subscribe to
 # TODO: This should be a config value.
@@ -63,7 +95,7 @@ ingest_lambda = LocalDockerLambda(
 # Add cloudwatch, s3, and sqs access to the lambda. Finally subscribe the lambda 
 # to the new object queue
 ingest_lambda.add_cloudwatch_log_access()
-ingest_lambda.add_s3_access('ingest-s3-lambda-policy', bucket.bucket)
+ingest_lambda.add_s3_access('ingest-s3-lambda-policy', buckets)
 
 # Subscribe to the necessary queues
 ingest_lambda.subscribe_to_sqs(
@@ -81,20 +113,6 @@ ingest_lambda.subscribe_to_sqs(
 # Okay now for the aggregation. This part of the infra will create an sqs queue that receives bucket notifications
 # from the ingest bucket. The queue will then trigger a lambda function that will aggregate the data into a single
 # zarr store. The zarr store will then be uploaded to the ingestion bucket.
-
-# First create an SNS topic for the bucket notifications
-ingest_bucket_notifications_topic = sns.Topic(
-    'ingest-bucket-object-notification',
-)
-
-# Subscribe the bucket object notifications to the SNS topic
-# for the aggregation queue
-bucket.subscribe_sns_to_bucket_notifications(
-    subscription_name='ingest-bucket-notifications-subscription',
-    sns_topic=ingest_bucket_notifications_topic,
-    filter_prefix=['nos/', 'rtofs/'],
-    filter_suffix='.zarr',
-)
 
 # Create the queue for the aggregation lambda
 aggregation_queue = MessageQueue(
@@ -121,7 +139,7 @@ aggregation_lambda = LocalDockerLambda(
 # Add cloudwatch, s3, and sqs access to the lambda. Finally subscribe the lambda 
 # to the aggregation queue
 aggregation_lambda.add_cloudwatch_log_access()
-aggregation_lambda.add_s3_access('aggreagtion-s3-lambda-policy', bucket.bucket)
+aggregation_lambda.add_s3_access('aggreagtion-s3-lambda-policy', buckets)
 aggregation_lambda.subscribe_to_sqs(
     subscription_name='nos-aggregation-lambda-mapping',
     queue=aggregation_queue.queue,
