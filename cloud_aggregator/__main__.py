@@ -1,7 +1,9 @@
 """Serverless Kerchunk infrastructure using Pulumi and AWS"""
 
 import pulumi
+from pulumi import log
 from pulumi_aws import sns
+import pulumi_aws as aws
 
 from infra.public_s3_bucket import PublicS3Bucket, BucketExpirationRule
 from infra.local_docker_lambda import LocalDockerLambda
@@ -9,50 +11,65 @@ from infra.message_queue import MessageQueue
 
 
 config = pulumi.Config()
-pipelines = config.require('pipelines')
+pipelines = config.require_object('pipelines')
+
+# Create the queue for the aggregation lambda
+aggregation_queue = MessageQueue(
+    'aggregation-queue',
+    visibility_timeout=720,
+)
 
 buckets = []
 
 for p in pipelines:
-    if 'dest_bucket' in p:
-        create_bucket = False
-        if 'create_bucket' in p:
-            create_bucket = p.create_bucket
+    pline = pipelines.get(p)
+    dest_bucket = pline.get('dest_bucket')    
+    create_bucket = pline.get('create_bucket')
 
-        # TODO: Can we verify a resource exists and subscribe to it? NODD Bucket
+    if create_bucket:
+        log.info(f'Creating {dest_bucket}')
 
-        if create_bucket:
-            # Create the bucket to ingest data into
-            bucket = PublicS3Bucket(
-                bucket_name=p.dest_bucket,
-                expiration_rules=[
-                    BucketExpirationRule(
-                        prefix='nos/',
-                        days=29,
-                    )
-                ]
-            )
-            buckets.append(bucket)
-
-        # Any bucket mentioned in the config should be subscribed to for notifications
-        
-        # First create an SNS topic for the bucket notifications
-        ingest_bucket_notifications_topic = sns.Topic(
-            'ingest-bucket-object-notification',
+        # Create the bucket to ingest data into
+        bucket = PublicS3Bucket(
+            bucket_name=dest_bucket,
+            expiration_rules=[
+                BucketExpirationRule(
+                    prefix='nos/',
+                    days=29,
+                )
+            ]
         )
+        buckets.append(bucket)
+    #else:
+    #    bucket = aws.s3.get(dest_bucket)
 
-        # Subscribe the bucket object notifications to the SNS topic
-        # for the aggregation queue
-        bucket.subscribe_sns_to_bucket_notifications(
-            subscription_name='ingest-bucket-notifications-subscription',
-            sns_topic=ingest_bucket_notifications_topic,
-            filter_prefix=['nos/', 'rtofs/'],
-            filter_suffix='.zarr',
-        )
+    # Any bucket mentioned in the config should be subscribed to for notifications
+
+    # First create an SNS topic for the bucket notifications
+    ingest_bucket_notifications_topic = sns.Topic(
+        f'{dest_bucket}-object-notification'
+    )
+
+    # Subscribe the bucket object notifications to the SNS topic
+    # for the aggregation queue
+    bucket.subscribe_sns_to_bucket_notifications(
+        subscription_name=f'{dest_bucket}-notifications-subscription',
+        sns_topic=ingest_bucket_notifications_topic,
+        filter_prefix=pline.get('filter_prefix'),
+        filter_suffix=pline.get('filter_suffix'),
+    )
+
+    # Subscribe the aggregation queue to the ingestion bucket SNS topic
+    aggregation_queue.subscribe_to_sns(
+        subscription_name=f'{dest_bucket}-updated-subscription',
+        sns_arn=ingest_bucket_notifications_topic.arn.apply(lambda arn: f"{arn}"))
 
 # Export the name of the bucket
 # TODO: Needed?
 #pulumi.export('bucket_name', bucket.bucket.id)
+
+# TODO: Can we verify a resource exists and subscribe to it? NODD Bucket
+# aws.get_arn(arn='')
 
 # Next we need the sns topic of the NODD service that we want to subscribe to
 # TODO: This should be a config value.
@@ -114,18 +131,6 @@ ingest_lambda.subscribe_to_sqs(
 # from the ingest bucket. The queue will then trigger a lambda function that will aggregate the data into a single
 # zarr store. The zarr store will then be uploaded to the ingestion bucket.
 
-# Create the queue for the aggregation lambda
-aggregation_queue = MessageQueue(
-    'aggregation-queue',
-    visibility_timeout=720,
-)
-
-# Subscribe the aggregation queue to the ingestion bucket SNS topic
-aggregation_queue.subscribe_to_sns(
-    subscription_name='ingest-bucket-updated-subscription',
-    sns_arn=ingest_bucket_notifications_topic.arn.apply(lambda arn: f"{arn}"),
-)
-
 # TODO: Decrease memory
 aggregation_lambda = LocalDockerLambda(
     name="aggregate-nos-zarr", 
@@ -139,7 +144,7 @@ aggregation_lambda = LocalDockerLambda(
 # Add cloudwatch, s3, and sqs access to the lambda. Finally subscribe the lambda 
 # to the aggregation queue
 aggregation_lambda.add_cloudwatch_log_access()
-aggregation_lambda.add_s3_access('aggreagtion-s3-lambda-policy', buckets)
+aggregation_lambda.add_s3_access('aggregation-s3-lambda-policy', buckets)
 aggregation_lambda.subscribe_to_sqs(
     subscription_name='nos-aggregation-lambda-mapping',
     queue=aggregation_queue.queue,
