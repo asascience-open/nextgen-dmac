@@ -12,6 +12,7 @@ from infra.message_queue import MessageQueue
 
 config = pulumi.Config()
 pipelines = config.require_object('pipelines')
+buckets = config.require_object('buckets')
 
 # Create the queue for the aggregation lambda
 aggregation_queue = MessageQueue(
@@ -19,19 +20,26 @@ aggregation_queue = MessageQueue(
     visibility_timeout=720,
 )
 
-buckets = []
+# create bucket resources from the buckets section of the config
+bucket_resources = {}
+bucket_dependencies = []
 
-for p in pipelines:
-    pline = pipelines.get(p)
-    dest_bucket = pline.get('dest_bucket')    
-    create_bucket = pline.get('create_bucket')
-
-    if create_bucket:
-        log.info(f'Creating {dest_bucket}')
+for bucket_name in buckets:
+    bucket_conf = buckets.get(bucket_name)
+    existing_arn = bucket_conf.get('existing_arn')
+    bucket = None
+    if existing_arn:
+        #bucket = aws.get_arn(arn=existing_arn)
+        bucket = aws.s3.get_bucket(bucket=bucket_name)
+        #bucket = aws.s3.Bucket.get(bucket_name)
+        if not bucket:
+            log.error(f'{bucket_name} ARN not found: {existing_arn}')
+    else:
+        log.info(f'Creating {bucket_name}')
 
         # Create the bucket to ingest data into
         bucket = PublicS3Bucket(
-            bucket_name=dest_bucket,
+            bucket_name=bucket_name,
             expiration_rules=[
                 BucketExpirationRule(
                     prefix='nos/',
@@ -39,11 +47,20 @@ for p in pipelines:
                 )
             ]
         )
-        buckets.append(bucket)
-    #else:
-    #    bucket = aws.s3.get(dest_bucket)
+        bucket_dependencies.append(bucket)
+    if bucket:
+        bucket_resources[bucket_name] = bucket
 
+# for each pipeline, create aggregation notifications for the destination bucket
+# so when new files are added, it can check if a new aggregation needs to be created
+for p in pipelines:
+    pline = pipelines.get(p)
+    dest_bucket = pline.get('dest_bucket')    
+        
     # Any bucket mentioned in the config should be subscribed to for notifications
+    if not dest_bucket in bucket_resources:
+        raise ValueError(f'{dest_bucket} does not exist in the buckets configuration or the resource unable to be created')
+    bucket = bucket_resources[dest_bucket]
 
     # First create an SNS topic for the bucket notifications
     ingest_bucket_notifications_topic = sns.Topic(
@@ -52,14 +69,26 @@ for p in pipelines:
 
     # Subscribe the bucket object notifications to the SNS topic
     # for the aggregation queue
-    bucket.subscribe_sns_to_bucket_notifications(
-        subscription_name=f'{dest_bucket}-notifications-subscription',
-        sns_topic=ingest_bucket_notifications_topic,
-        filter_prefix=pline.get('filter_prefix'),
-        filter_suffix=pline.get('filter_suffix'),
-    )
 
-    # Subscribe the aggregation queue to the ingestion bucket SNS topic
+    if isinstance(bucket, PublicS3Bucket):
+        bucket.subscribe_sns_to_bucket_notifications(
+            subscription_name=f'{dest_bucket}-notifications-subscription',
+            sns_topic=ingest_bucket_notifications_topic,
+            filter_prefix=pline.get('filter_prefix'),
+            filter_suffix=pline.get('filter_suffix')
+        )    
+    else:
+        PublicS3Bucket.basic_subscribe_sns_to_bucket_notifications(
+                bucket,
+                subscription_name=f'{dest_bucket}-notifications-subscription',
+                sns_topic=ingest_bucket_notifications_topic,
+                filter_prefix=pline.get('filter_prefix'),
+                filter_suffix=pline.get('filter_suffix')
+        )    
+
+    # Subscribe the aggregation queue to the ingestion bucket SNS topic.
+    # Note that this creates a many to one relationship:
+    # i.e. many notifications will go through the same aggregation queue.
     aggregation_queue.subscribe_to_sns(
         subscription_name=f'{dest_bucket}-updated-subscription',
         sns_arn=ingest_bucket_notifications_topic.arn.apply(lambda arn: f"{arn}"))
@@ -67,9 +96,6 @@ for p in pipelines:
 # Export the name of the bucket
 # TODO: Needed?
 #pulumi.export('bucket_name', bucket.bucket.id)
-
-# TODO: Can we verify a resource exists and subscribe to it? NODD Bucket
-# aws.get_arn(arn='')
 
 # Next we need the sns topic of the NODD service that we want to subscribe to
 # TODO: This should be a config value.
@@ -112,7 +138,7 @@ ingest_lambda = LocalDockerLambda(
 # Add cloudwatch, s3, and sqs access to the lambda. Finally subscribe the lambda 
 # to the new object queue
 ingest_lambda.add_cloudwatch_log_access()
-ingest_lambda.add_s3_access('ingest-s3-lambda-policy', buckets)
+ingest_lambda.add_s3_access('ingest-s3-lambda-policy', bucket_dependencies)
 
 # Subscribe to the necessary queues
 ingest_lambda.subscribe_to_sqs(
@@ -144,7 +170,7 @@ aggregation_lambda = LocalDockerLambda(
 # Add cloudwatch, s3, and sqs access to the lambda. Finally subscribe the lambda 
 # to the aggregation queue
 aggregation_lambda.add_cloudwatch_log_access()
-aggregation_lambda.add_s3_access('aggregation-s3-lambda-policy', buckets)
+aggregation_lambda.add_s3_access('aggregation-s3-lambda-policy', bucket_dependencies)
 aggregation_lambda.subscribe_to_sqs(
     subscription_name='nos-aggregation-lambda-mapping',
     queue=aggregation_queue.queue,

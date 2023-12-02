@@ -1,5 +1,6 @@
 from typing import List, Optional
 import pulumi
+import pulumi_aws as aws
 from pulumi_aws import iam, s3, sns
 
 
@@ -99,6 +100,65 @@ class PublicS3Bucket(pulumi.ComponentResource):
                 "bucket_policy_name": self.public_bucket_policy.id,
             }
         )
+
+    # TODO: This can be refactored but it works for now
+    @staticmethod
+    def basic_subscribe_sns_to_bucket_notifications(
+        bucket: aws.s3.GetBucketResult, subscription_name: str, sns_topic: sns.Topic, filter_prefix: List[str] = [], filter_suffix: Optional[str] = None):
+
+        bucket_topic_policy_document = iam.get_policy_document_output(
+            statements=[
+                iam.GetPolicyDocumentStatementArgs(
+                    effect="Allow",
+                    principals=[
+                        iam.GetPolicyDocumentStatementPrincipalArgs(
+                            type="Service",
+                            identifiers=["s3.amazonaws.com"],
+                        )
+                    ],
+                    actions=["SNS:Publish"],
+                    resources=[sns_topic.arn.apply(lambda arn: f"{arn}")],
+                    conditions=[
+                        iam.GetPolicyDocumentStatementConditionArgs(
+                            test="ArnLike",
+                            variable="aws:SourceArn",
+                            values=[bucket.arn],
+                        )
+                    ],
+                )
+            ]
+        )
+
+        bucket_topic_policy = sns.TopicPolicy(
+            f"{subscription_name}_policy",
+            arn=sns_topic.arn.apply(lambda arn: f"{arn}"),
+            policy=bucket_topic_policy_document.json,
+            opts=pulumi.ResourceOptions(depends_on=[sns_topic]),
+        )
+
+        # Subscribe the topic to the bucket
+        # TODO: Make events configurable
+        bucket_notification = s3.BucketNotification(
+            subscription_name,
+            bucket=bucket.id,
+            topics=[
+                s3.BucketNotificationTopicArgs(
+                    topic_arn=sns_topic.arn.apply(lambda arn: f"{arn}"),
+                    events=[
+                        "s3:ObjectCreated:*",
+                        "s3:ObjectRemoved:*",
+                    ],
+                    filter_prefix=prefix,
+                    filter_suffix=filter_suffix,
+                ) for prefix in filter_prefix
+            ],
+            opts=pulumi.ResourceOptions(
+                depends_on=[bucket_topic_policy]
+            ),
+        )
+
+        return bucket_notification       
+     
 
     def subscribe_sns_to_bucket_notifications(
         self, subscription_name: str, sns_topic: sns.Topic, filter_prefix: List[str] = [], filter_suffix: Optional[str] = None
