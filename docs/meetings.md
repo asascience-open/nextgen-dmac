@@ -25,6 +25,11 @@ nav_order: 7
   - [Meeting Notes](https://docs.google.com/document/d/13qhWnnyT5BTOASJ_SFiBovA6pY1_rgAMv6jLbBmYFCQ/edit)
   - [Slides](https://docs.google.com/presentation/d/1g_SqVmwaLFgnED0-hgF0T9IE2mu3aQBS/edit?usp=drive_link&ouid=105308995313737509177&rtpof=true&sd=true)
   - [Recording](https://drive.google.com/file/d/1hte0rBK2epx_mlQzphq9EfXkuKBuxCPp/view?usp=drive_link)
+- November 3, 2023
+  - [Agenda](https://docs.google.com/document/d/1uQH8JyKtQi8BV9jnsq8asnvi7KEqHnDqEgtN1atrXOc/edit?usp=drive_link)
+  - [Meeting Notes](https://docs.google.com/document/d/1mwm2pE5hRArEh86UVMi69uD2HFSRSyuKDAepf2wIAqw/edit?usp=drive_link)
+  - [Slides](https://docs.google.com/presentation/d/1s-n9KfmSayVduodzabCW3VK5r8QuyAMrFoaQBBFTwdQ/edit?usp=drive_link)
+  - [Recording](https://drive.google.com/file/d/1m1OonE5er7_Hz-UOyDFmQh-KxK2odwBz/view?usp=drive_link)
 
 ## Technical Team Meetings
 

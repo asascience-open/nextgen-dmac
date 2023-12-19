@@ -50,6 +50,16 @@ These were the actual costs of running the prototype Kubernetes cluster:
 | Elastic Load Balancing | $16.74 |
 | Other costs | $5.00 |
 | 2x m5xlarge EC2 instances | $285.70 | 
-| Total | $381.84 |
+| **Total** | **$381.84** |
 
 The virtual machines cost about 75% of the total and would be needed regardless of using Kubernetes or not.
+
+## Reliability and Uptime
+
+While running our prototypes on the Kubernetes cluster we noted several advantages over a basic Docker platform:
+
+- If a pod crashes, it gets reinitialized very quickly. While load testing, one pod kept crashing but it returned so quickly we didn't notice the delay at first.
+- Patches and even changes to underlying hardware can occur with almost no downtime. K8s maintains the running state while spinning up new resources before transitioning them over to the new machines.
+- The number of running pods was the biggest driver of resource comsumption. [This file](https://github.com/awslabs/amazon-eks-ami/blob/master/files/eni-max-pods.txt) describes how many pods each instance type can run
+- The maximum number of pods is also limited by the number of available IP addresses
+- If more pods are allocated on K8s than the hardware can support, it can crash the cluster due to too few available resources.
