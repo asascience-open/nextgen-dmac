@@ -19,6 +19,10 @@ The primary reason for architecting an event-driven system is the extensibility 
 
 The concept of using an event-driven data delivery system is not new. NOAA currently uses [Unidata's LDM service](https://www.unidata.ucar.edu/software/ldm/ldm-current/factsheet.html) to share data across the world using a stream of data events. The difference in this design, aside from the benefits of using a modern tech stack, is that the data itself doesn't need to be physically distributed because the data is centrally located on the cloud platform.
 
+## Amazon Simple Notification Service (SNS)
+
+We have prototyped messaging using SNS because we are able to receive messages directly from the NOAA data providers with minimal engineering effort. The messages are ephemeral so we use the Simple Queue Service (SQS) to capture those messages and then process through them in the queue. 
+
 ## RabbitMq
 
 There are many modern messaging frameworks to choose from today. Every cloud platform provides their own brand of messaging (Amazon Simple Queue Service (SQS), Google Pub/Sub, and Azure Service Bus) and there are numerous open-source platforms as well. We are currently selecting RabbitMq as the messaging broker for prototyping because it is relatively simple to configure, open source, and cloud platform independent.

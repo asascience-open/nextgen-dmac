@@ -51,7 +51,7 @@ The planned prototypes seek to demonstrate a modern, interconnected system. Visi
 
 3.  [Scientific data store](metadata/data-formats.md)
 4.  [Metadata Catalog](metadata/catalog.md)
-5.  [Catalog Queries](metadata/queries.md)
+5.  Catalog Queries
 
 **Data Processing**
 

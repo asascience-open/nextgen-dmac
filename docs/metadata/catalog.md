@@ -4,7 +4,7 @@ parent: Data Storage and Discovery
 nav_order: 2
 ---
 
-# Metadata Catalog
+# STAC Catalog
 
 Support for a standardized metadata catalog provides visibility into the data for both internal and external purposes. Publishing metadata in a standard format helps downstream consumers understand the metadata structure and consume the data in a consistent manner. 
 

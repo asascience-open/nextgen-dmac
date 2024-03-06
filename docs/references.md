@@ -8,6 +8,8 @@ nav_order: 8
 
 ## Project-Related
 
+Joyce, J., B. Adams, J. Doyle, K. Fillingham, M. Iannucci, A. Kerney, K. Knee, D. Moretti, J. Quintrell, D. Snowden, T. C. Vance, and M. Wengren. (2024). A Workflow for Serving Model Data in the Cloud to a Broader Community. 40th Conference on Environmental Information Processing Technologies (EIPT), Baltimore, MD, Amer. Meteor. Soc. 28 Jan–2 February, 2024. <https://ams.confex.com/ams/104ANNUAL/40eipt/papers/viewonly.cgi?password=106568&username=438646>
+
 Joyce, J., Knee, K., Moretti, D., Morse, C., Quintrell, J., Snowden, D., Tripp, P., and T. Vance. Architecting a Cloud-Native Service-Based Ecosystem for DMAC. <https://ams.confex.com/ams/103ANNUAL/meetingapp.cgi/Paper/409023>
 
 ## Pangeo
