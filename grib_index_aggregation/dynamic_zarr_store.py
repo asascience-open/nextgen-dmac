@@ -16,6 +16,7 @@ WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEM
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
+
 import copy
 import logging
 import os
@@ -27,6 +28,7 @@ import itertools
 
 import warnings
 from enum import unique, Enum
+from functools import cache
 
 import gcsfs
 import numpy as np
@@ -163,7 +165,7 @@ def store_data_var(
             # Squeeze if needed to get a series. Noop if already a series Df has multiple rows
             dval = idata.loc[iloc].squeeze()
         except KeyError:
-            logger.debug(f"Error getting vals {iloc} for in path {key}")
+            logger.info(f"Error getting vals {iloc} for in path {key}")
             continue
 
         assert isinstance(
@@ -397,7 +399,13 @@ def write_store(metadata_path: str, store: dict):
     logger.info("Wrote %d bytes to %s", len(compressed), fpath)
 
 
-def read_store(metadata_path: str):
+@cache
+def read_store(metadata_path: str) -> dict:
+    """
+    Cached method for loading the static zarr store from a metadata path
+    :param metadata_path: the path (usually gcs) to the metadata directory
+    :return: a kerchunk zarr store reference spec dictionary (defalated)
+    """
     fpath = os.path.join(metadata_path, ZARR_TREE_STORE)
     with fsspec.open(fpath, "rb") as f:
         compressed = f.read()
@@ -406,7 +414,7 @@ def read_store(metadata_path: str):
     return zarr_store
 
 
-def grib_coord(name: str):
+def grib_coord(name: str) -> str:
     """
     Take advantage of gribs strict coordinate name structure
     Call everything else level which is described by the gribLevelAttribute
@@ -697,6 +705,13 @@ def parse_grib_idx(
         result.loc[:, "idx_updated_at"] = pd.to_datetime(
             idxinfo["updated"]
         ).tz_localize(None)
+    else:
+        # TODO: Fix metadata for other filesystems
+        result.loc[:, "grib_crc32"] = None
+        result.loc[:, "grib_updated_at"] = None
+        result.loc[:, "idx_crc32"] = None
+        result.loc[:, "idx_updated_at"] = None
+
 
     if validate and not result["attrs"].is_unique:
         raise ValueError(f"Attribute mapping for grib file {basename} is not unique)")
