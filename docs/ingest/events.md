@@ -25,6 +25,6 @@ We have prototyped messaging using SNS because we are able to receive messages d
 
 ## RabbitMq
 
-There are many modern messaging frameworks to choose from today. Every cloud platform provides their own brand of messaging (Amazon Simple Queue Service (SQS), Google Pub/Sub, and Azure Service Bus) and there are numerous open-source platforms as well. We are currently selecting RabbitMq as the messaging broker for prototyping because it is relatively simple to configure, open source, and cloud platform independent.
+There are many modern messaging frameworks to choose from today. Every cloud platform provides their own brand of messaging (Amazon Simple Queue Service (SQS), Google Pub/Sub, and Azure Service Bus) and there are numerous open-source platforms as well. We initially prototyped RabbitMq as the messaging broker because it is relatively simple to configure, open source, and cloud platform independent. From a system architecture perspective, the main difference between SQS and RabbitMq is that SQS only works on AWS while RabbitMq will work on whatever platform it is installed on. However, SQS is already configured and "comes with" AWS natively.
 
 > RabbitMQ is the most widely deployed open source message broker. RabbitMQ is lightweight and easy to deploy on premises and in the cloud. It supports multiple messaging protocols. (https://www.rabbitmq.com/)
