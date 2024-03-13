@@ -23,6 +23,10 @@ Prototypes explored by RPS Tetra Tech:
 - [Pulumi Infrastructure-as-Code](https://github.com/asascience-open/nextgen-dmac/tree/main/cloud_aggregator#readme)
 - JupyterHub Examples TODO: Move to xpublish
 
+Other RPS Tetra Tech projects:
+
+- [NOAA Coastal Ocean Reanalysis (CORA)](../analysis/cora.md)
+
 Contributed by the Community:
 
 - [XPublish](https://xpublish.readthedocs.io/en/latest/)
