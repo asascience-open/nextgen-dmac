@@ -21,11 +21,12 @@ Prototypes explored by RPS Tetra Tech:
 - [XPublish Web Mapping Service (WMS)](https://github.com/xpublish-community/xpublish-wms)
 - [XREDS Data Viewer](https://nextgen-dev.ioos.us/xreds/)
 - [Pulumi Infrastructure-as-Code](https://github.com/asascience-open/nextgen-dmac/tree/main/cloud_aggregator#readme)
-- JupyterHub Examples TODO: Move to xpublish
+- [XPublish Notebook Examples](https://github.com/asascience-open/nextgen-ioos-2023)
 
 Other RPS Tetra Tech projects:
 
 - [NOAA Coastal Ocean Reanalysis (CORA)](../analysis/cora.md)
+- [HPC Cloud Subsetting](https://github.com/asascience-open/HPC-Cloud-Subsetting)
 
 Contributed by the Community:
 
