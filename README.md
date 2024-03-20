@@ -54,7 +54,7 @@ The planned prototypes seek to demonstrate a modern, interconnected system. Visi
 
 3.  [Scientific data store](https://asascience-open.github.io/nextgen-dmac/metadata/data-formats.html)
 4.  [Metadata Catalog](https://asascience-open.github.io/nextgen-dmac/metadata/catalog.html)
-5.  [Catalog Queries](https://asascience-open.github.io/nextgen-dmac/metadata/queries.html)
+5.  Catalog Queries
 
 **Data Processing**
 

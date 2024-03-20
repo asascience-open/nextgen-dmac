@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Prototype Architecture
+title: Prototype
 parent: Data Ingest
 nav_order: 1
 ---

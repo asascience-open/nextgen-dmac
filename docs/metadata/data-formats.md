@@ -4,7 +4,7 @@ parent: Data Storage and Discovery
 nav_order: 1
 ---
 
-# Scientific Data Storage
+# Cloud-Optimized Data Formats
 
 A lot of work has already been done to identify cloud-native formats for scientific data. Cloud-native data formats are optimized for scalability and analysis. 
 
