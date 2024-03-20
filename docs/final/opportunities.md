@@ -18,6 +18,13 @@ We should practice good community management to continue these open-source effor
 
 ## Serving Cloud-Native Data
 
+This project has demonstrated several effective workflows for optimizing and serving IOOS data. We have the opportunity now to harden and further those demonstrations from prototype to production. The prototypes have gone far and have been effective demonstrations, but more can be done to improve their reliability and flexibility. 
+
+- Monitoring will help to resolve issues when they arise, and provide more visibility into the workflows and the state of individual data products. 
+- Exploring additional methods for time-series aggregations is another important topic for accessing forecasts and ensemble data faster.
+- Optimizing the services will improve performance, reduce cloud costs, and enable us to use the cloud to scale.
+- A metadata model, such as [STAC](../metadata/catalog.md), will enable data to be discovered more easily.
+
 ## Managing Data Quality
 
 Guidelines for data standards will become increasingly important as IOOS develops their data lake. Conversations about metadata, CF standards compliance, and other data standards have been occuring in the context of this project. Moving forward, concurrence on standards and policies to enforce them will be important to ensure that the data continues to be of high quality. The antithesis of a data lake is a data swamp: disorganized, inconsistent from one product to another, and difficult to use. A quality data lake will accelerate decision making and downstream product development by providing dependable data that can be accessed in a cohesive manner.
