@@ -8,8 +8,11 @@ nav_order: 1
 ### Cloud-Optimized Data Management and Cyberinfrastructure
 #### A collaboration between [RPS, a Tetra Tech Company](https://www.rpsgroup.com/services/oceans-and-coastal/) and the NOAA Integrated Ocean Observing System ([IOOS](https://ioos.noaa.gov/))
 
-- **Documentation:** 
-    - [Project](https://asascience-open.github.io/nextgen-dmac/) | [Kerchunk Ingest](https://github.com/asascience-open/nextgen-dmac/tree/main/kerchunk) | [QARTOD and IOOS Compliance Checker Test](https://github.com/asascience-open/nextgen-dmac/tree/main/qc_and_cchecker)
+- [**Project Documentation**](https://asascience-open.github.io/nextgen-dmac/)
+
+- **Prototypes:** [Planning and Design](protoplan.md) | [Outcomes](outcomes.md)
+
+- **Presentations:** [DMAC Tech Webinar](https://www.youtube.com/watch?v=M8E2wQk3k8A) | [Pangeo Showcase](https://discourse.pangeo.io/t/pangeo-showcase-improving-access-to-noaa-national-ocean-service-model-data-with-kerchunk-and-xpublish/3725)
 
 - **Demos:** [XREDS Test](https://nextgen-dev.ioos.us/xreds/) | [OceansMap Test](https://dev.oceansmap.com/maracoos/?catalog=dmac_combined)
 
