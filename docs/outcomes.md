@@ -1,7 +1,7 @@
 ---
 layout: default
-parent: Final
-nav_order: 1
+title: Prototype Outcomes
+nav_order: 3
 ---
 
 # Prototype Outcomes
@@ -26,6 +26,7 @@ Prototypes explored by RPS Tetra Tech:
 Other RPS Tetra Tech projects:
 
 - [NOAA Coastal Ocean Reanalysis (CORA)](../analysis/cora.md)
+- [National Water Model](https://github.com/asascience-open/NWM)
 - [HPC Cloud Subsetting](https://github.com/asascience-open/HPC-Cloud-Subsetting)
 
 Contributed by the Community:

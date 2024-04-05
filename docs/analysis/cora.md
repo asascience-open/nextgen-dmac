@@ -8,6 +8,8 @@ nav_order: 3
 
 RPS worked with the CORA group to optimize this very large dataset for cloud-based access.
 
+[**Notebooks**](https://github.com/asascience/ncdis)
+
 Atlantic reanalysis
 - HSOFS mesh (~1.8 million nodes)
 - 40 years of hourly data every 500m along the coast, including within bays, estuaries, and coastal river mouth entrances
