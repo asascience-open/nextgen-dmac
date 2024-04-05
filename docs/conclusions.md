@@ -1,8 +1,14 @@
 ---
 layout: default
-parent: Final
-nav_order: 3
+title: Conclusions
+nav_order: 10
 ---
+
+# Conclusions and Recommendations
+
+*Last Updated March 2024*
+
+These are the recommendations based on the research performed during the period of performance for the project, *Reaching for the Cloud: Architecting a Cloud-Native Service-Based Ecosystem for DMAC.*
 
 # Opportunities
 
