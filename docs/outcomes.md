@@ -24,7 +24,7 @@ nav_order: 3
 
 | Component | Documentation | Code | Description |
 | --------- | ---- | ------------  | ----------- |
-| Kubernetes | [Documentation](../architecture/kubernetes.md) | [Configuration](../../k8s/README.md) | Demonstrated and learned from running K8s in AWS as a potential computing platform
+| Kubernetes | [Documentation](./architecture/kubernetes.md) | [Configuration](../../k8s/README.md) | Demonstrated and learned from running K8s in AWS as a potential computing platform
 | Pulumi Infrastructure-as-Code | [Documentation](https://www.pulumi.com/docs/) | [Configuration](https://github.com/asascience-open/nextgen-dmac/tree/main/cloud_aggregator#cloud-aggregator) | Using Pulumi to initialize cloud resources needed to run kerchunk ingest |
 | RabbitMQ Messaging | [Documentation](./ingest/events.md#rabbitmq) | [Code](https://github.com/asascience-open/nextgen-dmac/tree/main/messaging) | Demonstrates platform-independent messaging |
 | JupyterHub w/ Dask on K8s | [Documentation](https://z2jh.jupyter.org/en/stable/) | [Configuration](https://github.com/asascience-open/nextgen-dmac/tree/main/jupyterhub) | Initial experiments running Jupyterhub on K8s (later adopted Nebari) |
@@ -38,7 +38,7 @@ nav_order: 3
 
 ## Related Projects
 
-- [NOAA Coastal Ocean Reanalysis (CORA)](../analysis/cora.md)
+- [NOAA Coastal Ocean Reanalysis (CORA)](./analysis/cora.md)
 - [National Water Model](https://github.com/asascience-open/NWM)
 - [HPC Cloud Subsetting](https://github.com/asascience-open/HPC-Cloud-Subsetting)
 - [XPublish](https://xpublish.readthedocs.io/en/latest/)
