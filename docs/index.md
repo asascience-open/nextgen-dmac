@@ -8,7 +8,7 @@ nav_order: 1
 ### Cloud-Optimized Data Management and Cyberinfrastructure
 #### A collaboration between [RPS, a Tetra Tech Company](https://www.rpsgroup.com/services/oceans-and-coastal/) and the NOAA Integrated Ocean Observing System ([IOOS](https://ioos.noaa.gov/))
 
-| | | |
+| &nbsp; | &nbsp; | &nbsp; |
 |-|-|-|
 | **Prototypes** | [Planning and Design](protoplan.md) | [Outcomes](outcomes.md) |
 | **Presentations** | [DMAC Tech Webinar](https://www.youtube.com/watch?v=M8E2wQk3k8A) | [Pangeo Showcase](https://discourse.pangeo.io/t/pangeo-showcase-improving-access-to-noaa-national-ocean-service-model-data-with-kerchunk-and-xpublish/3725) |
