@@ -8,19 +8,17 @@ nav_order: 1
 ### Cloud-Optimized Data Management and Cyberinfrastructure
 #### A collaboration between [RPS, a Tetra Tech Company](https://www.rpsgroup.com/services/oceans-and-coastal/) and the NOAA Integrated Ocean Observing System ([IOOS](https://ioos.noaa.gov/))
 
-- [**Project Documentation**](https://asascience-open.github.io/nextgen-dmac/)
+| | | |
+|-|-|-|
+| **Prototypes** | [Planning and Design](protoplan.md) | [Outcomes](outcomes.md) |
+| **Presentations** | [DMAC Tech Webinar](https://www.youtube.com/watch?v=M8E2wQk3k8A) | [Pangeo Showcase](https://discourse.pangeo.io/t/pangeo-showcase-improving-access-to-noaa-national-ocean-service-model-data-with-kerchunk-and-xpublish/3725) |
+| **Demos** | [XREDS Test](https://nextgen-dev.ioos.us/xreds/) | [OceansMap Test](https://dev.oceansmap.com/maracoos/?catalog=dmac_combined) |
+| **Notebooks** | [NetCDF vs Zarr](https://github.com/asascience-open/nextgen-dmac/blob/main/binder/dbofs-examples/netcdf-vs-zarr.ipynb) | [Best Forecast Retrieval](https://github.com/asascience-open/nextgen-dmac/blob/main/binder/dbofs-examples/best-forecast.ipynb) | 
+| | [CORA 40 Year WL Reanalysis](https://github.com/asascience/ncdis) | [National Water Model](https://github.com/asascience-open/NWM) |
 
-- **Prototypes:** [Planning and Design](protoplan.md) | [Outcomes](outcomes.md)
+[**Meeting Minutes**](meetings.md) 
 
-- **Presentations:** [DMAC Tech Webinar](https://www.youtube.com/watch?v=M8E2wQk3k8A) | [Pangeo Showcase](https://discourse.pangeo.io/t/pangeo-showcase-improving-access-to-noaa-national-ocean-service-model-data-with-kerchunk-and-xpublish/3725)
-
-- **Demos:** [XREDS Test](https://nextgen-dev.ioos.us/xreds/) | [OceansMap Test](https://dev.oceansmap.com/maracoos/?catalog=dmac_combined)
-
-- **Notebooks:**  [NetCDF vs Zarr](https://github.com/asascience-open/nextgen-dmac/blob/main/binder/dbofs-examples/netcdf-vs-zarr.ipynb) | [Best Forecast Retrieval](https://github.com/asascience-open/nextgen-dmac/blob/main/binder/dbofs-examples/best-forecast.ipynb) | [CORA 40 Year WL Reanalysis](https://github.com/asascience/ncdis) | [National Water Model](https://github.com/asascience-open/NWM)
-
-- [**Meeting Minutes**](meetings.md)
-
-- **[Start a Discussion](https://github.com/asascience-open/nextgen-dmac/discussions)**
+**[Start a Discussion](https://github.com/asascience-open/nextgen-dmac/discussions)**
 
 
 ## Background
