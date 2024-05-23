@@ -7,3 +7,4 @@
 -	`nginx-deployment.yaml` – defines the nginx proxy the performs the application routing to different services
 - `install-load-balancer.sh` - script to show how to deploy the AWS Load Balancer Controller using Helm
     - Prereq: `aws-load-balancer-controller-service-account.yaml` - defines the Service Account used by the AWS Load Balancer Controller
+- `xreds.yaml` - defines the xreds service

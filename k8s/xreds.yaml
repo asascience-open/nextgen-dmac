@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xreds
+  labels:
+    app: xreds
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xreds
+
+  template:
+    metadata:
+      labels:
+        app: xreds
+    spec:
+      containers:
+      - name: xreds
+        image: public.ecr.aws/m2c5k9c1/nextgen-dmac/xreds:latest
+        imagePullPolicy: "Always"
+        ports:
+        - containerPort: 8090
+        env:
+        - name: ROOT_PATH
+          value: "/xreds/"
+        - name: EXPORT_THRESHOLD
+          value: "600"
+        - name: DATASETS_MAPPING_FILE
+          value: "s3://nextgen-dmac/kerchunk/datasets.json"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xreds-service
+  labels:
+    app: xreds
+spec:
+  selector:
+    app.kubernetes.io/name: xreds
+  ports:
+  - protocol: TCP
+    port: 8090
+    targetPort: 8090
+  selector:
+    app: xreds
