@@ -25,9 +25,17 @@ spec:
         - name: ROOT_PATH
           value: "/xreds/"
         - name: EXPORT_THRESHOLD
-          value: "600"
+          value: "500"
+        - name: WORKERS
+          value: "4"
         - name: DATASETS_MAPPING_FILE
           value: "s3://nextgen-dmac/kerchunk/datasets.json"
+        - name: USE_REDIS_CACHE
+          value: "true"
+        - name: REDIS_HOST
+          value: "redis"
+        - name: REDIS_PORT
+          value: "6379"
 ---
 apiVersion: v1
 kind: Service
