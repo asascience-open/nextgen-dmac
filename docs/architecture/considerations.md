@@ -19,4 +19,8 @@ Consider "the cloud" as an IT infrastructure, with computational resources avail
 
 Each of the 11 Regional Associations (RAs), as part of NOAA-IOOS, operate independent infrastructure to process, store, and serve their data. The RAs mainly operate Traditional On-Premises and Infrastructure-as-a-Service (such as VMWare) configurations. Several RAs run services in the cloud, and the cloud providers used vary.
 
+It is important to ensure that the RAs are able to operate independently and have the resources they need. The cloud is a centralized IT infrastructure that is meant to be accessed from anywhere in the world and maintains a high operational posture. IOOS as a whole can adopt cloud infrastructure to reduce the burden of maintaining on-premises systems and shift those resources toward creating services and data products for downstream customers. Much of the infrastructure and plumbing can be shared across RAs, but the key differentiator will be providing cloud-optimized data access to the important data products produced by each RA.
+
+The following diagram shows the recommended overall system architecture.
+
 ![System Architecture recommendation](../assets/overall-architecture-rec.png)

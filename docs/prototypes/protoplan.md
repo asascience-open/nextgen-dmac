@@ -1,19 +1,11 @@
 ---
 layout: default
-title: Prototype Plan
-nav_order: 2
+parent: Prototypes
+title: Plan
+nav_order: 1
 ---
 
 # Prototype Plan
-
-## Technical Documentation
-
-Completed prototypes have been documented alongside their code.
-
-- [Kerchunk Ingest for NOS model data](https://github.com/asascience-open/nextgen-dmac/tree/main/kerchunk)
-- [Argo Workflows Test of QARTOD and IOOS Compliance Checker](https://github.com/asascience-open/nextgen-dmac/tree/main/qc_and_cchecker)
-
-## Prototype Plan
 
 The planned prototypes seek to demonstrate a modern, interconnected system. Visit the links below to learn more about each prototype design and considerations.
 

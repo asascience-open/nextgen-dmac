@@ -1,6 +1,7 @@
 ---
 layout: default
-title: Prototype Outcomes
+title: Outcomes
+parent: Prototypes
 nav_order: 3
 ---
 
