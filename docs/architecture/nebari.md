@@ -1,7 +1,7 @@
 ---
 layout: default
 nav_order: 2
-parent: System Architecture
+parent: Infrastructure
 ---
 
 # Nebari Data Science Platform

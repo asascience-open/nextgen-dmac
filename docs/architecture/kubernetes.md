@@ -1,7 +1,7 @@
 ---
 layout: default
 nav_order: 1
-parent: System Architecture
+parent: Infrastructure
 ---
 
 # Kubernetes
