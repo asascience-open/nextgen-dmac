@@ -9,7 +9,7 @@ nav_order: 1
 
 The planned prototypes seek to demonstrate a modern, interconnected system. Visit the links below to learn more about each prototype design and considerations.
 
-**[Overall System Architecture](architecture/architecture.md)**
+**[Overall System Architecture](prototypes/architecture.md)**
 - [Kubernetes](architecture/kubernetes.md)
 - [Nebari (Data Science Platform)](architecture/nebari.md)
 

@@ -5,7 +5,7 @@ parent: Prototypes
 title: Design Philosophy
 ---
 
-# System Architecture
+# Design Philosophy
 
 The system architecture is the high-level view of how all of the capabilities enabled by the prototypes tie together to produce a working system of interdependent components.
 
