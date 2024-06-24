@@ -4,7 +4,7 @@
 
 - [**Project Documentation**](https://asascience-open.github.io/nextgen-dmac/)
 
-- **Prototypes:** [Planning and Design](https://asascience-open.github.io/nextgen-dmac/prototypes/protoplan.html) | [Outcomes](https://asascience-open.github.io/nextgen-dmac/prototypes/outcomes.html)
+- **Prototypes:** [Planning](https://asascience-open.github.io/nextgen-dmac/prototypes/protoplan.html) | [Design](https://asascience-open.github.io/nextgen-dmac/prototypes/architecture.html) | [Outcomes](https://asascience-open.github.io/nextgen-dmac/prototypes/outcomes.html)
 
 - **Presentations:** [DMAC Tech Webinar](https://www.youtube.com/watch?v=M8E2wQk3k8A) | [Pangeo Showcase](https://discourse.pangeo.io/t/pangeo-showcase-improving-access-to-noaa-national-ocean-service-model-data-with-kerchunk-and-xpublish/3725)
 
