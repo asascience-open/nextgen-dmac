@@ -10,7 +10,7 @@ nav_order: 1
 
 | &nbsp; | &nbsp; | &nbsp; |
 |-|-|-|
-| **Prototypes** | [Planning and Design](protoplan.md) | [Outcomes](outcomes.md) |
+| **Prototypes** | [Planning and Design](prototypes/protoplan.md) | [Outcomes](prototypes/outcomes.md) |
 | **Presentations** | [DMAC Tech Webinar](https://www.youtube.com/watch?v=M8E2wQk3k8A) | [Pangeo Showcase](https://discourse.pangeo.io/t/pangeo-showcase-improving-access-to-noaa-national-ocean-service-model-data-with-kerchunk-and-xpublish/3725) |
 | **Demos** | [XREDS Test](https://nextgen-dev.ioos.us/xreds/) | [OceansMap Test](https://dev.oceansmap.com/maracoos/?catalog=dmac_combined) |
 | **Notebooks** | [NetCDF vs Zarr](https://github.com/asascience-open/nextgen-dmac/blob/main/binder/dbofs-examples/netcdf-vs-zarr.ipynb) | [Best Forecast Retrieval](https://github.com/asascience-open/nextgen-dmac/blob/main/binder/dbofs-examples/best-forecast.ipynb) | 
