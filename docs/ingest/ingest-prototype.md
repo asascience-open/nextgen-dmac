@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Prototype
+title: Kerchunk Workflow (Argo/K8s)
 parent: Data Ingest
-nav_order: 1
+nav_order: 2
 ---
 
-# Data Ingest Prototype
+# Argo Kerchunk Workflow
 
 ![Prototype Diagram](modeldata-prototype-diagram.png)
 

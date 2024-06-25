@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Data Ingest
-nav_order: 2
+nav_order: 3
 has_children: true
 ---
 
@@ -13,9 +13,10 @@ Data Ingest starts the process of preparing data for transformation and notifyin
 - The system needs a method of incorporating raw data in order to provide more value to that data.
 - *Raw data* referred to here may be a traditional GRIB or NETCDF file, but could also be video or imagery.
 - The raw data does not necessarily need to be copied to be ingested; if data is already cloud accessible it still needs to be ingested but not copied.
-- Data needs to pass quality control checks. Bad data in causes bad data analysis, and in the case of AI/ML, potentially invalid models.
+- Data needs to pass quality control checks. Bad data inputs corrupt good data analysis. 
+    - Using bad data to train AI/ML models wastes effort because it will likely produce inaccurate results.
 - The metadata needs to be extracted from the raw data files to feed the larger system.
-- The system does not enforce raw data standards. If a data product requires reformatting or rechunking then it's the responsibility of that product subdomain to provide that product.
+- The system requires that the data is indexable by byte-range requests. Common scientific formats such as GRIB and NetCDF adhere to this requirement and are easily indexed using the [kerchunk process](ingest-prototype.md).
 - This process needs to be constantly monitored. A dedicated data team should be responsible for data ingest in operations.
 
 ## Data Ingest Concepts
