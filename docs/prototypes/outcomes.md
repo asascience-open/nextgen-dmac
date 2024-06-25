@@ -13,7 +13,7 @@ nav_order: 3
 
 | Component | Documentation | Code | Description |
 | --------- | ---- | ------------  | ----------- |
-| Lambda-based Kerchunk Ingest | [Documentation](../ingest/ingest-prototype.md) | [Code](https://github.com/asascience-open/nextgen-dmac/tree/main/cloud_aggregator) | Executing kerchunk workflows using AWS Lambda and SNS/SQS |
+| Lambda-based Kerchunk Ingest | [Documentation](../ingest/kerchunk.md) | [Code](https://github.com/asascience-open/nextgen-dmac/tree/main/cloud_aggregator) | Executing kerchunk workflows using AWS Lambda and SNS/SQS |
 | XPublish Web Mapping Service (WMS) | [Documentation](https://github.com/xpublish-community/xpublish-wms#readme) | [Code](https://github.com/xpublish-community/xpublish-wms) | Retrieve web map tiles directly from environmental data |
 | XPublish Enhancements (2024 IOOS Code Sprint) | [Documentation](https://ioos.github.io/ioos-code-sprint/2024/topics/06-xpublish.html) | [Code](https://ioos.github.io/ioos-code-sprint/2024/topics/06-xpublish.html) |
 | RESTful Grids (2022 IOOS Code Sprint) | [Documentation](https://ioos.github.io/ioos-code-sprint/2022/topics/05-restful-services-for-gridded-data.html) | [Code](https://github.com/asascience-open/restful-grids) | Initial project investigating XPublish |
