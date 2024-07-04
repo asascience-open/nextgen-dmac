@@ -1,7 +1,8 @@
 ---
 layout: default
 parent: Data Ingest
-nav_order: 4
+title: Event Platforms Overview
+nav_order: 2
 ---
 
 # Event Messaging

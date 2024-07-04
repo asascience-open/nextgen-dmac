@@ -1,8 +1,8 @@
 ---
 layout: default
-title: Kerchunk Workflow (Argo/K8s)
+title: Argo Kerchunk Workflow
 parent: Data Ingest
-nav_order: 2
+nav_order: 4
 ---
 
 # Argo Kerchunk Workflow

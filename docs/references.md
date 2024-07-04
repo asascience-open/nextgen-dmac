@@ -12,6 +12,9 @@ Joyce, J., B. Adams, J. Doyle, K. Fillingham, M. Iannucci, A. Kerney, K. Knee, D
 
 Joyce, J., Knee, K., Moretti, D., Morse, C., Quintrell, J., Snowden, D., Tripp, P., and T. Vance. Architecting a Cloud-Native Service-Based Ecosystem for DMAC. <https://ams.confex.com/ams/103ANNUAL/meetingapp.cgi/Paper/409023>
 
+Iannucci, Matthew and J. Joyce. Improving Access to NOAA National Ocean Service Model Data with Kerchunk and XPublish. Pangeo Showcase. Oct 11, 2023. <https://discourse.pangeo.io/t/pangeo-showcase-improving-access-to-noaa-national-ocean-service-model-data-with-kerchunk-and-xpublish/3725>
+
+
 ## Pangeo
 
 [Pangeo Website](https://pangeo.io/)
@@ -24,6 +27,8 @@ Gowan, T., Horel, J., Jacques, A., and Kovac, A. (2022, April 8). Using Cloud Co
 Hamman, Joe. (2020, March 9). Publishing Xarray Datasets via a Zarr compatible REST API. *Medium.* <https://medium.com/pangeo/xpublish-ff788f900bbf>
 
 Stern, C., Abernathy, R., Hamman, J., Wegener, R., Lepore, C., Harkins, S., and A. Merose. (2022, February 10). Pangeo Forge: Crowdsourcing Analysis-Ready, Cloud Optimized Data Production. *Frontiers in Climate.* <https://www.frontiersin.org/articles/10.3389/fclim.2021.782909/full>
+
+Stuebe, David. Optimizations for Kerchunk aggregation and Zarr I/O at scale for Machine Learning. Pangeo Showcase. March 6, 2024. <https://discourse.pangeo.io/t/pangeo-showcase-optimizations-for-kerchunk-aggregation-and-zarr-i-o-at-scale-for-machine-learning/4074>
 
 
 ## Data Strategy
