@@ -8,11 +8,11 @@ nav_order: 11
 
 ## Project-Related
 
-Joyce, J., B. Adams, J. Doyle, K. Fillingham, M. Iannucci, A. Kerney, K. Knee, D. Moretti, J. Quintrell, D. Snowden, T. C. Vance, and M. Wengren. (2024). A Workflow for Serving Model Data in the Cloud to a Broader Community. 40th Conference on Environmental Information Processing Technologies (EIPT), Baltimore, MD, Amer. Meteor. Soc. 28 Jan–2 February, 2024. <https://ams.confex.com/ams/104ANNUAL/40eipt/papers/viewonly.cgi?password=106568&username=438646>
+Joyce, J., B. Adams, J. Doyle, K. Fillingham, M. Iannucci, A. Kerney, K. Knee, D. Moretti, J. Quintrell, D. Snowden, T. C. Vance, and M. Wengren. (2024). A Workflow for Serving Model Data in the Cloud to a Broader Community. 40th Conference on Environmental Information Processing Technologies (EIPT), Baltimore, MD, American Meteorological Society 28 Jan–2 February, 2024. <https://ams.confex.com/ams/104ANNUAL/40eipt/papers/viewonly.cgi?password=106568&username=438646>
 
-Joyce, J., Knee, K., Moretti, D., Morse, C., Quintrell, J., Snowden, D., Tripp, P., and T. Vance. Architecting a Cloud-Native Service-Based Ecosystem for DMAC. <https://ams.confex.com/ams/103ANNUAL/meetingapp.cgi/Paper/409023>
+Joyce, J., Knee, K., Moretti, D., Morse, C., Quintrell, J., Snowden, D., Tripp, P., and T. Vance. (2023). Architecting a Cloud-Native Service-Based Ecosystem for DMAC. 39th Conference on Environmental Information Processing Technologies (EIPT), Denver, CO, American Meteorological Society 9-12 Jan, 2023. <https://ams.confex.com/ams/103ANNUAL/meetingapp.cgi/Paper/409023>
 
-Iannucci, Matthew and J. Joyce. Improving Access to NOAA National Ocean Service Model Data with Kerchunk and XPublish. Pangeo Showcase. Oct 11, 2023. <https://discourse.pangeo.io/t/pangeo-showcase-improving-access-to-noaa-national-ocean-service-model-data-with-kerchunk-and-xpublish/3725>
+Iannucci, M. and J. Joyce. Improving Access to NOAA National Ocean Service Model Data with Kerchunk and XPublish. Pangeo Showcase. Oct 11, 2023. <https://discourse.pangeo.io/t/pangeo-showcase-improving-access-to-noaa-national-ocean-service-model-data-with-kerchunk-and-xpublish/3725>
 
 
 ## Pangeo
